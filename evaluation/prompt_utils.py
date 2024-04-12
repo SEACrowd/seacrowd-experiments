@@ -272,6 +272,10 @@ TASK_TO_PROMPT = {
 }
 
 LABEL_LANG_MAP ={
+    'typhoon_yolanda_tweets_seacrowd_text': {
+        'eng': {'-1': 'negative', '0': 'neutral', '1': 'positive'},
+        'ind': {'-1': 'negatif', '0': 'netral', '1': 'positif'},
+    },
     'truthfulqa': {
         'eng': {0: '0', 1: '1'},
         'ind': {0: '0', 1: '1'}
@@ -312,67 +316,67 @@ LABEL_LANG_MAP ={
         'eng': {'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D', 'E': 'E'},
         'ind': {'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D', 'E': 'E'}
     },
-	'code_mixed_jv_id_jv_nusantara_text': {
+	'code_mixed_jv_id_jv_seacrowd_text': {
 		'eng': {'-1': 'negative', '0': 'neutral', '1': 'positive'},
 		'ind': {'-1': 'negatif', '0': 'netral', '1': 'positif'}
 	},
-	'id_google_play_review_nusantara_text': {
+	'id_google_play_review_seacrowd_text': {
 		'eng': {'1': '1', '2': '2', '3': '3', '4': '4', '5': '5'},
 		'ind': {'1': '1', '2': '2', '3': '3', '4': '4', '5': '5'}
 	},
-	'id_google_play_review_posneg_nusantara_text': {
+	'id_google_play_review_posneg_seacrowd_text': {
 		'eng': {'pos': 'positive', 'neg': 'negative'},
 		'ind': {'pos': 'positif', 'neg': 'negative'}
 	},
-	'id_hsd_nofaaulia_nusantara_text': {
+	'id_hsd_nofaaulia_seacrowd_text': {
 		'eng': {'0': 'no', '1': 'yes'},
 		'ind': {'0': 'no', '1': 'yes'}
 	},
-	'id_short_answer_grading_nusantara_pairs_score': {
+	'id_short_answer_grading_seacrowd_pairs_score': {
 		'eng': {1: '1', 2: '2', 3: '3', 4: '4', 5: '5'},
 		'ind': {1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}
 	},
-	'id_stance_nusantara_pairs': {
+	'id_stance_seacrowd_pairs': {
 		'eng': {'for': 'entailment', 'against': 'contradiction', 'no': 'irrelevant'},
 		'ind': {'for': 'saling mendukung', 'against': 'saling berlawanan', 'no': 'tidak berhubungan'}
 	},
-	'indo_law_nusantara_text': {
+	'indo_law_seacrowd_text': {
 		'eng': {'pidana-khusus': 'special crime', 'pidana-umum': 'ordinary crime'},
 		'ind': {'pidana-khusus': 'pidana khusus', 'pidana-umum': 'pidana umum'}
 	},
-	'indolem_ntp_nusantara_pairs': {
+	'indolem_ntp_seacrowd_pairs': {
 		'eng': {0: 'no', 1: 'yes'},
 		'ind': {0: 'no', 1: 'yes'}
 	},
-	'jadi_ide_nusantara_text': {
+	'jadi_ide_seacrowd_text': {
 		'eng': {'Jawa Timur': 'East Javanese', 'Jawa Standar': 'Standard Javanese', 'Jawa Ngapak': 'Ngapak Javanese'},
 		'ind': {'Jawa Timur': 'Jawa Timur', 'Jawa Standar': 'Jawa Standar', 'Jawa Ngapak': 'Jawa Ngapak'}
 	},
-	'nusax_senti_ace_nusantara_text': {
+	'nusax_senti_ace_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'nusax_senti_ban_nusantara_text': {
+	'nusax_senti_ban_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'nusax_senti_bjn_nusantara_text': {
+	'nusax_senti_bjn_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'nusax_senti_bug_nusantara_text': {
+	'nusax_senti_bug_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'nusax_senti_mad_nusantara_text': {
+	'nusax_senti_mad_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'nusax_senti_nij_nusantara_text': {
+	'nusax_senti_nij_seacrowd_text': {
 		'eng': {'negative': 'negative', 'neutral': 'neutral', 'positive': 'positive'},
 		'ind': {'negative': 'negatif', 'neutral': 'netral', 'positive': 'positif'}
 	},
-	'wrete_nusantara_pairs': {
+	'wrete_seacrowd_pairs': {
 		'eng': {'NotEntail': 'not entail', 'Entail_or_Paraphrase': 'entail'},
 		'ind': {'NotEntail': 'tidak sesuai', 'Entail_or_Paraphrase': 'sesuai'}
 	}
