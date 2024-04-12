@@ -10,3 +10,5 @@ anyascii
 sacremoses
 openai
 retry
+seacrowd
+bitsandbytes
