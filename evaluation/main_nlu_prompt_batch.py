@@ -71,7 +71,7 @@ def predict_classification(model, tokenizer, prompts, labels):
         list_label_ids = labels_encoded['input_ids'].to('cuda')
         list_label_attn = labels_encoded['attention_mask'].to('cuda')
         
-        inputs = [prompt.replace('[LABELS_CHOICE]', '') for prompt in prompts]
+        inputs = [prompt.replace('[LABEL_CHOICE]', '') for prompt in prompts]
         probs = []
         for (label_ids, label_attn) in zip(list_label_ids, list_label_attn):
             probs.append(
@@ -80,7 +80,7 @@ def predict_classification(model, tokenizer, prompts, labels):
     else:
         probs = []
         for label in labels:
-            inputs = [prompt.replace('[LABELS_CHOICE]', label) for prompt in prompts]
+            inputs = [prompt.replace('[LABEL_CHOICE]', label) for prompt in prompts]
             probs.append(get_logprobs(model, tokenizer, inputs))
     return probs
 
