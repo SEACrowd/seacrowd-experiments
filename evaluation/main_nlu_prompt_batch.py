@@ -7,6 +7,8 @@ Original file is located at
 """
 import os, sys
 import csv
+import string
+
 from os.path import exists
 
 from numpy import argmax, stack
@@ -29,22 +31,39 @@ from data_utils import load_nlu_datasets
 
 DEBUG=False
 
-def to_prompt(input, prompt, labels, prompt_lang):
-    # single label
-    if 'text' in input:
-        prompt = prompt.replace('[INPUT]', input['text'])
-    else:
-        prompt = prompt.replace('[INPUT_A]', input['text_1'])
-        prompt = prompt.replace('[INPUT_B]', input['text_2'])
-
-    # replace [OPTIONS] to A, B, or C
-    if "[OPTIONS]" in prompt:
-        new_labels = [f'{l}' for l in labels]
-        new_labels[-1] = ("or " if 'eng' in prompt_lang else  "atau ") + new_labels[-1] 
-        if len(new_labels) > 2:
-            prompt = prompt.replace('[OPTIONS]', ', '.join(new_labels))
+def to_prompt(input, prompt, labels, prompt_lang, schema):
+    if schema == "text" or schema == "pairs":
+        # single label
+        if 'text' in input:
+            prompt = prompt.replace('[INPUT]', input['text'])
         else:
-            prompt = prompt.replace('[OPTIONS]', ' '.join(new_labels))
+            prompt = prompt.replace('[INPUT_A]', input['text_1'])
+            prompt = prompt.replace('[INPUT_B]', input['text_2'])
+
+        # replace [OPTIONS] to A, B, or C
+        if "[OPTIONS]" in prompt:
+            new_labels = [f'{l}' for l in labels]
+            new_labels[-1] = ("or " if 'eng' in prompt_lang else  "atau ") + new_labels[-1] 
+            if len(new_labels) > 2:
+                prompt = prompt.replace('[OPTIONS]', ', '.join(new_labels))
+            else:
+                prompt = prompt.replace('[OPTIONS]', ' '.join(new_labels))
+    elif schema == "qa":
+        try:
+            context = "" if input['context'] is None else input['context']
+            prompt = prompt.replace('[CONTEXT]', context)
+        except: # template does not use context
+            pass
+        prompt = prompt.replace('[QUESTION]', input['question'])
+
+        choices = "" 
+        for i, choice in enumerate(input['choices']):
+            if i > 0:
+                choices += "\n"
+            choices += f"{string.ascii_lowercase[i]}. {input['choices'][i]}"
+        prompt = prompt.replace('[ANSWER_CHOICES]', choices)
+    else:
+        raise ValueError("Only support `text`, `pairs`, and `qa` schemas.")
 
     return prompt
 
@@ -139,6 +158,7 @@ if __name__ == '__main__':
         labels = []
         for i, dset_subset in enumerate(nlu_datasets.keys()):
             print(f'{i} {dset_subset}')
+            schema = dset_subset.split("_")[-1]
             nlu_dset, task_type = nlu_datasets[dset_subset]
             if task_type.value not in TASK_TYPE_TO_PROMPT:
                 print(f'SKIPPING {dset_subset}')
@@ -153,13 +173,27 @@ if __name__ == '__main__':
                 split = 'train'
             print(f'Processing {dset_subset}')
 
+            # Add `label` based on `answer` for QA
+            if schema == 'qa':
+                correct_answer_indices = []
+                for i in range(len(test_dset)):
+                    # try:
+                    if isinstance(test_dset[i]['answer'], list):
+                        correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'][0])]
+                    else:
+                        correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'])]
+                    # except:
+                    #     print('answer', test_dset[i]['answer'], 'choices', test_dset[i]['choices'])
+                    #     quit()
+                test_dset = test_dset.add_column("label", correct_answer_indices)
+
             # Retrieve & preprocess labels
             try:
                 label_names = test_dset.features['label'].names
             except:
                 label_names = list(set(test_dset['label']))
                 
-            # normalize some labels for more natural prompt:
+            # normalize some labels for more natural prompt
             label_mapping = get_label_mapping(dset_subset, prompt_lang)
             label_names = list(map(lambda x: label_mapping[x], label_mapping))
 
@@ -184,18 +218,18 @@ if __name__ == '__main__':
                 print(label_names)
                 print("= SAMPLE PROMPT =")
                 
-                print(to_prompt(test_dset[0], prompt_template, label_names, prompt_lang))
+                print(to_prompt(test_dset[0], prompt_template, label_names, prompt_lang, schema))
                 print("\n")
 
                 # zero-shot inference
                 prompts, labels = [], []
                 count = 0
                 with torch.inference_mode():
-                    for e, sample in tqdm(enumerate(test_dset)):
+                    for e, sample in tqdm(enumerate(test_dset), total=len(test_dset)):
                         if e < len(preds):
                             continue
 
-                        prompt_text = to_prompt(sample, prompt_template, label_names, prompt_lang)
+                        prompt_text = to_prompt(sample, prompt_template, label_names, prompt_lang, schema)
                         prompts.append(prompt_text)
                         labels.append(label_to_id_dict[sample['label']] if type(sample['label']) == str else sample['label'])
 

@@ -1,11 +1,5 @@
 TASK_TO_PROMPT = {
     'eng': {
-        # IndoMMLU-style (no nusacrowd Tasks yet)
-        'IndoMMLU': [
-            'This is a [SUBJECT] question for [LEVEL]. Choose one of the answers that is considered correct!\n\n[INPUT]\n[OPTION]\n\nAnswer: [LABEL_CHOICE]',
-            'The following is a [SUBJECT] question for [LEVEL] level. Choose the right answer!\nQuestion:[INPUT]\nChoice: [OPTION]\nAnswer: [LABEL_CHOICE]',
-            'Choose one of the most appropriate answers to answer the [SUBJECT] question for [LEVEL]!\nQuestion: [INPUT]\nChoice: [OPTION]\n\nAnswer: [LABEL_CHOICE]' 
-            ],
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
             'Classify the sentiment of the text below.\n[INPUT] => Sentiment ([OPTIONS]): [LABEL_CHOICE]',
@@ -40,11 +34,11 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
-            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:',
-            '[CONTEXT]\nBased on the above text, [QUESTION]',
-            '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is:',
-            'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nBased on the paragraph, what is the answer to the question?',
-            'Passage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:'
+            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            '[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            '[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
+            'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nBased on the paragraph, what is the answer to the question? [LABEL_CHOICE]',
+            'Passage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
         ],
         # Tasks.SUMMARIZATION
         'SUM': [
@@ -70,22 +64,24 @@ TASK_TO_PROMPT = {
             'What is the morality of this text?\nText: [INPUT]\Morality ([OPTIONS]): [LABEL_CHOICE]',
             'Text: [INPUT]\nPlease classify the morality of above text. Answer with [OPTIONS].\Morality: [LABEL_CHOICE]',
         ],
-        # # Tasks.COMMONSENSE_REASONING
-        # 'CR': [
-        #     'Answer the following question:\nQuestion: [QUESTION]\nAnswer:',
-        #     '[CONTEXT]\nBased on the above text, [QUESTION]',
-        #     '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is:',
-        #     'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nBased on the paragraph, what is the answer to the question?',
-        #     'Passage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:'
-        # ],
+        # Tasks.COMMONSENSE_REASONING
+        'CR': [
+            'Question: [QUESTION]\nWhat reply makes more sense to answer this question?\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            'Based on the the following question: "[QUESTION]" and choices: [ANSWER_CHOICES], the correct answer is: [LABEL_CHOICE]',
+            'Question: [QUESTION]\nChoices: [ANSWER_CHOICES]\nThe correct answer to the given question is: [LABEL_CHOICE]',
+            'What is the answer to the following question according to common sense?\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            'Question: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
+        ],
+        # Tasks.LANGUAGE_IDENTIFICATION
+        'LI': [
+            'Classify the language of the text below.\n[INPUT] => Language ([OPTIONS]): [LABEL_CHOICE]',
+            'Predict the language of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
+            '[INPUT]\nWhat would be the language of the text above? [OPTIONS]? [LABEL_CHOICE]',
+            'What is the language of this text?\nText: [INPUT]\Language ([OPTIONS]): [LABEL_CHOICE]',
+            'Text: [INPUT]\nPlease classify the language of above text. Answer with [OPTIONS].\Language: [LABEL_CHOICE]',
+        ],
     },
     'ind': {
-        # IndoMMLU-style (no nusacrowd Tasks yet)
-        'IndoMMLU': [
-            'Ini adalah soal [SUBJECT] untuk [LEVEL]. Pilihlah salah satu jawaban yang dianggap benar!\n\n[INPUT]\n[OPTION]\n\nJawaban: [LABEL_CHOICE]',
-            'Berikut ini adalah soal [SUBJECT] untuk tingkat [LEVEL]. Pilih jawaban yang tepat!\nSoal:[INPUT]\nPilihan: [OPTION]\nJawaban: [LABEL_CHOICE]',
-            'Pilihlah salah satu jawaban yang paling tepat untuk menjawab soal [SUBJECT] untuk [LEVEL] berikut!\nSoal: [INPUT]\nPilihan: [OPTION]\n\nJawaban: [LABEL_CHOICE]'
-        ],
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
             'Klasifikasikan sentimen dari kalimat berikut.\n[INPUT] => Sentimen ([OPTIONS]): [LABEL_CHOICE]',
@@ -120,11 +116,11 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
-            'Lihat paragraf di bawah ini dan jawab pertanyaannya.\nParagraf: [CONTEXT]\nPertanyaan: [QUESTION]\nJawaban:',
-            '[CONTEXT]\nBerdasarkan teks di atas, [QUESTION]',
-            '[CONTEXT]\nQuestion: [QUESTION]\nMengacu pada teks di atas, jawaban yang benar untuk pertanyaan yang diberikan adalah:',
-            'Paragraf: [CONTEXT]\nPertanyaan: [QUESTION]\nBerdasarkan paragraf di atas, apa jawaban dari pertanyaan yang diberikan?',
-            'Teks: [CONTEXT]\nPertanyaan: [QUESTION]\nJawaban:'
+            'Lihat paragraf di bawah ini dan jawab pertanyaannya.\nParagraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
+            '[CONTEXT]\nBerdasarkan teks di atas, [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
+            '[CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nMengacu pada teks di atas, jawaban yang benar untuk pertanyaan yang diberikan adalah: [LABEL_CHOICE]',
+            'Paragraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nBerdasarkan paragraf di atas, apa jawaban dari pertanyaan yang diberikan? [LABEL_CHOICE]',
+            'Teks: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]'
         ],
         # Tasks.SUMMARIZATION
         'SUM': [
@@ -149,6 +145,22 @@ TASK_TO_PROMPT = {
             '[INPUT]\nApakah moralitas dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
             'Apakah moralitas dari teks berikut?\nTeks: [INPUT]\nMoralitas ([OPTIONS]): [LABEL_CHOICE]',
             'Teks: [INPUT]\nTolong klasifikasikan moralitas dari teks diatas. Jawab dengan [OPTIONS].\nMoralitas: [LABEL_CHOICE]',
+        ],
+        # Tasks.COMMONSENSE_REASONING
+        'CR': [
+            'Pertanyaan: [QUESTION]\nBalasan apa yang lebih masuk akal untuk menjawab pertanyaan tersebut?\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
+            'Berdasarkan pertanyaan berikut: "[QUESTION]" dan pilihan: [ANSWER_CHOICES], jawaban yang benar adalah: [LABEL_CHOICE]',
+            'Pertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban yang benar untuk pertanyaan tersebut adalah: [LABEL_CHOICE]',
+            'Jawaban apa yang wajar diberikan untuk pertanyaan berikut?\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
+            'Pertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]'
+        ],
+        # Tasks.LANGUAGE_IDENTIFICATION
+        'LI': [
+            'Klasifikasikan bahasa dari kalimat berikut.\n[INPUT] => Bahasa ([OPTIONS]): [LABEL_CHOICE]',
+            'Prediksikan bahasa dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
+            '[INPUT]\nApakah bahasa dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
+            'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa ([OPTIONS]): [LABEL_CHOICE]',
+            'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawab dengan [OPTIONS].\nBahasa: [LABEL_CHOICE]',
         ],
     }
 }
@@ -383,15 +395,262 @@ LABEL_LANG_MAP ={
         'eng': {'food & beverages': 'food & beverages', 'sports': 'sports', 'leisures': 'leisures', 'religion': 'religion', 'culture & heritage': 'culture & heritage', 'slice of life': 'slice of life', 'technology': 'technology', 'business': 'business'},
         'ind': {'food & beverages': 'makanan & minuman', 'sports': 'olahraga', 'leisures': 'aktivitas santai', 'religion': 'agama', 'culture & heritage': 'kebudayaan & sejarah', 'slice of life': 'kehidupan sehari-hari', 'technology': 'teknologi', 'business': 'bisnis'},
     },
-    # # Tasks.MORALITY_CLASSIFICATION
-    # 'emotes_3k_tgl_seacrowd_qa': {
-    #     'eng': {'Moral': 'moral', 'Immoral': 'immoral'},
-    #     'ind': {'Moral': 'bermoral', 'Immoral': 'tidak bermoral'},
+    # Tasks.MORALITY_CLASSIFICATION
+    'emotes_3k_tgl_seacrowd_text': {
+        'eng': {'Moral': 'moral', 'Immoral': 'immoral'},
+        'ind': {'Moral': 'bermoral', 'Immoral': 'tidak bermoral'},
+    },
+    'emotes_3k_eng_seacrowd_text': {
+        'eng': {'Moral': 'moral', 'Immoral': 'immoral'},
+        'ind': {'Moral': 'bermoral', 'Immoral': 'tidak bermoral'},
+    },
+    # # Tasks.QUESTION_ANSWERING & Tasks.COMMONSENSE_REASONING - no need
+    "indo_story_cloze_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "xstorycloze_id_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "xstorycloze_my_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "indommlu_ind_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_ban_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_mad_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_mak_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_sun_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_jav_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_bjn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_abl_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "indommlu_nij_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'},
+    },
+    "seaeval_cross_mmlu_ind_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_mmlu_vie_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_mmlu_zlm_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_mmlu_fil_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_logiqa_ind_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_logiqa_vie_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_logiqa_zlm_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_cross_logiqa_fil_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "m3exam_jav_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "m3exam_tha_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "m3exam_vie_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "copal_colloquial_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "xcopa_tha_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "xcopa_vie_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "xcopa_ind_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "seaeval_sg_eval_eng_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "seaeval_ph_eval_eng_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "mabl_ind_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "mabl_jav_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    "mabl_sun_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b'},
+        'ind': {0: 'a', 1: 'b'},
+    },
+    # "facqa_seacrowd_qa",
+    # "iapp_squad_seacrowd_qa",
+    # "idk_mrc_seacrowd_qa",
+    # "vihealthqa_seacrowd_qa",
+    # "uit_vicov19qa_seacrowd_qa",
+    # "qasina_seacrowd_qa",
+    "belebele_ceb_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_ilo_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_ind_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_jav_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_kac_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_khm_Khmr_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_lao_Laoo_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_mya_Mymr_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_shn_Mymr_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_sun_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_tgl_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_tha_Thai_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_vie_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_war_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    "belebele_zsm_Latn_seacrowd_qa": {
+        'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+        'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
+    },
+    # "mkqa_khm_seacrowd_qa",
+    # "mkqa_zsm_seacrowd_qa",
+    # "mkqa_tha_seacrowd_qa",
+    # "mkqa_vie_seacrowd_qa",
+    # "xquad.th_seacrowd_qa",
+    # "xquad.vi_seacrowd_qa",
+    # # Tasks.TEXTUAL_ENTAILMENT
+    'indonli_seacrowd_pairs': {
+        'eng': {'c': 'contradiction', 'e': 'entailment', 'n': 'irrelevant'},
+        'ind': {'c': 'saling berlawanan', 'e': 'saling mendukung', 'n': 'tidak berhubungan'},
+    },
+    'wrete_seacrowd_pairs': {
+        'eng': {'NotEntail': 'contradiction', 'Entail_or_Paraphrase': 'entailment'},
+        'ind': {'NotEntail': 'saling berlawanan', 'Entail_or_Paraphrase': 'saling mendukung'},
+    },
+    'snli_indo_seacrowd_pairs': {
+        'eng': {"kontradiksi": "contradiction", "keterlibatan": "entailment", "netral": "irrelevant"},
+        'ind': {"kontradiksi": "saling berlawanan", "keterlibatan": "saling mendukung", "netral": "tidak berhubungan"},
+    },
+    'myxnli_seacrowd_pairs': {
+        'eng': {"contradiction": "contradiction", "entailment": "neutral", "neutral": "irrelevant"},
+        'ind': {"contradiction": "saling berlawanan", "entailment": "saling mendukung", "neutral": "tidak berhubungan"},
+    },
+    'xnli.tha_seacrowd_pairs': {
+        'eng': {"contradiction": "contradiction", "entailment": "neutral", "neutral": "irrelevant"},
+        'ind': {"contradiction": "saling berlawanan", "entailment": "saling mendukung", "neutral": "tidak berhubungan"},
+    },
+    'xnli.vie_seacrowd_pairs': {
+        'eng': {"contradiction": "contradiction", "entailment": "neutral", "neutral": "irrelevant"},
+        'ind': {"contradiction": "saling berlawanan", "entailment": "saling mendukung", "neutral": "tidak berhubungan"},
+    },
+    'identifikasi_bahasa_seacrowd_text': {
+        'eng': {"Ambon": "Ambonese", "Indo": "Indonesian", "Jawa": "Javanese"},
+        'ind': {"Ambon": "Ambon", "Indo": "Indonesia", "Jawa": "Jawa"},
+    },
+    'openlid_seacrowd_text': {
+        'eng': {"kbp_Latn": "Kabiyè", "zul_Latn": "Zulu", "zho_Hans": "Chinese", "uig_Arab": "Uighur", "smo_Latn": "Samoan", "hrv_Latn": "Croatian", "tgk_Cyrl": "Tajik", "guj_Gujr": "Gujarati", "azj_Latn": "North Azerbaijani", "mai_Deva": "Maithili", "bul_Cyrl": "Bulgarian", "hne_Deva": "Chhattisgarhi", "wol_Latn": "Wolof", "ind_Latn": "Indonesian", "lit_Latn": "Lithuanian", "epo_Latn": "Esperanto", "prs_Arab": "Dari", "kmr_Latn": "Northern Kurdish", "fao_Latn": "Faroese", "swh_Latn": "Swahili", "slk_Latn": "Slovak", "srp_Cyrl": "Serbian", "bod_Tibt": "Tibetan", "eus_Latn": "Basque", "tir_Ethi": "Tigrinya", "tam_Taml": "Tamil", "kas_Deva": "Kashmiri", "glg_Latn": "Galician", "crh_Latn": "Crimean Tatar", "kon_Latn": "Kongo", "ayr_Latn": "Central Aymara", "por_Latn": "Portuguese", "ben_Beng": "Bengali", "zho_Hant": "Chinese", "bug_Latn": "Buginese", "umb_Latn": "Umbundu", "tzm_Tfng": "Central Atlas Tamazight", "kan_Knda": "Kannada", "tgl_Latn": "Tagalog", "luo_Latn": "Luo", "lij_Latn": "Ligurian", "hun_Latn": "Hungarian", "kin_Latn": "Kinyarwanda", "hat_Latn": "Haitian", "sag_Latn": "Sango", "khm_Khmr": "Khmer", "heb_Hebr": "Hebrew", "hye_Armn": "Armenian", "fuv_Latn": "Nigerian Fulfulde", "cjk_Latn": "Chokwe", "ckb_Arab": "Central Kurdish", "srd_Latn": "Sardinian", "cat_Latn": "Catalan", "dan_Latn": "Danish", "lao_Laoo": "Lao", "fra_Latn": "French", "kam_Latn": "Kamba (Kenya)", "aeb_Arab": "Tunisian Arabic", "ydd_Hebr": "Eastern Yiddish", "afr_Latn": "Afrikaans", "khk_Cyrl": "Halh Mongolian", "lug_Latn": "Ganda", "lin_Latn": "Lingala", "nya_Latn": "Nyanja", "tsn_Latn": "Tswana", "dzo_Tibt": "Dzongkha", "min_Latn": "Minangkabau", "war_Latn": "Waray-Waray", "rus_Cyrl": "Russian", "nob_Latn": "Norwegian Bokmål", "tpi_Latn": "Tok Pisin", "mlt_Latn": "Maltese", "mni_Beng": "Manipuri", "ilo_Latn": "Ilocano", "amh_Ethi": "Amharic", "taq_Latn": "Tamasheq", "acq_Arab": "Ta'izzi-Adeni Arabic", "gaz_Latn": "West Central Oromo", "ltg_Latn": "Latgalian", "kac_Latn": "Jingpho", "ibo_Latn": "Igbo", "gle_Latn": "Irish", "mya_Mymr": "Burmese", "grn_Latn": "Guarani", "kik_Latn": "Kikuyu", "jav_Latn": "Javanese", "awa_Deva": "Awadhi", "ars_Arab": "Najdi Arabic", "swe_Latn": "Swedish", "uzn_Latn": "Northern Uzbek", "mos_Latn": "Mossi", "lus_Latn": "Mizo Chin", "mal_Mlym": "Malayalam", "ita_Latn": "Italian", "dik_Latn": "Southwestern Dinka", "ewe_Latn": "Ewe", "sat_Olck": "Santali", "pan_Guru": "Panjabi", "est_Latn": "Estonian", "kab_Latn": "Kabyle", "bam_Latn": "Bambara", "pag_Latn": "Pangasinan", "isl_Latn": "Icelandic", "eng_Latn": "English", "fon_Latn": "Fon", "kas_Arab": "Kashmiri", "asm_Beng": "Assamese", "lim_Latn": "Limburgan", "bjn_Arab": "Banjar", "taq_Tfng": "Tamasheq", "deu_Latn": "German", "pbt_Arab": "Southern Pashto", "pap_Latn": "Papiamento", "quy_Latn": "Ayacucho Quechua", "kea_Latn": "Kabuverdianu", "npi_Deva": "Nepali", "xho_Latn": "Xhosa", "shn_Mymr": "Shan", "nso_Latn": "Pedi", "urd_Arab": "Urdu", "bos_Latn": "Bosnian", "ron_Latn": "Romanian", "fur_Latn": "Friulian", "gla_Latn": "Scottish Gaelic", "nus_Latn": "Nuer", "ltz_Latn": "Luxembourgish", "arz_Arab": "Egyptian Arabic", "bem_Latn": "Bemba", "fin_Latn": "Finnish", "kir_Cyrl": "Kirghiz", "tha_Thai": "Thai", "mag_Deva": "Magahi", "azb_Arab": "South Azerbaijani", "tel_Telu": "Telugu", "ell_Grek": "Modern Greek", "sot_Latn": "Southern Sotho", "spa_Latn": "Spanish", "vie_Latn": "Vietnamese", "yor_Latn": "Yoruba", "ceb_Latn": "Cebuano", "vec_Latn": "Venetian", "sin_Sinh": "Sinhala", "pol_Latn": "Polish", "als_Latn": "Tosk Albanian", "lmo_Latn": "Lombard", "scn_Latn": "Sicilian", "ces_Latn": "Czech", "fij_Latn": "Fijian", "run_Latn": "Rundi", "som_Latn": "Somali", "mkd_Cyrl": "Macedonian", "mar_Deva": "Marathi", "ast_Latn": "Asturian", "san_Deva": "Sanskrit", "ary_Arab": "Moroccan Arabic", "twi_Latn": "Twi", "acm_Arab": "Mesopotamian Arabic", "nno_Latn": "Norwegian Nynorsk", "zsm_Latn": "Standard Malay", "mri_Latn": "Maori", "kor_Hang": "Korean", "sna_Latn": "Shona", "pes_Arab": "Iranian Persian", "ace_Latn": "Acehnese", "bak_Cyrl": "Bashkir", "kat_Geor": "Georgian", "tur_Latn": "Turkish", "jpn_Jpan": "Japanese", "arb_Arab": "Standard Arabic", "ukr_Cyrl": "Ukrainian", "yue_Hant": "Cantonese", "kaz_Cyrl": "Kazakh", "hau_Latn": "Hausa", "nld_Latn": "Dutch", "oci_Latn": "Occitan", "apc_Arab": "Levantine Arabic", "tum_Latn": "Tumbuka", "ace_Arab": "Acehnese", "dyu_Latn": "Dyula", "knc_Latn": "Central Kanuri", "knc_Arab": "Central Kanuri", "kmb_Latn": "Kimbundu", "bel_Cyrl": "Belarusian", "slv_Latn": "Slovenian", "lvs_Latn": "Standard Latvian", "bho_Deva": "Bhojpuri", "tuk_Latn": "Turkmen", "snd_Arab": "Sindhi", "sun_Latn": "Sundanese", "lua_Latn": "Luba-Lulua", "ajp_Arab": "South Levantine Arabic", "hin_Deva": "Hindi", "tso_Latn": "Tsonga", "tat_Cyrl": "Tatar", "cym_Latn": "Welsh", "ory_Orya": "Odia", "ban_Latn": "Balinese", "szl_Latn": "Silesian", "plt_Latn": "Plateau Malagasy", "bjn_Latn": "Banjar", "ssw_Latn": "Swati"},
+        'ind': {"kbp_Latn": "Kabiye", "zul_Latn": "Zulu", "zho_Hans": "Mandarin", "uig_Arab": "Uighur", "smo_Latn": "Samoa", "hrv_Latn": "Kroasia", "tgk_Cyrl": "Tajik", "guj_Gujr": "Gujarati", "azj_Latn": "Azerbaijan Utara", "mai_Deva": "Maithili", "bul_Cyrl": "Bulgaria", "hne_Deva": "Chhattisgarhi", "wol_Latn": "Wolof", "ind_Latn": "Indonesia", "lit_Latn": "Lithuania", "epo_Latn": "Esperanto", "prs_Arab": "Dari", "kmr_Latn": "Kurmanji", "fao_Latn": "Faroe", "swh_Latn": "Swahili", "slk_Latn": "Slovakia", "srp_Cyrl": "Serbia", "bod_Tibt": "Tibet Lhasa", "eus_Latn": "Basque", "tir_Ethi": "Tigrinya", "tam_Taml": "Tamil", "kas_Deva": "Kashmir", "glg_Latn": "Galisia", "crh_Latn": "Tatar Krimea", "kon_Latn": "Kongo", "ayr_Latn": "Aymara Tengah", "por_Latn": "Portugis", "ben_Beng": "Benggala", "zho_Hant": "Cina", "bug_Latn": "Bugis", "umb_Latn": "Umbundu", "tzm_Tfng": "Atlas Pusat Tamazight", "kan_Knda": "Kannada", "tgl_Latn": "Tagalog", "luo_Latn": "Luo", "lij_Latn": "Liguria", "hun_Latn": "Hongaria", "kin_Latn": "Kinyarwanda", "hat_Latn": "Haiti", "sag_Latn": "Sango", "khm_Khmr": "Khmer", "heb_Hebr": "Ibrani", "hye_Armn": "Armenia", "fuv_Latn": "Fulfulde Nigeria", "cjk_Latn": "Chokwe", "ckb_Arab": "Kurdi Tengah", "srd_Latn": "Sardinia", "cat_Latn": "Katalan", "dan_Latn": "Denmark", "lao_Laoo": "Laos", "fra_Latn": "Perancis", "kam_Latn": "Kamba", "aeb_Arab": "Arab Tunisia", "ydd_Hebr": "Yiddish Timur", "afr_Latn": "Afrikanas", "khk_Cyrl": "Halh Mongolia", "lug_Latn": "Ganda", "lin_Latn": "Lingala", "nya_Latn": "Nyanja", "tsn_Latn": "Tswana", "dzo_Tibt": "Dzongkha", "min_Latn": "Minangkabau", "war_Latn": "Waray-Waray", "rus_Cyrl": "Rusia", "nob_Latn": "Bokmål Norwegia", "tpi_Latn": "Tok Pisin", "mlt_Latn": "Malta", "mni_Beng": "Manipuri", "ilo_Latn": "Ilocano", "amh_Ethi": "Amharik", "taq_Latn": "Tamasheq", "acq_Arab": "Arab Ta'izzi-Adeni", "gaz_Latn": "Oromo Tengah Barat", "ltg_Latn": "Latgalia", "kac_Latn": "Jingfo", "ibo_Latn": "Igbo", "gle_Latn": "Irlandia", "mya_Mymr": "Birma", "grn_Latn": "Guarani", "kik_Latn": "Kikuyu", "jav_Latn": "Jawa", "awa_Deva": "Awadhi", "ars_Arab": "Arab Najdi", "swe_Latn": "Swedia", "uzn_Latn": "Uzbekistan Utara", "mos_Latn": "Mossi", "lus_Latn": "Mizo Chin", "mal_Mlym": "Malayalam", "ita_Latn": "Italia", "dik_Latn": "Dinka Barat Daya", "ewe_Latn": "Ewe", "sat_Olck": "Santali", "pan_Guru": "Panjabi", "est_Latn": "Estonia", "kab_Latn": "Kabyle", "bam_Latn": "Bambara", "pag_Latn": "Pangasinan", "isl_Latn": "Islandia", "eng_Latn": "Inggris", "fon_Latn": "Fon", "kas_Arab": "Kashmir", "asm_Beng": "Assam", "lim_Latn": "Limburgan", "bjn_Arab": "Banjar", "taq_Tfng": "Tamasheq", "deu_Latn": "Jerman", "pbt_Arab": "Pashto Selatan", "pap_Latn": "Papiamento", "quy_Latn": "Ayacucho Quechua", "kea_Latn": "Kabuverdianu", "npi_Deva": "Nepal", "xho_Latn": "Xhosa", "shn_Mymr": "Shan", "nso_Latn": "Pedi", "urd_Arab": "Urdu", "bos_Latn": "Bosnia", "ron_Latn": "Rumania", "fur_Latn": "Friulian", "gla_Latn": "Gaelik Skotlandia", "nus_Latn": "Nuer", "ltz_Latn": "Luksemburg", "arz_Arab": "Arab Mesir", "bem_Latn": "Bemba", "fin_Latn": "Finlandia", "kir_Cyrl": "Kirgiz", "tha_Thai": "Thai", "mag_Deva": "Magahi", "azb_Arab": "Azerbaijan Selatan", "tel_Telu": "Telugu", "ell_Grek": "Yunani Modern", "sot_Latn": "Sotho Selatan", "spa_Latn": "Spanyol", "vie_Latn": "Vietnam", "yor_Latn": "Yoruba", "ceb_Latn": "Cebuano", "vec_Latn": "Venesia", "sin_Sinh": "Sinhala", "pol_Latn": "Polandia", "als_Latn": "Tosk Albania", "lmo_Latn": "Lombard", "scn_Latn": "Sisilia", "ces_Latn": "Ceko", "fij_Latn": "Fiji", "run_Latn": "Rundi", "som_Latn": "Somalia", "mkd_Cyrl": "Makedonia", "mar_Deva": "Marathi", "ast_Latn": "Asturian", "san_Deva": "Sansekerta", "ary_Arab": "Arab Maroko", "twi_Latn": "Twi", "acm_Arab": "Arab Mesopotamia", "nno_Latn": "Nynorsk Norwegia", "zsm_Latn": "Melayu Baku", "mri_Latn": "Maori", "kor_Hang": "Korea", "sna_Latn": "Shona", "pes_Arab": "Persia Iran", "ace_Latn": "Aceh", "bak_Cyrl": "Bashkir", "kat_Geor": "Georgia", "tur_Latn": "Turki", "jpn_Jpan": "Jepang", "arb_Arab": "Arab Standar", "ukr_Cyrl": "Ukraina", "yue_Hant": "Kanton", "kaz_Cyrl": "Kazakh", "hau_Latn": "Hausa", "nld_Latn": "Belanda", "oci_Latn": "Occitania", "apc_Arab": "Arab Levantin", "tum_Latn": "Tumbuka", "ace_Arab": "Aceh", "dyu_Latn": "Dyula", "knc_Latn": "Kanuri Tengah", "knc_Arab": "Kanuri Tengah", "kmb_Latn": "Kimbundu", "bel_Cyrl": "Belarusia", "slv_Latn": "Slovenia", "lvs_Latn": "Standar Latvia", "bho_Deva": "Bhojpuri", "tuk_Latn": "Turkmenistan", "snd_Arab": "Sindhi", "sun_Latn": "Sunda", "lua_Latn": "Luba-Lulua", "ajp_Arab": "Arab Levantine Selatan", "hin_Deva": "Hindi", "tso_Latn": "Tsonga", "tat_Cyrl": "Tatar", "cym_Latn": "Wales", "ory_Orya": "Odia", "ban_Latn": "Bali", "szl_Latn": "Silesia", "plt_Latn": "Dataran Tinggi Malagasi", "bjn_Latn": "Banjar", "ssw_Latn": "Swati"},
+    },
+    'udhr_lid_seacrowd_text': {
+        'eng': {"sun": "Sundanese", "ace": "Acehnese", "mad": "Madurese", "lao": "Lao", "cfm": "Falam Chin", "hnj": "Hmong Njua", "min": "Minangkabau", "zlm": "Malay", "tha": "Thai", "blt": "Tai Dam", "hni": "Hani", "jav": "Javanese", "tdt": "Tetun Dili", "cnh": "Hakha Chin", "khm": "Khmer", "ban": "Balinese", "ind": "Indonesian", "mya": "Burmese", "ccp": "Chakma", "duu": "Drung", "tet": "Tetun", "kkh": "Khün", "bug": "Buginese", "vie": "Vietnamese"},
+        'ind': {"sun": "Sunda", "ace": "Aceh", "mad": "Madura", "lao": "Laos", "cfm": "Falam Chin", "hnj": "Hmong Njua", "min": "Minangkabau", "zlm": "Malay", "tha": "Thai", "blt": "Tai Dam", "hni": "Hani", "jav": "Jawa", "tdt": "Tetun Dili", "cnh": "Hakha Chin", "khm": "Khmer", "ban": "Bali", "ind": "Indonesia", "mya": "Burma", "ccp": "Chakma", "duu": "Drung", "tet": "Tetun", "kkh": "Khün", "bug": "Bugis", "vie": "Vietnam"},
+    },
+    'wili_2018_seacrowd_text': {
+        'eng': {"nrm": "Narom", "jav": "Javanese", "min": "Minangkabau", "lao": "Lao", "mya": "Burmese", "pag": "Pangasinan", "ind": "Indonesian", "cbk": "Chavacano", "tet": "Tetum", "tha": "Thai", "ceb": "Cebuano", "tgl": "Tagalog", "bjn": "Banjar", "bcl": "Central Bikol", "vie": "Vietnamese"},
+        'ind': {"nrm": "Narom", "jav": "Jawa", "min": "Minangkabau", "lao": "Laos", "mya": "Burma", "pag": "Pangasinan", "ind": "Indonesia", "cbk": "Chavacano", "tet": "Tetum", "tha": "Thai", "ceb": "Cebuano", "tgl": "Tagalog", "bjn": "Banjar", "bcl": "Central Bikol", "vie": "Vietnam"},
+    },
+    # 'lti_langid_corpus_seacrowd_text': {
+    #     'eng': {},
+    #     'ind': {},
     # },
-    # 'emotes_3k_eng_seacrowd_qa': {
-    #     'eng': {'Moral': 'moral', 'Immoral': 'immoral'},
-    #     'ind': {'Moral': 'bermoral', 'Immoral': 'tidak bermoral'},
-    # },
+
 
 }
 
