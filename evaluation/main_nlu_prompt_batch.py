@@ -31,6 +31,8 @@ from data_utils import load_nlu_datasets
 
 DEBUG=False
 
+csv.field_size_limit(sys.maxsize)
+
 def to_prompt(input, prompt, labels, prompt_lang, schema):
     if schema == "text" or schema == "pairs":
         # single label
@@ -49,18 +51,16 @@ def to_prompt(input, prompt, labels, prompt_lang, schema):
             else:
                 prompt = prompt.replace('[OPTIONS]', ' '.join(new_labels))
     elif schema == "qa":
-        try:
+        if "[CONTEXT]" in prompt:
             context = "" if input['context'] is None else input['context']
             prompt = prompt.replace('[CONTEXT]', context)
-        except: # template does not use context
-            pass
         prompt = prompt.replace('[QUESTION]', input['question'])
 
         choices = "" 
         for i, choice in enumerate(input['choices']):
             if i > 0:
                 choices += "\n"
-            choices += f"{string.ascii_lowercase[i]}. {input['choices'][i]}"
+            choices += f"{string.ascii_lowercase[i]}. {choice}"
         prompt = prompt.replace('[ANSWER_CHOICES]', choices)
     else:
         raise ValueError("Only support `text`, `pairs`, and `qa` schemas.")
@@ -157,7 +157,9 @@ if __name__ == '__main__':
         metrics = []
         labels = []
         for i, dset_subset in enumerate(nlu_datasets.keys()):
-            print(f'{i} {dset_subset}')
+
+            print(f'({i}/{len(nlu_datasets.keys())}) {dset_subset}')
+
             schema = dset_subset.split("_")[-1]
             nlu_dset, task_type = nlu_datasets[dset_subset]
             if task_type.value not in TASK_TYPE_TO_PROMPT:
@@ -177,14 +179,13 @@ if __name__ == '__main__':
             if schema == 'qa':
                 correct_answer_indices = []
                 for i in range(len(test_dset)):
-                    # try:
                     if isinstance(test_dset[i]['answer'], list):
-                        correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'][0])]
+                        try:
+                            correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'][0])]
+                        except:
+                            continue
                     else:
                         correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'])]
-                    # except:
-                    #     print('answer', test_dset[i]['answer'], 'choices', test_dset[i]['choices'])
-                    #     quit()
                 test_dset = test_dset.add_column("label", correct_answer_indices)
 
             # Retrieve & preprocess labels

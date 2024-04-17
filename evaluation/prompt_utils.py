@@ -74,11 +74,11 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.LANGUAGE_IDENTIFICATION
         'LI': [
-            'Classify the language of the text below.\n[INPUT] => Language ([OPTIONS]): [LABEL_CHOICE]',
-            'Predict the language of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
-            '[INPUT]\nWhat would be the language of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the language of this text?\nText: [INPUT]\Language ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the language of above text. Answer with [OPTIONS].\Language: [LABEL_CHOICE]',
+            'Classify the language of the text below.\n[INPUT] => [LABEL_CHOICE]',
+            'Predict the language of the following text.\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
+            '[INPUT]\nWhat would be the language of the text above? [LABEL_CHOICE]',
+            'What is the language of this text?\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
+            'Text: [INPUT]\nPlease classify the language of above text. Answer: [LABEL_CHOICE]',
         ],
     },
     'ind': {
@@ -156,11 +156,11 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.LANGUAGE_IDENTIFICATION
         'LI': [
-            'Klasifikasikan bahasa dari kalimat berikut.\n[INPUT] => Bahasa ([OPTIONS]): [LABEL_CHOICE]',
-            'Prediksikan bahasa dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
-            '[INPUT]\nApakah bahasa dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
-            'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa ([OPTIONS]): [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawab dengan [OPTIONS].\nBahasa: [LABEL_CHOICE]',
+            'Klasifikasikan bahasa dari kalimat berikut.\n[INPUT] => Bahasa [LABEL_CHOICE]',
+            'Prediksikan bahasa dari kalimat berikut.\nTeks: [INPUT]\nJawaban: [LABEL_CHOICE]',
+            '[INPUT]\nApakah bahasa dari kalimat diatas? [LABEL_CHOICE]',
+            'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa [LABEL_CHOICE]',
+            'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawaban: Bahasa [LABEL_CHOICE]',
         ],
     }
 }
@@ -216,7 +216,7 @@ LABEL_LANG_MAP ={
         'eng': {'Negative': 'negative', 'Neutral': 'neutral', 'Positive': 'positive'},
         'ind': {'Negative': 'negatif', 'Neutral': 'netral', 'Positive': 'positif'},
     },
-    'shopee_reviews_tagalog_seacrowd_qa': {
+    'shopee_reviews_tagalog_seacrowd_text': {
         'eng': {'0': 'very negative', '1': 'negative', '2': 'neutral', '3': 'positive', '4': 'very positive'},
         'ind': {'0': 'sangat negatif', '1': 'negatif', '2': 'netral', '3': 'positif', '4': 'sangat positif'},
     },
@@ -539,63 +539,63 @@ LABEL_LANG_MAP ={
     # "vihealthqa_seacrowd_qa",
     # "uit_vicov19qa_seacrowd_qa",
     # "qasina_seacrowd_qa",
-    "belebele_ceb_Latn_seacrowd_qa": {
+    "belebele_ceb_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_ilo_Latn_seacrowd_qa": {
+    "belebele_ilo_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_ind_Latn_seacrowd_qa": {
+    "belebele_ind_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_jav_Latn_seacrowd_qa": {
+    "belebele_jav_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_kac_Latn_seacrowd_qa": {
+    "belebele_kac_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_khm_Khmr_seacrowd_qa": {
+    "belebele_khm_khmr_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_lao_Laoo_seacrowd_qa": {
+    "belebele_lao_laoo_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_mya_Mymr_seacrowd_qa": {
+    "belebele_mya_mymr_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_shn_Mymr_seacrowd_qa": {
+    "belebele_shn_mymr_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_sun_Latn_seacrowd_qa": {
+    "belebele_sun_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_tgl_Latn_seacrowd_qa": {
+    "belebele_tgl_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_tha_Thai_seacrowd_qa": {
+    "belebele_tha_thai_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_vie_Latn_seacrowd_qa": {
+    "belebele_vie_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_war_Latn_seacrowd_qa": {
+    "belebele_war_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
-    "belebele_zsm_Latn_seacrowd_qa": {
+    "belebele_zsm_latn_seacrowd_qa": {
         'eng': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
         'ind': {0: 'a', 1: 'b', 2: 'c', 3: 'd'},
     },
