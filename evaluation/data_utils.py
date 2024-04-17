@@ -106,7 +106,7 @@ NLU_TASK_LIST = {
     "seaeval_cross_logiqa_zlm_seacrowd_qa",
     "seaeval_cross_logiqa_fil_seacrowd_qa",
     "m3exam_jav_seacrowd_qa",
-    "m3exam_tha_seacrowd_qa",
+    # "m3exam_tha_seacrowd_qa", # -- some answers are []
     "m3exam_vie_seacrowd_qa",
     # "okapi_m_arc_ind_seacrowd_qa",
     # "okapi_m_mmlu_ind_seacrowd_qa",
