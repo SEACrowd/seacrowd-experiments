@@ -12,3 +12,4 @@ openai
 retry
 seacrowd
 bitsandbytes
+opencv-python
