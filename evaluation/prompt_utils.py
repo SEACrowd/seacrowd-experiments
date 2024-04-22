@@ -1,5 +1,6 @@
 TASK_TO_PROMPT = {
     'eng': {
+        # NOT NLG
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
             'Classify the sentiment of the text below.\n[INPUT] => Sentiment ([OPTIONS]): [LABEL_CHOICE]',
@@ -24,14 +25,6 @@ TASK_TO_PROMPT = {
             'Identify the relationship between the premise and hypothesis:\nHypothesis: [INPUT_A]\nPremise: [INPUT_B]\nLabel ([OPTIONS]): [LABEL_CHOICE]',
             'Classify the relationship between the premise and hypothesis:\nPremise: [INPUT_B]\nHypothesis: [INPUT_A]\nRelationship ([OPTIONS]): [LABEL_CHOICE]',
         ],
-        # Tasks.MACHINE_TRANSLATION
-        'MT': [
-            'Translate the following text from [SOURCE] to [TARGET].\nText: [INPUT]\nTranslation:',
-            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET].',
-            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]?',
-            'Translate the following [SOURCE] text to [TARGET].\nText: [INPUT]\nTranslation:',
-            'Text in [SOURCE]: [INPUT]\nText in [TARGET]:',
-        ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
             'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
@@ -40,14 +33,7 @@ TASK_TO_PROMPT = {
             'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nBased on the paragraph, what is the answer to the question? [LABEL_CHOICE]',
             'Passage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
         ],
-        # Tasks.SUMMARIZATION
-        'SUM': [
-            'Write a summary from of the following text.\nText: [INPUT]\nSummary:',
-            '[INPUT]\nWrite a summary of the text above.',
-            'Text: [INPUT]\nHow would you summarize this text?',
-            'Summarize this text: [INPUT]\nSummary:',
-            '[INPUT]\nGiven the above document, write one sentence to summarize:',
-        ],
+
         # Tasks.TOPIC_MODELING
         'TL': [
             'Classify the topic of the text below.\n[INPUT] => Topic ([OPTIONS]): [LABEL_CHOICE]',
@@ -80,7 +66,42 @@ TASK_TO_PROMPT = {
             'What is the language of this text?\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
             'Text: [INPUT]\nPlease classify the language of above text. Answer: [LABEL_CHOICE]',
         ],
+
+        # NLG STARTS HERE
+        # Tasks.MACHINE_TRANSLATION
+        'MT': [
+            'Translate the following text from [SOURCE] to [TARGET].\nText: [INPUT]\nTranslation:',
+            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET].',
+            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]?'
+            #'Translate the following [SOURCE] text to [TARGET].\nText: [INPUT]\nTranslation:',
+            #'Text in [SOURCE]: [INPUT]\nText in [TARGET]:',
+        ],
+        
+        # Tasks.SUMMARIZATION
+        'SUM': [
+            'Write a summary from the following text.\nText: [INPUT]\nSummary:',
+            '[INPUT]\nWrite a summary of the text above.',
+            'Text: [INPUT]\nHow would you summarize this text?'
+            #'Summarize this text: [INPUT]\nSummary:',
+            #'[INPUT]\nGiven the above document, write one sentence to summarize:',
+        ],
+
+        # Tasks.CROSSLINGUAL_SUMMARIZATION
+        'CSUM': [
+            'Write a summary from the following text.\nText: [INPUT]\nSummary:',
+            '[INPUT]\nWrite a summary of the text above.',
+            'Text: [INPUT]\nHow would you summarize this text?'
+        ],
+
+        # Tasks.INSTRUCTION_TUNING
+        'IT': [
+            'Task: [INPUT]\n What is your output upon completing the insturction or question given?',
+            'Address the instruction or question below: [INPUT]',
+            'Produce the best output for the following task: [INPUT]'
+        ]
+
     },
+    
     'ind': {
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
@@ -106,14 +127,6 @@ TASK_TO_PROMPT = {
             'Identifikasi hubungan antara premis dan hipotesis berikut:\nHipotesis: [INPUT_A]\nPremis: [INPUT_B]\nLabel ([OPTIONS]): [LABEL_CHOICE]',
             'Klasifikasikan hubungan antara premis dan hypothesis berikut:\nPremis: [INPUT_B]\nHipotesis: [INPUT_A]\nHubungan ([OPTIONS]): [LABEL_CHOICE]',
         ],
-        # Tasks.MACHINE_TRANSLATION
-        'MT': [
-            'Terjemahkan teks berikut dari bahasa [SOURCE] ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
-            '[INPUT]\nTerjemahkan teks di atas dari bahasa [SOURCE] ke bahasa [TARGET].',
-            'Teks dalam bahasa [SOURCE]: [INPUT]\nApa terjemahannya dalam bahasa [TARGET]?',
-            'Terjemahkan teks bahasa [SOURCE] berikut ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
-            'Teks dalam bahasa [SOURCE]: [INPUT]\nTeks dalam bahasa [TARGET]:',
-        ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
             'Lihat paragraf di bawah ini dan jawab pertanyaannya.\nParagraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
@@ -121,14 +134,6 @@ TASK_TO_PROMPT = {
             '[CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nMengacu pada teks di atas, jawaban yang benar untuk pertanyaan yang diberikan adalah: [LABEL_CHOICE]',
             'Paragraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nBerdasarkan paragraf di atas, apa jawaban dari pertanyaan yang diberikan? [LABEL_CHOICE]',
             'Teks: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]'
-        ],
-        # Tasks.SUMMARIZATION
-        'SUM': [
-            'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
-            '[INPUT]\nTulis ringkasan dari teks di atas.',
-            'Teks: [INPUT]\nApa ringkasan dari teks tersebut?',
-            'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
-            '[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
         ],
         # Tasks.TOPIC_MODELING
         'TL': [
@@ -162,6 +167,40 @@ TASK_TO_PROMPT = {
             'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa [LABEL_CHOICE]',
             'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawaban: Bahasa [LABEL_CHOICE]',
         ],
+
+        # NLG TASKS
+        # Tasks.SUMMARIZATION
+        'SUM': [
+            'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
+            '[INPUT]\nTulis ringkasan dari teks di atas.',
+            'Teks: [INPUT]\nApa ringkasan dari teks tersebut?'
+            #'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
+            #'[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
+        ],
+        # Tasks.MACHINE_TRANSLATION
+        'MT': [
+            'Terjemahkan teks berikut dari bahasa [SOURCE] ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
+            '[INPUT]\nTerjemahkan teks di atas dari bahasa [SOURCE] ke bahasa [TARGET].',
+            'Teks dalam bahasa [SOURCE]: [INPUT]\nApa terjemahannya dalam bahasa [TARGET]?'
+            #'Terjemahkan teks bahasa [SOURCE] berikut ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
+            #'Teks dalam bahasa [SOURCE]: [INPUT]\nTeks dalam bahasa [TARGET]:',
+        ],
+
+        # Tasks.CROSSLINGUAL_SUMMARIZATION
+        'CSUM': [
+            'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
+            '[INPUT]\nTulis ringkasan dari teks di atas.',
+            'Teks: [INPUT]\nApa ringkasan dari teks tersebut?'
+            #'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
+            #'[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
+        ],
+
+        # Tasks.INSTRUCTION_TUNING
+        'IT': [
+            '',
+            '',
+            ''
+        ]
     }
 }
 
