@@ -80,6 +80,41 @@ TASK_TO_PROMPT = {
             'What is the language of this text?\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
             'Text: [INPUT]\nPlease classify the language of above text. Answer: [LABEL_CHOICE]',
         ],
+        # Tasks.IMAGE_CAPTIONING
+        'IC': [
+            'Caption the following image.\n[IMAGE]',
+        ],
+        # Tasks.VISUAL_QUESTION_ANSWERING
+        'VQA': [
+            '[IMAGE] Based on the image, [QUESTION]'
+        ],
+        # Tasks.SIGN_LANGUAGE_RECOGNITION
+        'SLR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.OPTICAL_CHARACTER_RECOGNITION
+        'OCR': [
+            ''
+        ],
+        # Tasks.STYLIZED_IMAGE_CAPTIONING
+        'SIC': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VISUALLY_GROUNDED_REASONING
+        'VGR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VIDEO_CAPTIONING
+        'VC': [
+            ''
+        ],
+        # Tasks.VIDEO_TO_TEXT_RETRIEVAL
+        'V2TR': [
+            ''
+        ],
     },
     'ind': {
         # Tasks.SENTIMENT_ANALYSIS
@@ -161,6 +196,41 @@ TASK_TO_PROMPT = {
             '[INPUT]\nApakah bahasa dari kalimat diatas? [LABEL_CHOICE]',
             'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa [LABEL_CHOICE]',
             'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawaban: Bahasa [LABEL_CHOICE]',
+        ],
+        # Tasks.IMAGE_CAPTIONING
+        'IC': [
+            ''
+        ],
+        # Tasks.VISUAL_QUESTION_ANSWERING
+        'VQA': [
+            ''
+        ],
+        # Tasks.SIGN_LANGUAGE_RECOGNITION
+        'SLR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.OPTICAL_CHARACTER_RECOGNITION
+        'OCR': [
+            ''
+        ],
+        # Tasks.STYLIZED_IMAGE_CAPTIONING
+        'SIC': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VISUALLY_GROUNDED_REASONING
+        'VGR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VIDEO_CAPTIONING
+        'VC': [
+            ''
+        ],
+        # Tasks.VIDEO_TO_TEXT_RETRIEVAL
+        'V2TR': [
+            ''
         ],
     }
 }
