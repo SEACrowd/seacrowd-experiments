@@ -21,10 +21,11 @@ import torch
 import torch.nn.functional as F
 
 from peft import PeftModel
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, set_seed
+from transformers import AutoModelForVision2Seq, AutoProcessor, set_seed
 
 from prompt_utils import get_prompt, get_label_mapping
 from data_utils import load_vl_datasets
+from seacrowd.sea_datasets.sea_wiki.lang_config import _LANG_CONFIG
 
 import cv2
 import urllib
@@ -44,8 +45,16 @@ def read_image(impath):
     return img
 
 
-def to_prompt(input, prompt, prompt_lang, schema):
+def get_lang(language):
+    if language in _LANG_CONFIG:
+        return _LANG_CONFIG[language]
+    return language
+
+
+def to_prompt(input, prompt, language, prompt_lang, schema):
     if schema == "imtext":
+        prompt = prompt.replace('[LANGUAGE]', get_lang(language))
+        image = input['image_paths'][0]
         # prompt = prompt.replace('[IMAGE]', read_image(input['image_paths'][0]))
         # prompt = prompt.replace('[IMAGE]', input['image_paths'][0])
         pass
@@ -59,15 +68,18 @@ def to_prompt(input, prompt, prompt_lang, schema):
     else:
         raise ValueError("Only support `imtext`, `imqa`.")
 
-    return prompt
+    return prompt, image
 
 
 @torch.inference_mode()
-def generate_output(model, tokenizer, prompts):
-    print(prompts)
-    ins = tokenizer(prompts, return_tensors='pt')
-    out = model.generate(ins['input_ids'], max_new_tokens=50)
-    return tokenizer.batch_decode(out)
+def generate_output(model, processor, prompts, images):
+    images = [[load_image(i)] for i in images]
+    inputs = processor(text=prompts, images=images, return_tensors="pt")
+
+    generated_ids = model.generate(**inputs, max_new_tokens=50)
+    generated_texts = processor.batch_decode(generated_ids, skip_special_tokens=True)
+
+    return generated_texts
     
 
 if __name__ == '__main__':
@@ -105,18 +117,8 @@ if __name__ == '__main__':
     set_seed(42)
 
     # Load Model
-    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', padding_side='right', trust_remote_code=True)
-    if ADAPTER != "":
-        model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
-        model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
-        MODEL = ADAPTER # for file naming
-    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sealion7b" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or  "Llama" in MODEL:
-        model = AutoModelForCausalLM.from_pretrained(MODEL, trust_remote_code=True)
-        if "sealion7b" in MODEL:
-            tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
-    else:
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", trust_remote_code=True)
-        tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+    model = AutoModelForVision2Seq.from_pretrained(MODEL, device_map="auto", trust_remote_code=True)
+    processor = AutoProcessor.from_pretrained(MODEL)
         
     model.eval()
     with torch.no_grad():
@@ -127,7 +129,7 @@ if __name__ == '__main__':
             print(f'({i}/{len(vl_datasets.keys())}) {dset_subset}')
 
             schema = dset_subset.split("_")[-1]
-            vl_dset, task_type = vl_datasets[dset_subset]
+            vl_dset, language, task_type = vl_datasets[dset_subset]
             if task_type.value not in TASK_TYPE_TO_PROMPT:
                 print(f'SKIPPING {dset_subset}')
                 continue
@@ -156,28 +158,28 @@ if __name__ == '__main__':
 
                 # sample prompt
                 print("= SAMPLE PROMPT =")
-                print(to_prompt(test_dset[0], prompt_template, prompt_lang, schema))
+                print(to_prompt(test_dset[0], prompt_template, language, prompt_lang, schema))
                 print("\n")
 
                 # zero-shot inference
-                prompts = []
+                prompts, images = [], []
                 count = 0
                 with torch.inference_mode():
                     for e, sample in tqdm(enumerate(test_dset), total=len(test_dset)):
                         if e < len(preds):
                             continue
 
-                        prompt_text = to_prompt(sample, prompt_template, prompt_lang, schema)
+                        prompt_text, image = to_prompt(sample, prompt_template, language, prompt_lang, schema)
                         prompts.append(prompt_text)
+                        images.append(image)
 
                         # Batch Inference
                         if len(prompts) == BATCH_SIZE:
-                            outputs = generate_output(model, tokenizer, prompts)
-                            for (prompt_text, output_text) in zip(prompts, outputs):
-                                print(output_text)
+                            outputs = generate_output(model, processor, prompts, images)
+                            for (prompt_text, image, output_text) in zip(prompts, images, outputs):
                                 inputs.append(prompt_text)
                                 preds.append(output_text)
-                            prompts = []
+                            prompts, images = [], []
                             count += 1
                             
                         if count == SAVE_EVERY:
@@ -187,7 +189,7 @@ if __name__ == '__main__':
                             count = 0
                             
                     if len(prompts) > 0:
-                        outputs = generate_output(model, tokenizer, prompts)
+                        outputs = generate_output(model, processor, prompts, images)
                         for (prompt_text, output_text) in zip(prompts, outputs):
                             inputs.append(prompt_text)
                             preds.append(output_text)

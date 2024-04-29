@@ -13,3 +13,5 @@ retry
 seacrowd
 bitsandbytes
 opencv-python
+transformers
+pillow

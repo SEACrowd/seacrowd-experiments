@@ -82,7 +82,9 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.IMAGE_CAPTIONING
         'IC': [
-            'Caption the following image.\n[IMAGE]',
+            'Caption the following image in [LANGUAGE].\n<image>',
+            'Using [LANGUAGE], caption the following image.\n<image>',
+            '<image> Caption the image in [LANGUAGE]',
         ],
         # Tasks.VISUAL_QUESTION_ANSWERING
         'VQA': [
