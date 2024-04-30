@@ -94,13 +94,13 @@ def predict_classification(model, tokenizer, prompts, labels):
         probs = []
         for (label_ids, label_attn) in zip(list_label_ids, list_label_attn):
             probs.append(
-                get_logprobs(model, tokenizer, inputs, label_ids.view(1,-1), label_attn.view(1,-1))
+                get_logprobs(model, tokenizer, inputs, label_ids.view(1,-1), label_attn.view(1,-1)).float().numpy()
             )
     else:
         probs = []
         for label in labels:
             inputs = [prompt.replace('[LABEL_CHOICE]', label) for prompt in prompts]
-            probs.append(get_logprobs(model, tokenizer, inputs))
+            probs.append(get_logprobs(model, tokenizer, inputs).float().numpy())
     return probs
 
 if __name__ == '__main__':
@@ -143,10 +143,12 @@ if __name__ == '__main__':
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
         MODEL = ADAPTER # for file naming
-    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sealion7b" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or  "Llama" in MODEL:
+    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sea-lion" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or "Llama" in MODEL or "llama" in MODEL or "falcon" in MODEL or "Sailor" in MODEL or "PhoGPT" in MODEL or "Mistral" in MODEL or "Qwen" in MODEL:
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
-        if "sealion7b" in MODEL:
+        if "sea-lion" in MODEL or "Mistral" in MODEL or "Llama" in MODEL or "falcon" in MODEL:
             tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+        elif "Qwen" in MODEL:
+            tokenizer.add_special_tokens({'pad_token': '<|endoftext|>'})
     else:
         model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
@@ -158,7 +160,7 @@ if __name__ == '__main__':
         labels = []
         for i, dset_subset in enumerate(nlu_datasets.keys()):
 
-            print(f'({i}/{len(nlu_datasets.keys())}) {dset_subset}')
+            print(f'=====({i}/{len(nlu_datasets.keys())}) {dset_subset} =====')
 
             schema = dset_subset.split("_")[-1]
             nlu_dset, task_type = nlu_datasets[dset_subset]
