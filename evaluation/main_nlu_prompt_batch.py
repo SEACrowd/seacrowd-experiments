@@ -111,8 +111,8 @@ if __name__ == '__main__':
     MODEL = sys.argv[2]
     BATCH_SIZE = int(sys.argv[3])
     ADAPTER = ''
-    if 'bactrian' in MODEL:
-        MODEL, ADAPTER = MODEL.split('---')
+    # if 'bactrian' in MODEL:
+    #     MODEL, ADAPTER = MODEL.split('---')
 
     SAVE_EVERY = 10
     if len(sys.argv) == 5:
