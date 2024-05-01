@@ -5,80 +5,60 @@ TASK_TO_PROMPT = {
             'Classify the sentiment of the text below.\n[INPUT] => Sentiment ([OPTIONS]): [LABEL_CHOICE]',
             'Predict the sentiment of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the sentiment of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the sentiment of this text?\nText: [INPUT]\nSentiment ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the sentiment of above text. Answer with [OPTIONS].\nSentiment: [LABEL_CHOICE]',
         ],
         # Tasks.EMOTION_CLASSIFICATION
         'EC': [
             'Classify the emotion of the text below.\n[INPUT] => Emotion ([OPTIONS]): [LABEL_CHOICE]',
             'Predict the emotion of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the emotion of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the emotion of this text?\nText: [INPUT]\nEmotion ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the emotion of above text. Answer with [OPTIONS].\nEmotion: [LABEL_CHOICE]',
         ],
         # Tasks.TEXTUAL_ENTAILMENT
         'TE': [
             'Hypothesis: [INPUT_A]\nPremise: [INPUT_B]\nQuestion: What is the relation between the hypothesis and the premise? [OPTIONS]? [LABEL_CHOICE]',
             'Given the following premise and hypothesis:\nHypothesis: [INPUT_A]\nPremise: [INPUT_B]\nDetermine the logical relationship (([OPTIONS])): [LABEL_CHOICE]',
             'Choose the most appropriate relationship ([OPTIONS]) between the premise and hypothesis:\nRelationship between "[INPUT_B]" and "[INPUT_A]": [LABEL_CHOICE]',
-            'Identify the relationship between the premise and hypothesis:\nHypothesis: [INPUT_A]\nPremise: [INPUT_B]\nLabel ([OPTIONS]): [LABEL_CHOICE]',
-            'Classify the relationship between the premise and hypothesis:\nPremise: [INPUT_B]\nHypothesis: [INPUT_A]\nRelationship ([OPTIONS]): [LABEL_CHOICE]',
         ],
         # Tasks.MACHINE_TRANSLATION
         'MT': [
             'Translate the following text from [SOURCE] to [TARGET].\nText: [INPUT]\nTranslation:',
             '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET].',
             'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]?',
-            'Translate the following [SOURCE] text to [TARGET].\nText: [INPUT]\nTranslation:',
-            'Text in [SOURCE]: [INPUT]\nText in [TARGET]:',
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
             'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
-            'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nBased on the paragraph, what is the answer to the question? [LABEL_CHOICE]',
-            'Passage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
         ],
         # Tasks.SUMMARIZATION
         'SUM': [
             'Write a summary from of the following text.\nText: [INPUT]\nSummary:',
             '[INPUT]\nWrite a summary of the text above.',
             'Text: [INPUT]\nHow would you summarize this text?',
-            'Summarize this text: [INPUT]\nSummary:',
-            '[INPUT]\nGiven the above document, write one sentence to summarize:',
         ],
         # Tasks.TOPIC_MODELING
         'TL': [
             'Classify the topic of the text below.\n[INPUT] => Topic ([OPTIONS]): [LABEL_CHOICE]',
             'Predict the topic of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the topic of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the topic of this text?\nText: [INPUT]\nTopic ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the topic of above text. Answer with [OPTIONS].\nTopic: [LABEL_CHOICE]',
         ],
         # Tasks.MORALITY_CLASSIFICATION
         'MC': [
             'Classify the morality of the text below.\n[INPUT] => Morality ([OPTIONS]): [LABEL_CHOICE]',
             'Predict the morality of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the morality of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the morality of this text?\nText: [INPUT]\Morality ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the morality of above text. Answer with [OPTIONS].\Morality: [LABEL_CHOICE]',
         ],
         # Tasks.COMMONSENSE_REASONING
         'CR': [
             'Question: [QUESTION]\nWhat reply makes more sense to answer this question?\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             'Based on the the following question: "[QUESTION]" and choices: [ANSWER_CHOICES], the correct answer is: [LABEL_CHOICE]',
             'Question: [QUESTION]\nChoices: [ANSWER_CHOICES]\nThe correct answer to the given question is: [LABEL_CHOICE]',
-            'What is the answer to the following question according to common sense?\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
-            'Question: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
         ],
         # Tasks.LANGUAGE_IDENTIFICATION
         'LI': [
             'Classify the language of the text below.\n[INPUT] => [LABEL_CHOICE]',
             'Predict the language of the following text.\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the language of the text above? [LABEL_CHOICE]',
-            'What is the language of this text?\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the language of above text. Answer: [LABEL_CHOICE]',
         ],
     },
     'ind': {
@@ -87,80 +67,60 @@ TASK_TO_PROMPT = {
             'Klasifikasikan sentimen dari kalimat berikut.\n[INPUT] => Sentimen ([OPTIONS]): [LABEL_CHOICE]',
             'Prediksikan sentimen dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nApakah sentimen dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
-            'Apakah sentimen dari teks berikut?\nTeks: [INPUT]\nSentimen ([OPTIONS]): [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan sentimen dari teks diatas. Jawab dengan [OPTIONS].\nSentimen: [LABEL_CHOICE]',
         ],
         # Tasks.EMOTION_CLASSIFICATION
         'EC': [
             'Klasifikasikan emosi dari kalimat berikut.\n[INPUT] => Emosi ([OPTIONS]): [LABEL_CHOICE]',
             'Prediksikan emosi dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nApakah emosi dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
-            'Apakah emosi dari teks berikut?\nTeks: [INPUT]\nEmosi ([OPTIONS]): [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan emosi dari teks diatas. Jawab dengan [OPTIONS].\nEmosi: [LABEL_CHOICE]',
         ],
         # Tasks.TEXTUAL_ENTAILMENT
         'TE': [
             'Hipotesis: [INPUT_A]\nPremis: [INPUT_B]\nPertanaan: Apakah hubungan antara hipotesis dan premis diatas? [OPTIONS]? [LABEL_CHOICE]',
             'Diberikan hipotesis dan premis sebagai berikut:\nHipotesis: [INPUT_A]\nPremis: [INPUT_B]\nTentukan hubungan logis ([OPTIONS]) dari kedua kalimat tersebut: [LABEL_CHOICE]',
             'Pilih hubungan ([OPTIONS]) yang paling cocok antara premis dan hipotesis berikut:\nHubungan antara "[INPUT_B]" dan "[INPUT_A]": [LABEL_CHOICE]',
-            'Identifikasi hubungan antara premis dan hipotesis berikut:\nHipotesis: [INPUT_A]\nPremis: [INPUT_B]\nLabel ([OPTIONS]): [LABEL_CHOICE]',
-            'Klasifikasikan hubungan antara premis dan hypothesis berikut:\nPremis: [INPUT_B]\nHipotesis: [INPUT_A]\nHubungan ([OPTIONS]): [LABEL_CHOICE]',
         ],
         # Tasks.MACHINE_TRANSLATION
         'MT': [
             'Terjemahkan teks berikut dari bahasa [SOURCE] ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
             '[INPUT]\nTerjemahkan teks di atas dari bahasa [SOURCE] ke bahasa [TARGET].',
             'Teks dalam bahasa [SOURCE]: [INPUT]\nApa terjemahannya dalam bahasa [TARGET]?',
-            'Terjemahkan teks bahasa [SOURCE] berikut ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
-            'Teks dalam bahasa [SOURCE]: [INPUT]\nTeks dalam bahasa [TARGET]:',
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
             'Lihat paragraf di bawah ini dan jawab pertanyaannya.\nParagraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
             '[CONTEXT]\nBerdasarkan teks di atas, [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
             '[CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nMengacu pada teks di atas, jawaban yang benar untuk pertanyaan yang diberikan adalah: [LABEL_CHOICE]',
-            'Paragraf: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nBerdasarkan paragraf di atas, apa jawaban dari pertanyaan yang diberikan? [LABEL_CHOICE]',
-            'Teks: [CONTEXT]\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]'
         ],
         # Tasks.SUMMARIZATION
         'SUM': [
             'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
             '[INPUT]\nTulis ringkasan dari teks di atas.',
             'Teks: [INPUT]\nApa ringkasan dari teks tersebut?',
-            'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
-            '[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
         ],
         # Tasks.TOPIC_MODELING
         'TL': [
             'Klasifikasikan topik dari kalimat berikut.\n[INPUT] => Topik ([OPTIONS]): [LABEL_CHOICE]',
             'Prediksikan topik dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nApakah topik dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
-            'Apakah topik dari teks berikut?\nTeks: [INPUT]\nTopik ([OPTIONS]): [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan topik dari teks diatas. Jawab dengan [OPTIONS].\nTopik: [LABEL_CHOICE]',
         ],
         # Tasks.MORALITY_CLASSIFICATION
         'MC': [
             'Klasifikasikan moralitas dari kalimat berikut.\n[INPUT] => Moralitas ([OPTIONS]): [LABEL_CHOICE]',
             'Prediksikan moralitas dari kalimat berikut.\nTeks: [INPUT]\nJawab dengan [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nApakah moralitas dari kalimat diatas? [OPTIONS]? [LABEL_CHOICE]',
-            'Apakah moralitas dari teks berikut?\nTeks: [INPUT]\nMoralitas ([OPTIONS]): [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan moralitas dari teks diatas. Jawab dengan [OPTIONS].\nMoralitas: [LABEL_CHOICE]',
         ],
         # Tasks.COMMONSENSE_REASONING
         'CR': [
             'Pertanyaan: [QUESTION]\nBalasan apa yang lebih masuk akal untuk menjawab pertanyaan tersebut?\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
             'Berdasarkan pertanyaan berikut: "[QUESTION]" dan pilihan: [ANSWER_CHOICES], jawaban yang benar adalah: [LABEL_CHOICE]',
             'Pertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban yang benar untuk pertanyaan tersebut adalah: [LABEL_CHOICE]',
-            'Jawaban apa yang wajar diberikan untuk pertanyaan berikut?\nPertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]',
-            'Pertanyaan: [QUESTION]\nPilihan: [ANSWER_CHOICES]\nJawaban: [LABEL_CHOICE]'
         ],
         # Tasks.LANGUAGE_IDENTIFICATION
         'LI': [
             'Klasifikasikan bahasa dari kalimat berikut.\n[INPUT] => Bahasa [LABEL_CHOICE]',
             'Prediksikan bahasa dari kalimat berikut.\nTeks: [INPUT]\nJawaban: [LABEL_CHOICE]',
             '[INPUT]\nApakah bahasa dari kalimat diatas? [LABEL_CHOICE]',
-            'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa [LABEL_CHOICE]',
-            'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawaban: Bahasa [LABEL_CHOICE]',
         ],
     }
 }
