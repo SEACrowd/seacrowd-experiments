@@ -180,14 +180,21 @@ if __name__ == '__main__':
             # Add `label` based on `answer` for QA
             if schema == 'qa':
                 correct_answer_indices = []
+                exclude_idx = []
                 for i in range(len(test_dset)):
                     if isinstance(test_dset[i]['answer'], list):
                         try:
                             correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'][0])]
                         except:
-                            continue
+                            exclude_idx.append(i)
                     else:
                         correct_answer_indices += [test_dset[i]['choices'].index(test_dset[i]['answer'])]
+                test_dset = test_dset.select(
+                    (
+                        i for i in range(len(test_dset)) 
+                        if i not in set(exclude_idx)
+                    )
+                )
                 test_dset = test_dset.add_column("label", correct_answer_indices)
 
             # Retrieve & preprocess labels
