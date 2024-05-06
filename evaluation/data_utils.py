@@ -543,7 +543,7 @@ def load_vl_datasets():
     cfg_name_to_dset_map = {}
 
     for config_name in VL_TASK_LIST:
-        if "bloom" in config_name: continue
+        # if "bloom" in config_name: continue
         if "burapha" in config_name: continue   # Task name incorrect
         if "fsl" in config_name: continue       # No text
         if "m3exam" in config_name: continue    # No test set   

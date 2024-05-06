@@ -22,6 +22,7 @@ import torch.nn.functional as F
 
 from peft import PeftModel
 from transformers import AutoModelForVision2Seq, AutoProcessor, set_seed
+from transformers.image_utils import load_image
 
 from prompt_utils import get_prompt, get_label_mapping
 from data_utils import load_vl_datasets
@@ -73,7 +74,8 @@ def to_prompt(input, prompt, language, prompt_lang, schema):
 
 @torch.inference_mode()
 def generate_output(model, processor, prompts, images):
-    images = [[load_image(i)] for i in images]
+    # images = [[read_image(i)] for i in images]
+    images = [load_image(i) for i in images]
     inputs = processor(text=prompts, images=images, return_tensors="pt")
 
     generated_ids = model.generate(**inputs, max_new_tokens=50)
