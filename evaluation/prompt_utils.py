@@ -80,6 +80,10 @@ TASK_TO_PROMPT = {
             'What is the language of this text?\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
             'Text: [INPUT]\nPlease classify the language of above text. Answer: [LABEL_CHOICE]',
         ],
+        # Tasks.SPEECH_RECOGNITION
+        'ASR': [],
+        # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
+        'SPEECH_LID': []
     },
     'ind': {
         # Tasks.SENTIMENT_ANALYSIS
@@ -162,6 +166,10 @@ TASK_TO_PROMPT = {
             'Apakah bahasa dari teks berikut?\nTeks: [INPUT]\nBahasa [LABEL_CHOICE]',
             'Teks: [INPUT]\nTolong klasifikasikan bahasa dari teks diatas. Jawaban: Bahasa [LABEL_CHOICE]',
         ],
+        # Tasks.SPEECH_RECOGNITION
+        'ASR': [],
+        # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
+        'SPEECH_LID': [],
     }
 }
 

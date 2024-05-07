@@ -4,7 +4,6 @@ import pandas as pd
 import datasets
 from enum import Enum
 
-
 NLU_TASK_LIST = {
     # Sentiment Analysis
     "lazada_review_filipino_seacrowd_text",
@@ -351,6 +350,212 @@ FLORES200_TASK_LIST = [
     # 'flores200-ind_Latn-ban_Latn',
     # 'flores200-ind_Latn-min_Latn',
 ]
+SPEECH_TASK_LIST = {
+    'asr_indocsc_seacrowd_sptext',
+    'asr_malcsc_seacrowd_sptext',
+    'asr_sindodusc_seacrowd_sptext',
+    'asr_smaldusc_seacrowd_sptext',
+    'asr_stidusc_seacrowd_sptext',
+    'fleurs_mya_seacrowd_sptext',
+    'fleurs_ceb_seacrowd_sptext',
+    'fleurs_fil_seacrowd_sptext',
+    'fleurs_ind_seacrowd_sptext',
+    'fleurs_jav_seacrowd_sptext',
+    'fleurs_khm_seacrowd_sptext',
+    'fleurs_lao_seacrowd_sptext',
+    'fleurs_zlm_seacrowd_sptext',
+    'fleurs_tha_seacrowd_sptext',
+    'fleurs_vie_seacrowd_sptext',
+    'indspeech_digit_cdsr_seacrowd_sptext',
+    'indspeech_news_ethnicsr_su_nooverlap_seacrowd_sptext',
+    'indspeech_news_ethnicsr_jv_nooverlap_seacrowd_sptext',
+    'indspeech_news_lvcsr_seacrowd_sptext',
+    #'indspeech_newstra_ethnicsr_nooverlap_id_seacrowd_sptext',
+    #'indspeech_newstra_ethnicsr_nooverlap_su_seacrowd_sptext',
+    #'indspeech_newstra_ethnicsr_nooverlap_jv_seacrowd_sptext',
+    #'indspeech_newstra_ethnicsr_nooverlap_ban_seacrowd_sptext',
+    #'indspeech_newstra_ethnicsr_nooverlap_btk_seacrowd_sptext',
+    'indspeech_teldialog_lvcsr_seacrowd_sptext',
+    'indspeech_teldialog_svcsr_seacrowd_sptext',
+    'jv_id_asr_seacrowd_sptext',
+    'su_id_asr_seacrowd_sptext',
+    'titml_idn_seacrowd_sptext',
+    'ucla_phonetic_ace_seacrowd_sptext',
+    'ucla_phonetic_brv_seacrowd_sptext',
+    'ucla_phonetic_hil_seacrowd_sptext',
+    'ucla_phonetic_hni_seacrowd_sptext',
+    'ucla_phonetic_ilo_seacrowd_sptext',
+    'ucla_phonetic_khm_seacrowd_sptext',
+    'ucla_phonetic_mak_seacrowd_sptext',
+    'ucla_phonetic_mya_seacrowd_sptext',
+    'ucla_phonetic_pam_seacrowd_sptext',
+    'vivos_seacrowd_sptext'
+    # problem downloading... too slow that always connection broken
+    #'voxlingua_seacrowd_speech'
+
+    ## LOADABLE, RUNNABLE BUT SEGFAULT UPON RUNNING
+    # 'audio_keyword_spotting_seacrowd_sptext',       # segfault
+    # 'bloom_speech_bjn_seacrowd_sptext',             # segfault
+    # 'bloom_speech_bzi_seacrowd_sptext',             # segfault
+    # 'bloom_speech_ceb_seacrowd_sptext',             # segfault
+    # 'bloom_speech_ind_seacrowd_sptext',             # segfault
+    # 'bloom_speech_jra_seacrowd_sptext',             # segfault
+    # 'bloom_speech_kqr_seacrowd_sptext',             # segfault
+    # 'bloom_speech_mya_seacrowd_sptext',             # segfault
+    # 'bloom_speech_tgl_seacrowd_sptext',             # segfault
+
+    # 'commonvoice_120_tha_seacrowd_sptext',          # segfault on test
+    # 'commonvoice_120_vie_seacrowd_sptext',          # segfault on test
+    # 'commonvoice_120_ind_seacrowd_sptext',          # segfault on test
+    # 'commonvoice_120_cnh_seacrowd_sptext',          # segfault on test
+
+    ## NOT APPROVED YET
+    # 'asr_ibsc_seacrowd_sptext',
+    # 'cmu_wilderness_mhx_seacrowd_sptext',
+    # 'cmu_wilderness_ifk_seacrowd_sptext',
+    # 'cmu_wilderness_tlb_seacrowd_sptext',
+    # 'cmu_wilderness_nod_seacrowd_sptext',
+    # 'cmu_wilderness_ilo_seacrowd_sptext',
+    # 'cmu_wilderness_frd_seacrowd_sptext',
+    # 'cmu_wilderness_cgc_seacrowd_sptext',
+    # 'cmu_wilderness_tha_seacrowd_sptext',
+    # 'cmu_wilderness_cfm_seacrowd_sptext',
+    # 'cmu_wilderness_bgr_seacrowd_sptext',
+    # 'cmu_wilderness_blt_seacrowd_sptext',
+    # 'cmu_wilderness_atq_seacrowd_sptext',
+    # 'cmu_wilderness_dtp_seacrowd_sptext',
+    # 'cmu_wilderness_cmr_seacrowd_sptext',
+    # 'cmu_wilderness_amk_seacrowd_sptext',
+    # 'cmu_wilderness_ptu_seacrowd_sptext',
+    # 'cmu_wilderness_jav_seacrowd_sptext',
+    # 'cmu_wilderness_lsi_seacrowd_sptext',
+    # 'cmu_wilderness_nij_seacrowd_sptext',
+    # 'cmu_wilderness_mhy_seacrowd_sptext',
+    # 'cmu_wilderness_acn_seacrowd_sptext',
+    # 'cmu_wilderness_prf_seacrowd_sptext',
+    # 'cmu_wilderness_alj_seacrowd_sptext',
+    # 'cmu_wilderness_lnd_seacrowd_sptext',
+    # 'cmu_wilderness_kzf_seacrowd_sptext',
+    # 'cmu_wilderness_pww_seacrowd_sptext',
+    # 'cmu_wilderness_sda_seacrowd_sptext',
+    # 'cmu_wilderness_mbb_seacrowd_sptext',
+    # 'cmu_wilderness_ify_seacrowd_sptext',
+    # 'cmu_wilderness_mbt_seacrowd_sptext',
+    # 'cmu_wilderness_iba_seacrowd_sptext',
+    # 'cmu_wilderness_pse_seacrowd_sptext',
+    # 'cmu_wilderness_kje_seacrowd_sptext',
+    # 'cmu_wilderness_gbi_seacrowd_sptext',
+    # 'cmu_wilderness_mog_seacrowd_sptext',
+    # 'cmu_wilderness_alp_seacrowd_sptext',
+    # 'cmu_wilderness_twb_seacrowd_sptext',
+    # 'cmu_wilderness_law_seacrowd_sptext',
+    # 'cmu_wilderness_dni_seacrowd_sptext',
+    # 'cmu_wilderness_ahk_seacrowd_sptext',
+    # 'cmu_wilderness_rej_seacrowd_sptext',
+    # 'cmu_wilderness_bcl_seacrowd_sptext',
+    # 'cmu_wilderness_nlc_seacrowd_sptext',
+    # 'cmu_wilderness_plw_seacrowd_sptext',
+    # 'cmu_wilderness_zyp_seacrowd_sptext',
+    # 'cmu_wilderness_lew_seacrowd_sptext',
+    # 'cmu_wilderness_mad_seacrowd_sptext',
+    # 'cmu_wilderness_txa_seacrowd_sptext',
+    # 'cmu_wilderness_bpr_seacrowd_sptext',
+    # 'cmu_wilderness_min_seacrowd_sptext',
+    # 'cmu_wilderness_kne_seacrowd_sptext',
+    # 'cmu_wilderness_agn_seacrowd_sptext',
+    # 'cmu_wilderness_mqj_seacrowd_sptext',
+    # 'cmu_wilderness_itv_seacrowd_sptext',
+    # 'cmu_wilderness_gor_seacrowd_sptext',
+    # 'cmu_wilderness_bts_seacrowd_sptext',
+    # 'cmu_wilderness_twu_seacrowd_sptext',
+    # 'cmu_wilderness_mwv_seacrowd_sptext',
+    # 'cmu_wilderness_sml_seacrowd_sptext',
+    # 'cmu_wilderness_npy_seacrowd_sptext',
+    # 'cmu_wilderness_khm_seacrowd_sptext',
+    # 'cmu_wilderness_sas_seacrowd_sptext',
+    # 'cmu_wilderness_krj_seacrowd_sptext',
+    # 'cmu_wilderness_ury_seacrowd_sptext',
+    # 'cmu_wilderness_obo_seacrowd_sptext',
+    # 'cmu_wilderness_kqe_seacrowd_sptext',
+    # 'cmu_wilderness_mrw_seacrowd_sptext',
+    # 'cmu_wilderness_ifb_seacrowd_sptext',
+    # 'cmu_wilderness_mvp_seacrowd_sptext',
+    # 'cmu_wilderness_cmo_seacrowd_sptext',
+    # 'cmu_wilderness_por_seacrowd_sptext',
+    # 'cmu_wilderness_xsb_seacrowd_sptext',
+    # 'cmu_wilderness_ljp_seacrowd_sptext',
+    # 'cmu_wilderness_bru_seacrowd_sptext',
+    # 'cmu_wilderness_ban_seacrowd_sptext',
+    # 'cmu_wilderness_ind_seacrowd_sptext',
+    # 'cmu_wilderness_cnk_seacrowd_sptext',
+    # 'cmu_wilderness_sgb_seacrowd_sptext',
+    # 'cmu_wilderness_mak_seacrowd_sptext',
+    # 'cmu_wilderness_nia_seacrowd_sptext',
+    # 'cmu_wilderness_sun_seacrowd_sptext',
+    # 'cmu_wilderness_hnn_seacrowd_sptext',
+    # 'cmu_wilderness_ceb_seacrowd_sptext',
+    # 'cmu_wilderness_btd_seacrowd_sptext',
+    # 'cmu_wilderness_lao_seacrowd_sptext',
+    # 'cmu_wilderness_pam_seacrowd_sptext',
+    # 'cmu_wilderness_kac_seacrowd_sptext',
+    # 'cmu_wilderness_ifa_seacrowd_sptext',
+    # 'cmu_wilderness_blz_seacrowd_sptext',
+    # 'cmu_wilderness_bps_seacrowd_sptext',
+    # 'cmu_wilderness_ctd_seacrowd_sptext',
+    # 'cmu_wilderness_mnb_seacrowd_sptext',
+    # 'cmu_wilderness_pmf_seacrowd_sptext',
+    # 'cmu_wilderness_hil_seacrowd_sptext',
+    # 'cmu_wilderness_sxn_seacrowd_sptext',
+    # 'cmu_wilderness_bep_seacrowd_sptext',
+    # 'cmu_wilderness_ppk_seacrowd_sptext',
+    # 'cmu_wilderness_mej_seacrowd_sptext',
+    # 'cmu_wilderness_ace_seacrowd_sptext',
+    # 'cmu_wilderness_ifu_seacrowd_sptext',
+    # 'cmu_wilderness_tgl_seacrowd_sptext',
+    # 'cmu_wilderness_lex_seacrowd_sptext',
+    # 'cmu_wilderness_vie_seacrowd_sptext',
+    # 'cmu_wilderness_btx_seacrowd_sptext',
+    # 'cmu_wilderness_lhu_seacrowd_sptext',
+    # 'cmu_wilderness_pag_seacrowd_sptext',
+    # 'cmu_wilderness_xmm_seacrowd_sptext',
+    # 'cmu_wilderness_bhz_seacrowd_sptext',
+    # 'cmu_wilderness_tby_seacrowd_sptext',
+    # 'tha_lotus_seacrowd_sptext',
+
+    ##LOADABLE BUT SEGFAULT ON TEST
+
+    # 'librivox_indonesia_ind_seacrowd_sptext', #error
+    # 'librivox_indonesia_sun_seacrowd_sptext', #error
+    # 'librivox_indonesia_jav_seacrowd_sptext', #error
+    # 'librivox_indonesia_min_seacrowd_sptext', #error
+    # 'librivox_indonesia_bug_seacrowd_sptext', #error
+    # 'librivox_indonesia_ban_seacrowd_sptext', #error
+    # 'librivox_indonesia_ace_seacrowd_sptext', #error
+
+    ## DATALOADER NAME MISMATCH. THE FOLLOWING LIST IS THE CONFIG NAMES WHICH WERE MODIFIED TO BE LOADABLE
+    'kheng_info_seacrowd_sptext',            #this loads, but please recheck the dataloader. naming error
+    'mswc_cnh_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
+    'mswc_ind_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
+    'mswc_vie_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR80_mya_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR35_jav_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR36_sun_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR44_sun_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR42_khm_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+    'openslr_SLR41_jav_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
+
+    ## LOCAL DATASET
+    # 'phost_vie_seacrowd_sptext',              #please recheck the dataloader. naming error. also local dataset
+    # 'phost_eng_seacrowd_sptext',              #please recheck the dataloader. naming error. also local dataset
+    # 'struct_amb_ind_seacrowd_sptext',         #local dataset
+
+    ### NONEXISTENT SCHEMA
+    # 'voxlingua_ind_seacrowd_speech',           #nonexisting seacrowd schema
+    # 'voxlingua_sun_seacrowd_speech',           #nonexisting seacrowd schema
+    # 'voxlingua_jav_seacrowd_speech',           #nonexisting seacrowd schema
+    # 'oil_seacrowd_sptext',                     #nonexisting seacrowd schema
+}
+
 
 def load_nlu_datasets():
     nc_conhelp = SEACrowdConfigHelper()
@@ -364,9 +569,10 @@ def load_nlu_datasets():
 
     return cfg_name_to_dset_map
 
+
 ### Forget this for now
 def load_external_nlu_datasets(lang='ind'):
-    cfg_name_to_dset_map = {} # {config_name: (datasets.Dataset, task_name)
+    cfg_name_to_dset_map = {}  # {config_name: (datasets.Dataset, task_name)
 
     # hack, add new Task
     class NewTasks(Enum):
@@ -383,34 +589,35 @@ def load_external_nlu_datasets(lang='ind'):
         elif 'MABL' in task:
             mabl_path = './mabl_data'
             subset = task.split('/')[-1]
-            
+
             df = pd.read_csv(f'{mabl_path}/{subset}.csv')
             dset = datasets.Dataset.from_pandas(
-                df.rename({'startphrase': 'premise', 'ending1': 'choice1', 'ending2': 'choice2', 'labels': 'label'}, axis='columns')
+                df.rename({'startphrase': 'premise', 'ending1': 'choice1', 'ending2': 'choice2', 'labels': 'label'},
+                          axis='columns')
             )
             cfg_name_to_dset_map[task] = (datasets.DatasetDict({'test': dset}), NewTasks.MABL)
         elif 'MAPS' in task:
             maps_path = './maps_data'
             df = pd.read_excel(f'{maps_path}/test_proverbs.xlsx')
-            
+
             # Split by subset
             if '/' in task:
                 subset = task.split('/')[-1]
-                if subset =='figurative':
-                    df = df.loc[df['is_figurative'] == 1,:]
-                else: # non_figurative
-                    df = df.loc[df['is_figurative'] == 0,:]
+                if subset == 'figurative':
+                    df = df.loc[df['is_figurative'] == 1, :]
+                else:  # non_figurative
+                    df = df.loc[df['is_figurative'] == 0, :]
 
             dset = datasets.Dataset.from_pandas(
                 df.rename({
-                    'proverb': 'premise', 'conversation': 'context', 
+                    'proverb': 'premise', 'conversation': 'context',
                     'answer1': 'choice1', 'answer2': 'choice2', 'answer_key': 'label'
                 }, axis='columns')
             )
             cfg_name_to_dset_map[task] = (datasets.DatasetDict({'test': dset}), NewTasks.MAPS)
         elif 'IndoStoryCloze' in task:
             df = datasets.load_dataset('indolem/indo_story_cloze')['test'].to_pandas()
-            
+
             # Preprocess
             df['premise'] = df.apply(lambda x: '. '.join([
                 x['sentence-1'], x['sentence-2'], x['sentence-3'], x['sentence-4']
@@ -418,7 +625,7 @@ def load_external_nlu_datasets(lang='ind'):
             df = df.rename({'correct_ending': 'choice1', 'incorrect_ending': 'choice2'}, axis='columns')
             df = df[['premise', 'choice1', 'choice2']]
             df['label'] = 0
-            
+
             dset = datasets.Dataset.from_pandas(df)
             cfg_name_to_dset_map[task] = (datasets.DatasetDict({'test': dset}), NewTasks.IndoStoryCloze)
         elif 'IndoMMLU' in task:
@@ -426,6 +633,7 @@ def load_external_nlu_datasets(lang='ind'):
             dset = datasets.Dataset.from_pandas(df.rename({'kunci': 'label'}, axis='columns'))
             cfg_name_to_dset_map[task] = (datasets.DatasetDict({'test': dset}), NewTasks.IndoMMLU)
     return cfg_name_to_dset_map
+
 
 def load_nlg_datasets():
     nc_conhelp = SEACrowdConfigHelper()
@@ -437,6 +645,7 @@ def load_nlg_datasets():
 
     return cfg_name_to_dset_map
 
+
 ### Forget about this for now
 def load_flores_datasets():
     dset_map = {}
@@ -444,12 +653,28 @@ def load_flores_datasets():
         subset = task.replace('flores200-', '')
         src_lang, tgt_lang = subset.split('-')
         dset = datasets.load_dataset('facebook/flores', subset)
-        dset = dset.rename_columns({f'sentence_{src_lang}': 'text_1', f'sentence_{tgt_lang}': 'text_2'}).select_columns(['id', 'text_1', 'text_2'])
+        dset = dset.rename_columns({f'sentence_{src_lang}': 'text_1', f'sentence_{tgt_lang}': 'text_2'}).select_columns(
+            ['id', 'text_1', 'text_2'])
         dset_map[task] = (dset, Tasks.MACHINE_TRANSLATION)
     return dset_map
+
 
 ### Forget about this for now
 def load_truthfulqa_datasets():
     class NewTasks(Enum):
         TRUTHFULQA = "TRUTHFULQA"
+
     return {'truthfulqa': (datasets.load_from_disk('./truthfulqa_ind'), NewTasks.TRUTHFULQA)}
+
+
+def load_speech_datasets():
+    nc_conhelp = SEACrowdConfigHelper()
+    cfg_name_to_dset_map = {}
+
+    for config_name in SPEECH_TASK_LIST:
+        print(config_name)
+        schema = config_name.split('_')[-1]
+        con = nc_conhelp.for_config_name(config_name)
+        cfg_name_to_dset_map[config_name] = (con.load_dataset(), list(con.tasks)[0])
+
+    return cfg_name_to_dset_map
