@@ -69,7 +69,7 @@ def to_prompt(input, prompt, labels, prompt_lang, schema):
 
 @torch.inference_mode()
 def get_logprobs(model, tokenizer, inputs, label_ids=None, label_attn=None):
-    inputs = tokenizer(inputs, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')    
+    inputs = tokenizer(inputs, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
     if model.config.is_encoder_decoder:
         label_ids = label_ids.repeat((inputs['input_ids'].shape[0],1))
         label_attn = label_attn.repeat((inputs['input_ids'].shape[0],1))
@@ -77,6 +77,8 @@ def get_logprobs(model, tokenizer, inputs, label_ids=None, label_attn=None):
         logprobs = torch.gather(F.log_softmax(logits, dim=-1), 2, label_ids.unsqueeze(2)).squeeze(dim=-1) * label_attn
         return logprobs.sum(dim=-1).cpu()
     else:
+        if "sea-lion" in MODEL:
+            del inputs["token_type_ids"]
         logits = model(**inputs).logits
         output_ids = inputs["input_ids"][:, 1:]
         logprobs = torch.gather(F.log_softmax(logits, dim=-1), 2, output_ids.unsqueeze(2)).squeeze(dim=-1)
