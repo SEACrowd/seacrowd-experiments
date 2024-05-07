@@ -356,6 +356,10 @@ SPEECH_TASK_LIST = {
     'asr_sindodusc_seacrowd_sptext',
     'asr_smaldusc_seacrowd_sptext',
     'asr_stidusc_seacrowd_sptext',
+    'commonvoice_120_tha_seacrowd_sptext',
+    'commonvoice_120_vie_seacrowd_sptext',
+    'commonvoice_120_ind_seacrowd_sptext',
+    'commonvoice_120_cnh_seacrowd_sptext',
     'fleurs_mya_seacrowd_sptext',
     'fleurs_ceb_seacrowd_sptext',
     'fleurs_fil_seacrowd_sptext',
@@ -367,17 +371,22 @@ SPEECH_TASK_LIST = {
     'fleurs_tha_seacrowd_sptext',
     'fleurs_vie_seacrowd_sptext',
     'indspeech_digit_cdsr_seacrowd_sptext',
+    'indspeech_news_ethnicsr_su_overlap_seacrowd_sptext',
+    'indspeech_news_ethnicsr_jv_overlap_seacrowd_sptext',
     'indspeech_news_ethnicsr_su_nooverlap_seacrowd_sptext',
     'indspeech_news_ethnicsr_jv_nooverlap_seacrowd_sptext',
     'indspeech_news_lvcsr_seacrowd_sptext',
-    #'indspeech_newstra_ethnicsr_nooverlap_id_seacrowd_sptext',
-    #'indspeech_newstra_ethnicsr_nooverlap_su_seacrowd_sptext',
-    #'indspeech_newstra_ethnicsr_nooverlap_jv_seacrowd_sptext',
-    #'indspeech_newstra_ethnicsr_nooverlap_ban_seacrowd_sptext',
-    #'indspeech_newstra_ethnicsr_nooverlap_btk_seacrowd_sptext',
+    'indspeech_news_ethnicsr_jv_overlap_seacrowd_sptext',
+    'indspeech_news_ethnicsr_su_overlap_seacrowd_sptext',
+    'indspeech_news_ethnicsr_jv_nooverlap_seacrowd_sptext',
+    'indspeech_news_ethnicsr_su_nooverlap_seacrowd_sptext',
     'indspeech_teldialog_lvcsr_seacrowd_sptext',
     'indspeech_teldialog_svcsr_seacrowd_sptext',
     'jv_id_asr_seacrowd_sptext',
+    'kheng_info_seacrowd_sptext',
+    'mswc_cnh_wav_seacrowd_sptext',
+    'mswc_ind_wav_seacrowd_sptext',
+    'mswc_vie_wav_seacrowd_sptext',
     'su_id_asr_seacrowd_sptext',
     'titml_idn_seacrowd_sptext',
     'ucla_phonetic_ace_seacrowd_sptext',
@@ -404,10 +413,7 @@ SPEECH_TASK_LIST = {
     # 'bloom_speech_mya_seacrowd_sptext',             # segfault
     # 'bloom_speech_tgl_seacrowd_sptext',             # segfault
 
-    # 'commonvoice_120_tha_seacrowd_sptext',          # segfault on test
-    # 'commonvoice_120_vie_seacrowd_sptext',          # segfault on test
-    # 'commonvoice_120_ind_seacrowd_sptext',          # segfault on test
-    # 'commonvoice_120_cnh_seacrowd_sptext',          # segfault on test
+    
 
     ## NOT APPROVED YET
     # 'asr_ibsc_seacrowd_sptext',
@@ -522,7 +528,7 @@ SPEECH_TASK_LIST = {
     # 'cmu_wilderness_tby_seacrowd_sptext',
     # 'tha_lotus_seacrowd_sptext',
 
-    ##LOADABLE BUT SEGFAULT ON TEST
+    ##LOADABLE BUT ERROR ON TEST
 
     # 'librivox_indonesia_ind_seacrowd_sptext', #error
     # 'librivox_indonesia_sun_seacrowd_sptext', #error
@@ -532,11 +538,7 @@ SPEECH_TASK_LIST = {
     # 'librivox_indonesia_ban_seacrowd_sptext', #error
     # 'librivox_indonesia_ace_seacrowd_sptext', #error
 
-    ## DATALOADER NAME MISMATCH. THE FOLLOWING LIST IS THE CONFIG NAMES WHICH WERE MODIFIED TO BE LOADABLE
-    'kheng_info_seacrowd_sptext',            #this loads, but please recheck the dataloader. naming error
-    'mswc_cnh_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
-    'mswc_ind_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
-    'mswc_vie_wav_seacrowd_sptext',           #this loads, but please recheck the dataloader. naming error
+    ## DATALOADER NAME MISMATCH. THE FOLLOWING LIST IS THE CONFIG NAMES WHICH WERE MODIFIED TO BE LOADABLE          
     'openslr_SLR80_mya_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
     'openslr_SLR35_jav_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
     'openslr_SLR36_sun_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
