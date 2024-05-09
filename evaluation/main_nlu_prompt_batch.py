@@ -154,7 +154,10 @@ if __name__ == '__main__':
     else:
         model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
-        
+    
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+
     model.eval()
     with torch.no_grad():
 
