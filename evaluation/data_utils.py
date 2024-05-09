@@ -127,12 +127,6 @@ NLU_TASK_LIST = {
     "mabl_jav_seacrowd_qa",
     "mabl_sun_seacrowd_qa",
     # Other QA
-    # "facqa_seacrowd_qa", -- extractive
-    # "iapp_squad_seacrowd_qa", -- abstractive
-    # "idk_mrc_seacrowd_qa", -- extractive
-    # "vihealthqa_seacrowd_qa", -- vqa
-    # "uit_vicov19qa_seacrowd_qa", -- abstractive
-    # "qasina_seacrowd_qa", -- extractive
     "belebele_ceb_latn_seacrowd_qa",
     "belebele_ilo_latn_seacrowd_qa",
     "belebele_ind_latn_seacrowd_qa",
@@ -148,12 +142,6 @@ NLU_TASK_LIST = {
     "belebele_vie_latn_seacrowd_qa",
     "belebele_war_latn_seacrowd_qa",
     "belebele_zsm_latn_seacrowd_qa",
-    # "mkqa_khm_seacrowd_qa", -- open domain
-    # "mkqa_zsm_seacrowd_qa",
-    # "mkqa_tha_seacrowd_qa",
-    # "mkqa_vie_seacrowd_qa",
-    # "xquad.th_seacrowd_qa", -- cross-lingual QA abstractive
-    # "xquad.vi_seacrowd_qa",
     # NLI
     "indonli_seacrowd_pairs",
     "wrete_seacrowd_pairs",
