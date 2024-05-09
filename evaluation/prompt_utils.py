@@ -26,7 +26,7 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
-            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
         ],
