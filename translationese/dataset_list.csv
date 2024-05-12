@@ -4,7 +4,6 @@ Machine-translated,Bactrian-X,https://github.com/mbzuai-nlp/Bactrian-X,"mya,tgl,
 Summarization
 Relation Extraction
 Text Classification",bactrian_x,Test
-Machine-translated,Multilingual-ALPACA,https://github.com/NJUNLP/x-LLM,vie,Chatbot,multilingual_alpaca,Train
 Machine-translated,ParaCotta,https://drive.google.com/drive/u/1/folders/1AC6c5WWNk28CNNIO1q2vn_lblMujK7kq,ind,Paraphrasing,paracotta_id,Train
 Machine-translated,CC3M-35L,"CC3M-35L: https://google.github.io/crossmodal-3600/
 CC3M: https://ai.google.com/research/ConceptualCaptions/download","tgl,ind,tha,vie",Image-to-Text Generation,cc3m_35l,Train
@@ -16,8 +15,8 @@ Natural,BKD-Prosub,https://babyai-hub.vizdata.tech/?p=313,tha,Coreference Resolu
 Natural,BM-PT3,https://github.com/mesolitica/malaysian-dataset/tree/master/llm-benchmark/BM-pt3,zsm,Commonsense Reasoning,bm_pt3,
 Natural,Code-mixed Sentiment JV-ID,https://docs.google.com/spreadsheets/d/1mq2VyPEDfXl7K6p5TbRPsaefYwkuy7RQ/edit?usp=sharing&ouid=117177384852624891959&rtpof=true&sd=true,"jav,ind","Sentiment Analysis
 Machine Translation",code_mixed_jv_id,
-Natural,CodeSwitch-Reddit,https://github.com/ellarabi/CodeSwitch-Reddit?tab=readme-ov-file,"eng,ind,tgl","Language Modeling
-Code-switching Identification",codeswitch_reddit,Train
+Natural,TLUnified-NER,https://huggingface.co/datasets/ljvmiranda921/tlunified-ner,tgl,Named Entity Recognition,tlunified_ner,Train
+Natural,Filipino Slang Spelling Normalization,https://github.com/ljyflores/efficient-spelling-normalization-filipino,tgl,Lexical Normalization,filipino_slang_norm,Train
 Natural,COPAL,https://huggingface.co/datasets/haryoaw/COPAL,ind,Commonsense Reasoning,copal,
 Natural,Corpus of Singapore English Messages (CoSEM),https://github.com/wdwgonzales/CoSEM/blob/main/Corpus/COSEM_v4_publicrelease_SEP172023.zip,eng,Language Modeling,cosem,Test
 Natural,Dengue Filipino,https://huggingface.co/datasets/dengue_filipino,tgl,Text Classification,dengue_filipino,
