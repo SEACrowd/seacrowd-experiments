@@ -14,7 +14,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausa
 from nusacrowd.utils.constants import Tasks
 
 from sacremoses import MosesTokenizer
-import datasets
+import datasets, evaluate
 from anyascii import anyascii
 import openai
 from retry import retry
@@ -28,6 +28,7 @@ bleu = datasets.load_metric('bleu')
 rouge = datasets.load_metric('rouge')
 sacrebleu = datasets.load_metric('sacrebleu')
 chrf = datasets.load_metric('chrf')
+meteor = evaluate.load('meteor')
 squad_v2_metric = datasets.load_metric('squad_v2')
 mt = MosesTokenizer(lang='id')
 
@@ -41,6 +42,7 @@ def generation_metrics_fn(list_hyp, list_label):
     metrics["BLEU"] = bleu._compute(list_hyp_bleu, list_label_bleu)['bleu'] * 100
     metrics["SacreBLEU"] = sacrebleu._compute(list_hyp, list_label_sacrebleu)['score']
     metrics["chrF++"] = chrf._compute(list_hyp, list_label_sacrebleu)['score']
+    metrics["meteor"] = meteor.compute(predictions=list_hyp,references=list_label)['meteor'] * 100
     
     rouge_score = rouge._compute(list_hyp, list_label)
     metrics["ROUGE1"] = rouge_score['rouge1'].mid.fmeasure * 100
@@ -56,10 +58,19 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
         prompt = prompt.replace('[INPUT]', input['text_1'])
 
     if task_type == Tasks.MACHINE_TRANSLATION.value:
+
         # Extract src and tgt based on nusantara config name
         task_names = task_name.split('_')
-        src_lang = task_names[-4]
-        tgt_lang = task_names[-3]
+
+        if "flores" in task_name:
+            src_lang = task_names[-6]
+            tgt_lang = task_names[-4]
+
+        else:
+            src_lang = task_names[-4]
+            tgt_lang = task_names[-3]
+
+        print(src_lang, tgt_lang)
 
         # Replace src and tgt lang name
         prompt = prompt.replace('[SOURCE]', get_lang_name(prompt_lang, src_lang))
@@ -101,10 +112,10 @@ def predict_generation_gpt(prompt, model_name):
           )
         return response['choices'][0]['text'].strip()
 
-
 def predict_generation(prompts, model_name, tokenizer, model):
+    #model = model.to('cuda')
+
     if "gpt" in model_name or "text" in model_name:
-        # AFAIK, ChatCompletion doesn't support batch input, so use single generation for now
         return [predict_generation_gpt(prompt, model_name) for prompt in prompts]
 
     inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
@@ -118,13 +129,13 @@ def predict_generation(prompts, model_name, tokenizer, model):
         preds = tokenizer.batch_decode(outputs, skip_special_tokens=True) 
         return preds
     else:
-        outputs = model.generate(**inputs, do_sample=True, 
-            min_length=input_size+1, max_length=input_size+100)
+        outputs = model.generate(**inputs, do_sample=True, min_length=input_size+1, max_length=input_size+100)
         if "llama" in model_name:
             preds = [p.strip() for p in tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)]
         else:
             preds = tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)
         return preds
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 5:
@@ -142,8 +153,8 @@ if __name__ == '__main__':
     N_BATCH = int(sys.argv[4])
     SAVE_EVERY = 10
     ADAPTER = ''
-    if 'bactrian' in MODEL:
-        MODEL, ADAPTER = MODEL.split('---')
+    #if 'bactrian' in MODEL:
+    #    MODEL, ADAPTER = MODEL.split('---')
 
     # Load prompt
     prompt_templates = get_prompt(prompt_lang)
@@ -175,6 +186,7 @@ if __name__ == '__main__':
     fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
     if ADAPTER != '':
         base_model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, resume_download=True)
+        #base_model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", resume_download=True)
         model = PeftModel.from_pretrained(base_model, ADAPTER, torch_dtype=torch.float16)
         MODEL = ADAPTER  # for file naming
     elif "gpt" in MODEL or "text" in MODEL:
@@ -185,19 +197,22 @@ if __name__ == '__main__':
         if "xxl" not in MODEL:
             model = model.to('cuda')
     else:
-        extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() else {}
+        extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() or "8b" in MODEL.lower() else {}
         model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=trust_remote_code, **extra_args)
-        if "SeaLLM" in MODEL or "llama" in MODEL:
+        if "SeaLLM" in MODEL:
+            #if "SeaLLM" in MODEL or "llama" in MODEL:
             # quick fix for tensor error
             # https://github.com/facebookresearch/llama/issues/380
             model = model.bfloat16()
     
     if model is not None:
+        #model.cuda()
         model.eval()
 
     metrics = {'dataset': []}
     for i, dset_subset in enumerate(nlg_datasets.keys()):
         nlg_dset, task_type = nlg_datasets[dset_subset]
+
         print(f"{i} {dset_subset} {task_type}")
         
         if task_type.value not in prompt_templates or nlg_dset is None:
@@ -207,9 +222,17 @@ if __name__ == '__main__':
             data = nlg_dset['test']
         elif 'validation' in nlg_dset.keys():
             data = nlg_dset['validation']
+        elif 'devtest' in nlg_dset.keys():
+            data = nlg_dset['devtest']
         else:
             data = nlg_dset['train']
-        few_shot_data = nlg_dset['train']
+
+        data = data.shard(10000, 0) # get shard the size of the dataset for efficiency
+
+        if 'train' in nlg_dset.keys():
+            few_shot_data = nlg_dset['train']
+        else:
+            few_shot_data = nlg_dset['devtest']
 
         for prompt_id, prompt_template in enumerate(prompt_templates[task_type.value]):
             inputs = []

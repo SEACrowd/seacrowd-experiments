@@ -70,9 +70,9 @@ TASK_TO_PROMPT = {
         # NLG STARTS HERE
         # Tasks.MACHINE_TRANSLATION
         'MT': [
-            'Translate the following text from [SOURCE] to [TARGET].\nText: [INPUT]\nTranslation:',
-            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET].',
-            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]?'
+            'Translate the following text from [SOURCE] to [TARGET]. Give your translation directly.\nText: [INPUT]\nTranslation:',
+            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET]. Give your translation directly.',
+            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]? Give your answer directly.'
             #'Translate the following [SOURCE] text to [TARGET].\nText: [INPUT]\nTranslation:',
             #'Text in [SOURCE]: [INPUT]\nText in [TARGET]:',
         ],
@@ -98,6 +98,13 @@ TASK_TO_PROMPT = {
             'Task: [INPUT]\n What is your output upon completing the insturction or question given?',
             'Address the instruction or question below: [INPUT]',
             'Produce the best output for the following task: [INPUT]'
+        ],
+
+        # Task.QA_EXTRACTIVE_ABSTRACTIVE
+        'QAE':[
+            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:',
+            '[CONTEXT]\nBased on the text, [QUESTION]\nAnswer: ',
+            '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is: '
         ]
 
     },
@@ -705,7 +712,36 @@ LANG_MAP = {
         'sun': 'Sundanese',
         'ace': 'Acehnese',
         'ban': 'Balinese',
-        'min': 'Minangkabau'
+        'min': 'Minangkabau',
+        'eng': 'English',
+        'vie': 'Vietnamese',
+        'mya': 'Burmese',
+        'gor': 'Gorontalo',
+        'ceb': 'Cebuano',
+        'ilo': 'Iloko',
+        'hil': 'Hiligaynon',
+        'khm': 'Khmer',
+        'lao': 'Lao',
+        'zlm': 'Malay',
+        'nia': 'Nias',
+        'tgl': 'Tagalog',
+        'tha': 'Thai',
+        'end': 'Ende',
+        'nxe': 'Nage',
+        'ssq': 'ssq',
+        'ljl': 'Lio',
+        'kac': 'Kachin',
+        'eng-US': 'English',
+        'lus': 'Lushai',
+        'min': 'Minangkabau',
+        'pag': 'Pangasinan',
+        'shn': 'Shan',
+        'war': 'Waray',
+        'zsm': 'Standard Malay',
+        'hmv': 'Hmong Do',
+        'bbc': 'Batak Toba',
+        'nij': 'Ngaju',
+        'fil': 'Filipino'
     },
     'ind': {
         'ind': 'Indonesia',
