@@ -5,26 +5,26 @@
 ####
 
 # mT0
-CUDA_VISIBLE_DEVICES=7 python main_nlu_prompt_batch.py eng bigscience/mt0-xl 0 4 &
+CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py eng bigscience/mt0-xl 0 4 &
 
 # Cendol-Instruct mT5
-CUDA_VISIBLE_DEVICES=7 python main_nlu_prompt_batch.py eng indonlp/cendol-mt5-xl 0 4 &
+CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py eng indonlp/cendol-mt5-xl 0 4 &
 
 # # ####
 # # # Zero-Shot 7B Eng
 # # ####
 
 # Multilingual - BLOOMZ
-CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng bigscience/bloomz-7b1 0 4 &
+CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py eng bigscience/bloomz-7b1 0 4 &
 
 # Multilingual - Bactrian-X
-CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng MBZUAI/bactrian-x-llama-7b-merged 0 4 &
+CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng MBZUAI/bactrian-x-llama-7b-merged 0 4 &
 
 # Multilingual - Mistral
-CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng mistralai/Mistral-7B-Instruct-v0.2 0 4 &
+CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng mistralai/Mistral-7B-Instruct-v0.2 0 4 &
 
 # Llama 3
-CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng meta-llama/Meta-Llama-3-8B-Instruct 0 4 &
+CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py eng meta-llama/Meta-Llama-3-8B-Instruct 0 4 &
 
 # # English - Falcon
 # CUDA_VISIBLE_DEVICES=3 python main_nlu_prompt_batch.py eng tiiuae/falcon-7b-instruct 4 &
