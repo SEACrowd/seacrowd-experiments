@@ -34,22 +34,54 @@ mt = MosesTokenizer(lang='id')
 
 def generation_metrics_fn(list_hyp, list_label):
     # hyp and label are both list of string
+    # Check if the lists are empty
+    if not list_hyp or not list_label or len(list_hyp) != len(list_label):
+        raise ValueError("Input lists must be non-empty and of the same length")
+    
+    # Tokenize the hypotheses and labels for BLEU computation
     list_hyp_bleu = list(map(lambda x: mt.tokenize(x), list_hyp))
     list_label_bleu = list(map(lambda x: [mt.tokenize(x)], list_label))    
     list_label_sacrebleu = list(map(lambda x: [x], list_label))
-    
+
     metrics = {}
-    metrics["BLEU"] = bleu._compute(list_hyp_bleu, list_label_bleu)['bleu'] * 100
-    metrics["SacreBLEU"] = sacrebleu._compute(list_hyp, list_label_sacrebleu)['score']
-    metrics["chrF++"] = chrf._compute(list_hyp, list_label_sacrebleu)['score']
-    metrics["meteor"] = meteor.compute(predictions=list_hyp,references=list_label)['meteor'] * 100
-    
-    rouge_score = rouge._compute(list_hyp, list_label)
-    metrics["ROUGE1"] = rouge_score['rouge1'].mid.fmeasure * 100
-    metrics["ROUGE2"] = rouge_score['rouge2'].mid.fmeasure * 100
-    metrics["ROUGEL"] = rouge_score['rougeL'].mid.fmeasure * 100
-    metrics["ROUGELsum"] = rouge_score['rougeLsum'].mid.fmeasure * 100
-    
+
+    # Compute BLEU score
+    try:
+        metrics["BLEU"] = bleu._compute(list_hyp_bleu, list_label_bleu)['bleu'] * 100
+    except ZeroDivisionError:
+        metrics["BLEU"] = 0.0
+
+    # Compute SacreBLEU score
+    try:
+        metrics["SacreBLEU"] = sacrebleu._compute(list_hyp, list_label_sacrebleu)['score']
+    except ZeroDivisionError:
+        metrics["SacreBLEU"] = 0.0
+
+    # Compute chrF++ score
+    try:
+        metrics["chrF++"] = chrf._compute(list_hyp, list_label_sacrebleu)['score']
+    except ZeroDivisionError:
+        metrics["chrF++"] = 0.0
+
+    # Compute METEOR score
+    try:
+        metrics["meteor"] = meteor.compute(predictions=list_hyp, references=list_label)['meteor'] * 100
+    except ZeroDivisionError:
+        metrics["meteor"] = 0.0
+
+    # Compute ROUGE scores
+    try:
+        rouge_score = rouge._compute(list_hyp, list_label)
+        metrics["ROUGE1"] = rouge_score['rouge1'].mid.fmeasure * 100
+        metrics["ROUGE2"] = rouge_score['rouge2'].mid.fmeasure * 100
+        metrics["ROUGEL"] = rouge_score['rougeL'].mid.fmeasure * 100
+        metrics["ROUGELsum"] = rouge_score['rougeLsum'].mid.fmeasure * 100
+    except ZeroDivisionError:
+        metrics["ROUGE1"] = 0.0
+        metrics["ROUGE2"] = 0.0
+        metrics["ROUGEL"] = 0.0
+        metrics["ROUGELsum"] = 0.0
+
     return metrics
 
 
@@ -62,7 +94,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
         # Extract src and tgt based on nusantara config name
         task_names = task_name.split('_')
 
-        if "flores" in task_name:
+        if "flores200" in task_name:
             src_lang = task_names[-6]
             tgt_lang = task_names[-4]
 
@@ -231,8 +263,10 @@ if __name__ == '__main__':
 
         if 'train' in nlg_dset.keys():
             few_shot_data = nlg_dset['train']
-        else:
+        elif 'devtest' in nlg_dset.keys():
             few_shot_data = nlg_dset['devtest']
+        elif 'test' in nlg_dset.keys():
+            few_shot_data = nlg_dset['test']
 
         for prompt_id, prompt_template in enumerate(prompt_templates[task_type.value]):
             inputs = []
@@ -280,7 +314,7 @@ if __name__ == '__main__':
                         prompt_text = to_prompt(sample, prompt_template, prompt_lang, dset_subset, task_type.value, use_template=use_prompt_template)
                         prompt_text = '\n\n'.join(few_shot_text_list + [prompt_text])
                         prompts.append(prompt_text)
-                        batch_golds.append(sample['answer'][0] if task_type == Tasks.QUESTION_ANSWERING else sample['text_2'])
+                        batch_golds.append(sample['answer'][0] if task_type == Tasks.QUESTION_ANSWERING.value else sample['answer'][0]) #changed 'text_2' to 'answer', it works
 
                         # Batch inference
                         if len(prompts) == N_BATCH:

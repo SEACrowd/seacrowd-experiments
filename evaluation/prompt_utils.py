@@ -27,11 +27,14 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
-            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
-            '[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
-            '[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
-            'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nBased on the paragraph, what is the answer to the question? [LABEL_CHOICE]',
-            'Passage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
+            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:',
+            '[CONTEXT]\nBased on the text, [QUESTION]\nAnswer: ',
+            '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is: '
+            #'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            #'[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
+            #'[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
+            #'Paragraph: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nBased on the paragraph, what is the answer to the question? [LABEL_CHOICE]',
+            #'Passage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]'
         ],
 
         # Tasks.TOPIC_MODELING
@@ -741,7 +744,17 @@ LANG_MAP = {
         'hmv': 'Hmong Do',
         'bbc': 'Batak Toba',
         'nij': 'Ngaju',
-        'fil': 'Filipino'
+        'fil': 'Filipino',
+        'tl': 'Tagalog',
+        'km': 'Khmer',
+        'vi': 'Vietnamese',
+        'th': 'Thai',
+        'ms': 'Malay',
+        'id': 'Indonesian',
+        'lo': 'Lao',
+        'my': 'Mayan',
+        'en': 'English',
+        'tam': 'Tamil'
     },
     'ind': {
         'ind': 'Indonesia',

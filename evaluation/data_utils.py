@@ -178,9 +178,34 @@ NLU_TASK_LIST_EXTERNAL = [
 ]
 
 NLG_TASK_LIST = [
-    #"lio_and_central_flores_mt_eng_end_seacrowd_t2t",
-    #"lio_and_central_flores_mt_eng_nxe_seacrowd_t2t",
-    #"lio_and_central_flores_mt_eng_ljl_seacrowd_t2t",
+    # SUMMARIZATION
+    "liputan6_canonical_seacrowd_t2t",
+    "thai_sum_seacrowd_t2t",
+    "seahorse_seacrowd_t2t",
+    "lr_sum_ind_seacrowd_t2t",
+    "lr_sum_vie_seacrowd_t2t",
+    "lr_sum_lao_seacrowd_t2t",
+    "lr_sum_tha_seacrowd_t2t",
+    "lr_sum_khm_seacrowd_t2t",
+    "lr_sum_mya_seacrowd_t2t",
+    "xl_sum_mya_seacrowd_t2t",
+    "xl_sum_ind_seacrowd_t2t",
+    "xl_sum_tha_seacrowd_t2t",
+    "xl_sum_vie_seacrowd_t2t",
+    # INSTRUCTION FOLLOWING
+    "aya_dataset_fil_seacrowd_t2t",
+    "aya_dataset_ceb_seacrowd_t2t",
+    "aya_dataset_tha_seacrowd_t2t",
+    "aya_dataset_mya_seacrowd_t2t",
+    "aya_dataset_zsm_seacrowd_t2t",
+    "aya_dataset_jav_seacrowd_t2t",
+    "aya_dataset_ind_seacrowd_t2t",
+    "aya_dataset_vie_seacrowd_t2t",
+    "aya_dataset_sun_seacrowd_t2t",
+    "aya_dataset_tam_seacrowd_t2t",
+    # MACHINE TRANSLATION
+    "lio_and_central_flores_eng_ljl_seacrowd_t2t",
+    "lio_and_central_flores_ljl_eng_seacrowd_t2t",
     "flores200_eng_Latn_ace_Latn_seacrowd_t2t",
     "flores200_eng_Latn_ban_Latn_seacrowd_t2t",
     "flores200_eng_Latn_bjn_Latn_seacrowd_t2t",
@@ -198,7 +223,6 @@ NLG_TASK_LIST = [
     "flores200_eng_Latn_pag_Latn_seacrowd_t2t",
     "flores200_eng_Latn_shn_Mymr_seacrowd_t2t",
     "flores200_eng_Latn_sun_Latn_seacrowd_t2t",
-    #"flores200_eng_Latn_fil_Latn_seacrowd_t2t",
     "flores200_eng_Latn_tha_Thai_seacrowd_t2t",
     "flores200_eng_Latn_vie_Latn_seacrowd_t2t",
     "flores200_eng_Latn_war_Latn_seacrowd_t2t",
@@ -237,9 +261,6 @@ NLG_TASK_LIST = [
     "nusax_mt_eng_nij_seacrowd_t2t",
     "nusax_mt_eng_mad_seacrowd_t2t",
     "nusax_mt_eng_bjn_seacrowd_t2t",
-    #"lio_and_central_flores_mt_end_eng_seacrowd_t2t",
-    #"lio_and_central_flores_mt_nxe_eng_seacrowd_t2t",
-    #"lio_and_central_flores_mt_ljl_eng_seacrowd_t2t",
     "flores200_ace_Latn_eng_Latn_seacrowd_t2t",
     "flores200_ban_Latn_eng_Latn_seacrowd_t2t",
     "flores200_bjn_Latn_eng_Latn_seacrowd_t2t",
@@ -257,7 +278,6 @@ NLG_TASK_LIST = [
     "flores200_pag_Latn_eng_Latn_seacrowd_t2t",
     "flores200_shn_Mymr_eng_Latn_seacrowd_t2t",
     "flores200_sun_Latn_eng_Latn_seacrowd_t2t",
-    #"flores200_fil_Latn_eng_Latn_seacrowd_t2t",
     "flores200_tha_Thai_eng_Latn_seacrowd_t2t",
     "flores200_vie_Latn_eng_Latn_seacrowd_t2t",
     "flores200_war_Latn_eng_Latn_seacrowd_t2t",
@@ -280,7 +300,28 @@ NLG_TASK_LIST = [
     "nusax_mt_ban_eng_seacrowd_t2t",
     "nusax_mt_nij_eng_seacrowd_t2t",
     "nusax_mt_mad_eng_seacrowd_t2t",
-    "nusax_mt_bjn_eng_seacrowd_t2t"
+    "nusax_mt_bjn_eng_seacrowd_t2t",
+    "scb_mt_en_th_eng_tha_seacrowd_t2t",
+    "ted_en_id_seacrowd_t2t",
+    "tico_19_eng_ind_seacrowd_t2t",
+    "tico_19_eng_khm_seacrowd_t2t",
+    "tico_19_eng_zlm_seacrowd_t2t",
+    "tico_19_eng_mya_seacrowd_t2t",
+    "tico_19_eng_tgl_seacrowd_t2t",
+    "tico_19_eng_tam_seacrowd_t2t",
+    # CROSSLINGUAL SUMMARIZATION
+    "crosssum_ind_mya_seacrowd_t2t",
+    "crosssum_ind_vie_seacrowd_t2t",
+    # EXTRACTIVE ABSTRACTIVE QA
+    "facqa_seacrowd_qa",
+    "iapp_squad_seacrowd_qa",
+    "idk_mrc_seacrowd_qa",
+    "vihealthqa_seacrowd_qa",
+    "qasina_seacrowd_qa",
+    "mkqa_khm_seacrowd_qa", 
+    "mkqa_zsm_seacrowd_qa",
+    "mkqa_tha_seacrowd_qa",
+    "mkqa_vie_seacrowd_qa"
 ]
 
 FLORES200_TASK_LIST = [
@@ -380,16 +421,15 @@ def load_nlg_datasets():
     cfg_name_to_dset_map = {}
 
     for config_name in NLG_TASK_LIST:
-        #print(config_name)
         schema = config_name.split('_')[-1]
         con = nc_conhelp.for_config_name(config_name)
-        #print(con.tasks)
         cfg_name_to_dset_map[config_name] = (con.load_dataset(), list(con.tasks)[0])
-        print(config_name)
         #try:
+        #    con = nc_conhelp.for_config_name(config_name)
         #    cfg_name_to_dset_map[config_name] = (con.load_dataset(), list(con.tasks)[0])
+        #    print("Good: ",config_name)
         #except:
-        #    print(config_name)
+        #    print("Bad: ",config_name)
 
     #quit()
     return cfg_name_to_dset_map
