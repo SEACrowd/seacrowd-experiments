@@ -30,7 +30,7 @@ import cohere
 
 from dotenv import load_dotenv
 import os
-from openai import AzureOpenAI
+from openai import AzureOpenAI, BadRequestError
 
 #!pip install git+https://github.com/IndoNLP/nusa-crowd.git@release_exp
 #!pip install transformers
@@ -63,26 +63,32 @@ def get_response(
         client, model, prompt, temperature=0, max_output_tokens=30,
         system_message="Only answer with the label of choice."):
     if "cohere" in model:
-        response = client.chat(
-            model=model.split("/")[-1],
-            message=prompt,
-            preamble=system_message,
-            temperature=temperature, # turn off randomness
-            max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
-            seed=SEED,
-        ).text
+        try:
+            response = client.chat(
+                model=model.split("/")[-1],
+                message=prompt,
+                preamble=system_message,
+                temperature=temperature, # turn off randomness
+                max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
+                seed=SEED,
+            ).text
+        except cohere.core.api_error.CohereApiError as e:
+            response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:
-        response = client.chat.completions.create(
-            model=os.getenv("DEPLOYMENT-NAME"), # model = "deployment_name".
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=temperature,
-            max_tokens=max_output_tokens,
-            seed=SEED,
-        )
-        response = response.choices[0].message.content
+        try:
+            response = client.chat.completions.create(
+                model=os.getenv("DEPLOYMENT-NAME"), # model = "deployment_name".
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=max_output_tokens,
+                seed=SEED,
+            )
+            response = response.choices[0].message.content
+        except BadRequestError as e:
+            response = "<BAD_REQUEST_ERROR>"
     else:
         raise ValueError("Only support `cohere` and `openai` models.")
     return response
