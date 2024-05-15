@@ -111,14 +111,17 @@ def get_response(
         client, model, prompt, temperature=0, max_output_tokens=200,
         system_message="Only respond with the answer."):
     if "cohere" in model:
-        response = client.chat(
-            model=model.split("/")[-1],
-            message=prompt,
-            preamble=system_message,
-            temperature=temperature, # turn off randomness
-            max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
-            seed=SEED,
-        ).text
+        try:
+            response = client.chat(
+                model=model.split("/")[-1],
+                message=prompt,
+                preamble=system_message,
+                temperature=temperature, # turn off randomness
+                max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
+                seed=SEED,
+            ).text
+        except cohere.core.api_error.CohereApiError as e:
+            response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:
         try:
             response = client.chat.completions.create(
