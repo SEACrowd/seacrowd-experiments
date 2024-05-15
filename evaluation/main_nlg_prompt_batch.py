@@ -263,7 +263,7 @@ if __name__ == '__main__':
         else:
             data = nlg_dset['train']
 
-        data = data.shard(10000, 0) # get shard the size of the dataset for efficiency
+        #data = data.shard(10000, 0) # get shard the size of the dataset for efficiency
 
         if 'train' in nlg_dset.keys():
             few_shot_data = nlg_dset['train']
@@ -318,14 +318,8 @@ if __name__ == '__main__':
                         prompt_text = to_prompt(sample, prompt_template, prompt_lang, dset_subset, task_type.value, use_template=use_prompt_template)
                         prompt_text = '\n\n'.join(few_shot_text_list + [prompt_text])
                         prompts.append(prompt_text)
-                        if task_type == Tasks.QUESTION_ANSWERING:
-                            batch_golds.append(sample['answer'][0])
-                        elif task_type == Tasks.MACHINE_TRANSLATION:
-                            batch_golds.append(sample['text_2'])
-                        else:
-                            batch_golds.append(sample['answer'][0])
 
-                        #batch_golds.append(sample['answer'][0] if task_type == Tasks.QUESTION_ANSWERING else sample['answer'][0])
+                        batch_golds.append(sample['answer'][0] if 'answer' in sample else sample['text_2'])
 
                         # Batch inference
                         if len(prompts) == N_BATCH:
