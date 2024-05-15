@@ -21,6 +21,7 @@ import torch.nn.functional as F
 
 from peft import PeftModel
 from transformers import set_seed
+from retry import retry
 
 from prompt_utils import get_prompt, get_label_mapping
 from data_utils import load_nlu_datasets
@@ -56,6 +57,8 @@ def get_api_client(model):
         raise ValueError("Only support `cohere` and `openai` models.")  
     return client
 
+# They sometimes timeout
+@retry(Exception, tries=5, delay=1)
 def get_response(
         client, model, prompt, temperature=0, max_output_tokens=30,
         system_message="Only answer with the label of choice."):
