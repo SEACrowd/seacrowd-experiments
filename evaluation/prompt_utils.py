@@ -50,8 +50,8 @@ TASK_TO_PROMPT = {
             'Classify the morality of the text below.\n[INPUT] => Morality ([OPTIONS]): [LABEL_CHOICE]',
             'Predict the morality of the following text.\nText: [INPUT]\nAnswer with [OPTIONS]: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the morality of the text above? [OPTIONS]? [LABEL_CHOICE]',
-            'What is the morality of this text?\nText: [INPUT]\Morality ([OPTIONS]): [LABEL_CHOICE]',
-            'Text: [INPUT]\nPlease classify the morality of above text. Answer with [OPTIONS].\Morality: [LABEL_CHOICE]',
+            'What is the morality of this text?\nText: [INPUT]\nMorality ([OPTIONS]): [LABEL_CHOICE]',
+            'Text: [INPUT]\nPlease classify the morality of above text. Answer with [OPTIONS].\nMorality: [LABEL_CHOICE]',
         ],
         # Tasks.COMMONSENSE_REASONING
         'CR': [
@@ -777,8 +777,11 @@ def get_label_mapping(dset_subset, prompt_lang):
 def get_lang_name(prompt_lang, lang_code):
     return LANG_MAP[prompt_lang][lang_code]
 
-def get_prompt(prompt_lang):
+def get_prompt(prompt_lang, return_only_one=False):
     prompt_templates = {}
     for config, prompts in TASK_TO_PROMPT[prompt_lang].items():
-        prompt_templates[config] = prompts
+        if return_only_one:
+            prompt_templates[config] = [prompts[0]]
+        else:
+            prompt_templates[config] = prompts
     return prompt_templates
