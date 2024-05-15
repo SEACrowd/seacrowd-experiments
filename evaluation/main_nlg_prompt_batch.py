@@ -221,6 +221,10 @@ if __name__ == '__main__':
         #base_model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", resume_download=True)
         model = PeftModel.from_pretrained(base_model, ADAPTER, torch_dtype=torch.float16)
         MODEL = ADAPTER  # for file naming
+    elif "aya" in MODEL:
+        base_model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, resume_download=True)
+        model = PeftModel.from_pretrained(base_model, ADAPTER, torch_dtype=torch.float16)
+        MODEL = ADAPTER  # for file naming
     elif "gpt" in MODEL or "text" in MODEL:
         model = None
     elif "mt0" in MODEL or "mt5" in MODEL:
@@ -314,7 +318,14 @@ if __name__ == '__main__':
                         prompt_text = to_prompt(sample, prompt_template, prompt_lang, dset_subset, task_type.value, use_template=use_prompt_template)
                         prompt_text = '\n\n'.join(few_shot_text_list + [prompt_text])
                         prompts.append(prompt_text)
-                        batch_golds.append(sample['answer'][0] if task_type == Tasks.QUESTION_ANSWERING.value else sample['answer'][0]) #changed 'text_2' to 'answer', it works
+                        if task_type == Tasks.QUESTION_ANSWERING:
+                            batch_golds.append(sample['answer'][0])
+                        elif task_type == Tasks.MACHINE_TRANSLATION:
+                            batch_golds.append(sample['text_2'])
+                        else:
+                            batch_golds.append(sample['answer'][0])
+
+                        #batch_golds.append(sample['answer'][0] if task_type == Tasks.QUESTION_ANSWERING else sample['answer'][0])
 
                         # Batch inference
                         if len(prompts) == N_BATCH:
