@@ -4,11 +4,11 @@
 # Zero-Shot 3B Eng
 ####
 
-# mT0 --> Holy
-CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng bigscience/mt0-xl 0 4 &
+# # mT0 --> Holy
+# CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng bigscience/mt0-xl 0 4 &
 
-# Cendol-Instruct mT5 --> Holy
-CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng indonlp/cendol-mt5-xl 0 4 &
+# # Cendol-Instruct mT5 --> Holy
+# CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng indonlp/cendol-mt5-xl 0 4 &
 
 # # ####
 # # # Zero-Shot 7B Eng
@@ -38,8 +38,8 @@ CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng indonlp/cendol-mt5-xl
 # # SEA - SeaLLMs 2.5 --> Fajri
 # CUDA_VISIBLE_DEVICES=0 python main_nlg_prompt_batch.py eng SeaLLMs/SeaLLM-7B-v2.5 0 4 &
 
-# # SEA - SAILOR
-# CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py eng sail/Sailor-7B-Chat 0 4 &
+# # SEA - SAILOR --> Holy
+# CUDA_VISIBLE_DEVICES=3 python main_nlg_prompt_batch.py eng sail/Sailor-7B-Chat 0 4 &
 
 # # Indo - Cendol-Instruct LLaMA2 --> Fajri
 # CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py eng indonlp/cendol-llama2-7b 0 4 &
@@ -47,8 +47,14 @@ CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng indonlp/cendol-mt5-xl
 # # Indo - Merak-7B-v4 --> Fajri
 # CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng Ichsan2895/Merak-7B-v4 0 4 &
 
-# # Vietnamese - PhoGPT
-# CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py eng vinai/PhoGPT-7B5-Instruct 0 4 &
+# # Vietnamese - PhoGPT --> Gated model, never got the approval
+# CUDA_VISIBLE_DEVICES=4 python main_nlg_prompt_batch.py eng vinai/PhoGPT-7B5-Instruct 0 4 &
+
+# Thai - WangchanX LLaMa3 --> Peerat
+CUDA_VISIBLE_DEVICES=4 python main_nlg_prompt_batch.py eng airesearch/LLaMa3-8b-WangchanX-sft-Demo 0 4 &
+
+# Malay - Malaysian Llama3 --> Peerat
+CUDA_VISIBLE_DEVICES=5 python main_nlg_prompt_batch.py eng mesolitica/malaysian-llama-3-8b-instruct-16k 0 4 &
 
 # ####
 # # Zero-Shot 13B Eng
