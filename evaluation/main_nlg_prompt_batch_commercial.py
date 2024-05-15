@@ -22,7 +22,7 @@ import cohere
 
 from dotenv import load_dotenv
 import os
-from openai import AzureOpenAI
+from openai import AzureOpenAI, BadRequestError
 
 SEED=42
 DEBUG=True
@@ -120,17 +120,20 @@ def get_response(
             seed=SEED,
         ).text
     elif "openai" in model:
-        response = client.chat.completions.create(
-            model=os.getenv("DEPLOYMENT-NAME"), # model = "deployment_name".
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=temperature,
-            max_tokens=max_output_tokens,
-            seed=SEED,
-        )
-        response = response.choices[0].message.content
+        try:
+            response = client.chat.completions.create(
+                model=os.getenv("DEPLOYMENT-NAME"), # model = "deployment_name".
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=max_output_tokens,
+                seed=SEED,
+            )
+            response = response.choices[0].message.content
+        except BadRequestError as e:
+            response = "<BAD_REQUEST_ERROR>"
     else:
         raise ValueError("Only support `cohere` and `openai` models.")
     return response
