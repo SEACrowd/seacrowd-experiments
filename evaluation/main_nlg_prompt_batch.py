@@ -153,7 +153,7 @@ def predict_generation(prompts, model_name, tokenizer, model):
     inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
     input_size = inputs["input_ids"].shape[1]
 
-    if "sealion" in model_name:
+    if "sea-lion" in model_name:
         inputs.pop("token_type_ids", None)
     
     if model.config.is_encoder_decoder:
@@ -204,8 +204,8 @@ if __name__ == '__main__':
 
     # Load Model & Tokenizer
     # Tokenizer initialization
-    trust_remote_code = "sealion" in MODEL
-    use_prompt_template = "sealion" in MODEL and "instruct" in MODEL
+    trust_remote_code = "sea-lion" in MODEL
+    use_prompt_template = "sea-lion" in MODEL and "instruct" in MODEL
     if "gpt" not in MODEL and "text" not in MODEL:
         tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=trust_remote_code)
         tokenizer.padding_side = "left"
