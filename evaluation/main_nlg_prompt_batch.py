@@ -9,17 +9,14 @@ from data_utils import load_nlg_datasets
 
 import torch
 
-from peft import PeftModel
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, BloomTokenizerFast, set_seed
 from nusacrowd.utils.constants import Tasks
 
 from sacremoses import MosesTokenizer
 import datasets, evaluate
 from anyascii import anyascii
-import openai
 from retry import retry
 
-openai.api_key = ""
 
 DEBUG=True
 
@@ -125,30 +122,8 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
     return prompt
 
 
-# They sometimes timeout
-@retry(Exception, tries=5, delay=1)
-def predict_generation_gpt(prompt, model_name):
-    if "turbo" in model_name:
-        response = openai.ChatCompletion.create(
-          model=model_name,
-          messages=[
-                {"role": "user", "content": prompt},
-            ]
-        )
-        return response['choices'][0]['message']['content'].strip()
-    else:
-        response = openai.Completion.create(
-            model=model_name,
-            prompt=prompt,
-            max_tokens=200,
-          )
-        return response['choices'][0]['text'].strip()
-
 def predict_generation(prompts, model_name, tokenizer, model):
     #model = model.to('cuda')
-
-    if "gpt" in model_name or "text" in model_name:
-        return [predict_generation_gpt(prompt, model_name) for prompt in prompts]
 
     inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
     input_size = inputs["input_ids"].shape[1]
@@ -184,9 +159,6 @@ if __name__ == '__main__':
     N_SHOT = int(sys.argv[3])
     N_BATCH = int(sys.argv[4])
     SAVE_EVERY = 10
-    ADAPTER = ''
-    #if 'bactrian' in MODEL:
-    #    MODEL, ADAPTER = MODEL.split('---')
 
     # Load prompt
     prompt_templates = get_prompt(prompt_lang)
@@ -206,27 +178,15 @@ if __name__ == '__main__':
     # Tokenizer initialization
     trust_remote_code = "sea-lion" in MODEL
     use_prompt_template = "sea-lion" in MODEL and "instruct" in MODEL
-    if "gpt" not in MODEL and "text" not in MODEL:
-        tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=trust_remote_code)
-        tokenizer.padding_side = "left"
-        if tokenizer.pad_token is None:
-            tokenizer.pad_token = tokenizer.bos_token if tokenizer.bos_token is not None else tokenizer.eos_token
-    else:
-        tokenizer = None
+    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=trust_remote_code)
+    tokenizer.padding_side = "left"
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.bos_token if tokenizer.bos_token is not None else tokenizer.eos_token
 
     # Model initialization
     fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
-    if ADAPTER != '':
-        base_model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, resume_download=True)
-        #base_model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", resume_download=True)
-        model = PeftModel.from_pretrained(base_model, ADAPTER, torch_dtype=torch.float16)
-        MODEL = ADAPTER  # for file naming
-    elif "aya" in MODEL:
-        base_model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, resume_download=True)
-        model = PeftModel.from_pretrained(base_model, ADAPTER, torch_dtype=torch.float16)
-        MODEL = ADAPTER  # for file naming
-    elif "gpt" in MODEL or "text" in MODEL:
-        model = None
+    if "aya" in MODEL:
+        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True, resume_download=True)
     elif "mt0" in MODEL or "mt5" in MODEL:
         extra_args = fp16_args if "xxl" in MODEL else {}
         model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, resume_download=True, **extra_args)
