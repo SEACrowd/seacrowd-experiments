@@ -192,17 +192,6 @@ NLG_TASK_LIST = [
     "xl_sum_ind_seacrowd_t2t",
     "xl_sum_tha_seacrowd_t2t",
     "xl_sum_vie_seacrowd_t2t",
-    # INSTRUCTION FOLLOWING
-    "aya_dataset_fil_seacrowd_t2t",
-    "aya_dataset_ceb_seacrowd_t2t",
-    "aya_dataset_tha_seacrowd_t2t",
-    "aya_dataset_mya_seacrowd_t2t",
-    "aya_dataset_zsm_seacrowd_t2t",
-    "aya_dataset_jav_seacrowd_t2t",
-    "aya_dataset_ind_seacrowd_t2t",
-    "aya_dataset_vie_seacrowd_t2t",
-    "aya_dataset_sun_seacrowd_t2t",
-    "aya_dataset_tam_seacrowd_t2t",
     # MACHINE TRANSLATION
     "lio_and_central_flores_eng_ljl_seacrowd_t2t",
     "lio_and_central_flores_ljl_eng_seacrowd_t2t",
@@ -309,9 +298,6 @@ NLG_TASK_LIST = [
     "tico_19_eng_mya_seacrowd_t2t",
     "tico_19_eng_tgl_seacrowd_t2t",
     "tico_19_eng_tam_seacrowd_t2t",
-    # CROSSLINGUAL SUMMARIZATION
-    "crosssum_ind_mya_seacrowd_t2t",
-    "crosssum_ind_vie_seacrowd_t2t",
     # EXTRACTIVE ABSTRACTIVE QA
     "facqa_seacrowd_qa",
     "iapp_squad_seacrowd_qa",
