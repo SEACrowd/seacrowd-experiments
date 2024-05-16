@@ -183,7 +183,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
 def predict_generation(client, model, prompts):
     responses = []
     for prompt in prompts:
-        response = get_response(client, model, prompt).strip()
+        response = get_response(client, model, prompt)
         if response is not None:
             responses.append(response.strip())
         else:
