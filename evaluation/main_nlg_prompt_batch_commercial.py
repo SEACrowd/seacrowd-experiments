@@ -106,7 +106,7 @@ def get_api_client(model):
     return client
 
 # They sometimes timeout
-@retry(Exception, tries=5, delay=1)
+@retry(Exception, tries=5, delay=10)
 def get_response(
         client, model, prompt, temperature=0, max_output_tokens=200,
         system_message="Only respond with the answer."):
@@ -120,7 +120,7 @@ def get_response(
                 max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
                 seed=SEED,
             ).text
-        except cohere.core.api_error.CohereApiError as e:
+        except cohere.core.api_error.ApiError as e:
             response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:
         try:
@@ -198,7 +198,7 @@ if __name__ == '__main__':
     MODEL = sys.argv[2]
     N_SHOT = int(sys.argv[3])
     N_BATCH = int(sys.argv[4])
-    SAVE_EVERY = 10
+    SAVE_EVERY = 1
 
     # Load prompt
     prompt_templates = get_prompt(prompt_lang, return_only_one=True) # Commercial only needs ONE prompt per task
