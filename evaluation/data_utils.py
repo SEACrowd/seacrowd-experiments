@@ -352,7 +352,6 @@ FLORES200_TASK_LIST = [
 ]
 SPEECH_TASK_LIST = {
     'asr_ibsc_seacrowd_sptext',
-    'asr_malcsc_seacrowd_sptext',
     'commonvoice_120_tha_seacrowd_sptext',
     'commonvoice_120_vie_seacrowd_sptext',
     'commonvoice_120_ind_seacrowd_sptext',
@@ -367,32 +366,10 @@ SPEECH_TASK_LIST = {
     'fleurs_zlm_seacrowd_sptext',
     'fleurs_tha_seacrowd_sptext',
     'fleurs_vie_seacrowd_sptext',
-    'indspeech_newstra_ethnicsr_ind_seacrowd_sptext',
-    'indspeech_newstra_ethnicsr_sun_seacrowd_sptext',
-    'indspeech_newstra_ethnicsr_jav_seacrowd_sptext',
-    'indspeech_newstra_ethnicsr_ban_seacrowd_sptext',
-    'indspeech_newstra_ethnicsr_btk_seacrowd_sptext',
-
-    ## LOADABLE, RUNNABLE BUT SEGFAULT UPON RUNNING
-    # 'bloom_speech_bjn_seacrowd_sptext',             # segfault
-    # 'bloom_speech_bzi_seacrowd_sptext',             # segfault
-    # 'bloom_speech_ceb_seacrowd_sptext',             # segfault
-    # 'bloom_speech_ind_seacrowd_sptext',             # segfault
-    # 'bloom_speech_jra_seacrowd_sptext',             # segfault
-    # 'bloom_speech_kqr_seacrowd_sptext',             # segfault
-    # 'bloom_speech_mya_seacrowd_sptext',             # segfault
-    # 'bloom_speech_tgl_seacrowd_sptext',             # segfault
-
-    
-    ##LOADABLE BUT ERROR ON TEST
-
-    # 'librivox_indonesia_ind_seacrowd_sptext', #error
-    # 'librivox_indonesia_sun_seacrowd_sptext', #error
-    # 'librivox_indonesia_jav_seacrowd_sptext', #error
-    # 'librivox_indonesia_min_seacrowd_sptext', #error
-    # 'librivox_indonesia_bug_seacrowd_sptext', #error
-    # 'librivox_indonesia_ban_seacrowd_sptext', #error
-    # 'librivox_indonesia_ace_seacrowd_sptext', #error
+    'indspeech_newstra_ethnicsr_nooverlap_sun_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_nooverlap_jav_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_nooverlap_ban_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_nooverlap_btk_seacrowd_sptext',
 }
 
 
