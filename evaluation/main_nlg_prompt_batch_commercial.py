@@ -181,7 +181,14 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
     return prompt
 
 def predict_generation(client, model, prompts):
-    return [get_response(client, model, prompt).strip() for prompt in prompts]
+    responses = []
+    for prompt in prompts:
+        response = get_response(client, model, prompt).strip()
+        if response is not None:
+            responses.append(response.strip())
+        else:
+            responses.append("")
+    return responses
 
 
 if __name__ == '__main__':
