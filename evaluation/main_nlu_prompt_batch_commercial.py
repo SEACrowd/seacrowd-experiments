@@ -58,7 +58,7 @@ def get_api_client(model):
     return client
 
 # They sometimes timeout
-@retry(Exception, tries=5, delay=1)
+@retry(Exception, tries=5, delay=10)
 def get_response(
         client, model, prompt, temperature=0, max_output_tokens=30,
         system_message="Only answer with the label of choice."):
@@ -72,7 +72,7 @@ def get_response(
                 max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
                 seed=SEED,
             ).text
-        except cohere.core.api_error.CohereApiError as e:
+        except cohere.core.api_error.ApiError as e:
             response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:
         try:
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     BATCH_SIZE = int(sys.argv[3])
     SEED = 42
 
-    SAVE_EVERY = 10
+    SAVE_EVERY = 1
     if len(sys.argv) == 5:
         SAVE_EVERY = int(sys.argv[4])
 
