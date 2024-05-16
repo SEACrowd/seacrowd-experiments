@@ -132,7 +132,7 @@ def predict_classification(client, model, prompts, label_names):
     hyps = []
     for prompt in prompts:
         response = get_response(client, model, prompt)
-        response = response.strip().lower()
+        response = response.strip().lower() if response is not None else ""
         is_found = False
         for i, label_name in enumerate(label_names):
             if not is_found:
