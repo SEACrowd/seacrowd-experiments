@@ -351,11 +351,8 @@ FLORES200_TASK_LIST = [
     # 'flores200-ind_Latn-min_Latn',
 ]
 SPEECH_TASK_LIST = {
-    'asr_indocsc_seacrowd_sptext',
+    'asr_ibsc_seacrowd_sptext',
     'asr_malcsc_seacrowd_sptext',
-    'asr_sindodusc_seacrowd_sptext',
-    'asr_smaldusc_seacrowd_sptext',
-    'asr_stidusc_seacrowd_sptext',
     'commonvoice_120_tha_seacrowd_sptext',
     'commonvoice_120_vie_seacrowd_sptext',
     'commonvoice_120_ind_seacrowd_sptext',
@@ -370,40 +367,13 @@ SPEECH_TASK_LIST = {
     'fleurs_zlm_seacrowd_sptext',
     'fleurs_tha_seacrowd_sptext',
     'fleurs_vie_seacrowd_sptext',
-    'indspeech_digit_cdsr_seacrowd_sptext',
-    'indspeech_news_ethnicsr_su_overlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_jv_overlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_su_nooverlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_jv_nooverlap_seacrowd_sptext',
-    'indspeech_news_lvcsr_seacrowd_sptext',
-    'indspeech_news_ethnicsr_jv_overlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_su_overlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_jv_nooverlap_seacrowd_sptext',
-    'indspeech_news_ethnicsr_su_nooverlap_seacrowd_sptext',
-    'indspeech_teldialog_lvcsr_seacrowd_sptext',
-    'indspeech_teldialog_svcsr_seacrowd_sptext',
-    'jv_id_asr_seacrowd_sptext',
-    'kheng_info_seacrowd_sptext',
-    'mswc_cnh_wav_seacrowd_sptext',
-    'mswc_ind_wav_seacrowd_sptext',
-    'mswc_vie_wav_seacrowd_sptext',
-    'su_id_asr_seacrowd_sptext',
-    'titml_idn_seacrowd_sptext',
-    'ucla_phonetic_ace_seacrowd_sptext',
-    'ucla_phonetic_brv_seacrowd_sptext',
-    'ucla_phonetic_hil_seacrowd_sptext',
-    'ucla_phonetic_hni_seacrowd_sptext',
-    'ucla_phonetic_ilo_seacrowd_sptext',
-    'ucla_phonetic_khm_seacrowd_sptext',
-    'ucla_phonetic_mak_seacrowd_sptext',
-    'ucla_phonetic_mya_seacrowd_sptext',
-    'ucla_phonetic_pam_seacrowd_sptext',
-    'vivos_seacrowd_sptext'
-    # problem downloading... too slow that always connection broken
-    #'voxlingua_seacrowd_speech'
+    'indspeech_newstra_ethnicsr_ind_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_sun_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_jav_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_ban_seacrowd_sptext',
+    'indspeech_newstra_ethnicsr_btk_seacrowd_sptext',
 
     ## LOADABLE, RUNNABLE BUT SEGFAULT UPON RUNNING
-    # 'audio_keyword_spotting_seacrowd_sptext',       # segfault
     # 'bloom_speech_bjn_seacrowd_sptext',             # segfault
     # 'bloom_speech_bzi_seacrowd_sptext',             # segfault
     # 'bloom_speech_ceb_seacrowd_sptext',             # segfault
@@ -414,120 +384,6 @@ SPEECH_TASK_LIST = {
     # 'bloom_speech_tgl_seacrowd_sptext',             # segfault
 
     
-
-    ## NOT APPROVED YET
-    # 'asr_ibsc_seacrowd_sptext',
-    # 'cmu_wilderness_mhx_seacrowd_sptext',
-    # 'cmu_wilderness_ifk_seacrowd_sptext',
-    # 'cmu_wilderness_tlb_seacrowd_sptext',
-    # 'cmu_wilderness_nod_seacrowd_sptext',
-    # 'cmu_wilderness_ilo_seacrowd_sptext',
-    # 'cmu_wilderness_frd_seacrowd_sptext',
-    # 'cmu_wilderness_cgc_seacrowd_sptext',
-    # 'cmu_wilderness_tha_seacrowd_sptext',
-    # 'cmu_wilderness_cfm_seacrowd_sptext',
-    # 'cmu_wilderness_bgr_seacrowd_sptext',
-    # 'cmu_wilderness_blt_seacrowd_sptext',
-    # 'cmu_wilderness_atq_seacrowd_sptext',
-    # 'cmu_wilderness_dtp_seacrowd_sptext',
-    # 'cmu_wilderness_cmr_seacrowd_sptext',
-    # 'cmu_wilderness_amk_seacrowd_sptext',
-    # 'cmu_wilderness_ptu_seacrowd_sptext',
-    # 'cmu_wilderness_jav_seacrowd_sptext',
-    # 'cmu_wilderness_lsi_seacrowd_sptext',
-    # 'cmu_wilderness_nij_seacrowd_sptext',
-    # 'cmu_wilderness_mhy_seacrowd_sptext',
-    # 'cmu_wilderness_acn_seacrowd_sptext',
-    # 'cmu_wilderness_prf_seacrowd_sptext',
-    # 'cmu_wilderness_alj_seacrowd_sptext',
-    # 'cmu_wilderness_lnd_seacrowd_sptext',
-    # 'cmu_wilderness_kzf_seacrowd_sptext',
-    # 'cmu_wilderness_pww_seacrowd_sptext',
-    # 'cmu_wilderness_sda_seacrowd_sptext',
-    # 'cmu_wilderness_mbb_seacrowd_sptext',
-    # 'cmu_wilderness_ify_seacrowd_sptext',
-    # 'cmu_wilderness_mbt_seacrowd_sptext',
-    # 'cmu_wilderness_iba_seacrowd_sptext',
-    # 'cmu_wilderness_pse_seacrowd_sptext',
-    # 'cmu_wilderness_kje_seacrowd_sptext',
-    # 'cmu_wilderness_gbi_seacrowd_sptext',
-    # 'cmu_wilderness_mog_seacrowd_sptext',
-    # 'cmu_wilderness_alp_seacrowd_sptext',
-    # 'cmu_wilderness_twb_seacrowd_sptext',
-    # 'cmu_wilderness_law_seacrowd_sptext',
-    # 'cmu_wilderness_dni_seacrowd_sptext',
-    # 'cmu_wilderness_ahk_seacrowd_sptext',
-    # 'cmu_wilderness_rej_seacrowd_sptext',
-    # 'cmu_wilderness_bcl_seacrowd_sptext',
-    # 'cmu_wilderness_nlc_seacrowd_sptext',
-    # 'cmu_wilderness_plw_seacrowd_sptext',
-    # 'cmu_wilderness_zyp_seacrowd_sptext',
-    # 'cmu_wilderness_lew_seacrowd_sptext',
-    # 'cmu_wilderness_mad_seacrowd_sptext',
-    # 'cmu_wilderness_txa_seacrowd_sptext',
-    # 'cmu_wilderness_bpr_seacrowd_sptext',
-    # 'cmu_wilderness_min_seacrowd_sptext',
-    # 'cmu_wilderness_kne_seacrowd_sptext',
-    # 'cmu_wilderness_agn_seacrowd_sptext',
-    # 'cmu_wilderness_mqj_seacrowd_sptext',
-    # 'cmu_wilderness_itv_seacrowd_sptext',
-    # 'cmu_wilderness_gor_seacrowd_sptext',
-    # 'cmu_wilderness_bts_seacrowd_sptext',
-    # 'cmu_wilderness_twu_seacrowd_sptext',
-    # 'cmu_wilderness_mwv_seacrowd_sptext',
-    # 'cmu_wilderness_sml_seacrowd_sptext',
-    # 'cmu_wilderness_npy_seacrowd_sptext',
-    # 'cmu_wilderness_khm_seacrowd_sptext',
-    # 'cmu_wilderness_sas_seacrowd_sptext',
-    # 'cmu_wilderness_krj_seacrowd_sptext',
-    # 'cmu_wilderness_ury_seacrowd_sptext',
-    # 'cmu_wilderness_obo_seacrowd_sptext',
-    # 'cmu_wilderness_kqe_seacrowd_sptext',
-    # 'cmu_wilderness_mrw_seacrowd_sptext',
-    # 'cmu_wilderness_ifb_seacrowd_sptext',
-    # 'cmu_wilderness_mvp_seacrowd_sptext',
-    # 'cmu_wilderness_cmo_seacrowd_sptext',
-    # 'cmu_wilderness_por_seacrowd_sptext',
-    # 'cmu_wilderness_xsb_seacrowd_sptext',
-    # 'cmu_wilderness_ljp_seacrowd_sptext',
-    # 'cmu_wilderness_bru_seacrowd_sptext',
-    # 'cmu_wilderness_ban_seacrowd_sptext',
-    # 'cmu_wilderness_ind_seacrowd_sptext',
-    # 'cmu_wilderness_cnk_seacrowd_sptext',
-    # 'cmu_wilderness_sgb_seacrowd_sptext',
-    # 'cmu_wilderness_mak_seacrowd_sptext',
-    # 'cmu_wilderness_nia_seacrowd_sptext',
-    # 'cmu_wilderness_sun_seacrowd_sptext',
-    # 'cmu_wilderness_hnn_seacrowd_sptext',
-    # 'cmu_wilderness_ceb_seacrowd_sptext',
-    # 'cmu_wilderness_btd_seacrowd_sptext',
-    # 'cmu_wilderness_lao_seacrowd_sptext',
-    # 'cmu_wilderness_pam_seacrowd_sptext',
-    # 'cmu_wilderness_kac_seacrowd_sptext',
-    # 'cmu_wilderness_ifa_seacrowd_sptext',
-    # 'cmu_wilderness_blz_seacrowd_sptext',
-    # 'cmu_wilderness_bps_seacrowd_sptext',
-    # 'cmu_wilderness_ctd_seacrowd_sptext',
-    # 'cmu_wilderness_mnb_seacrowd_sptext',
-    # 'cmu_wilderness_pmf_seacrowd_sptext',
-    # 'cmu_wilderness_hil_seacrowd_sptext',
-    # 'cmu_wilderness_sxn_seacrowd_sptext',
-    # 'cmu_wilderness_bep_seacrowd_sptext',
-    # 'cmu_wilderness_ppk_seacrowd_sptext',
-    # 'cmu_wilderness_mej_seacrowd_sptext',
-    # 'cmu_wilderness_ace_seacrowd_sptext',
-    # 'cmu_wilderness_ifu_seacrowd_sptext',
-    # 'cmu_wilderness_tgl_seacrowd_sptext',
-    # 'cmu_wilderness_lex_seacrowd_sptext',
-    # 'cmu_wilderness_vie_seacrowd_sptext',
-    # 'cmu_wilderness_btx_seacrowd_sptext',
-    # 'cmu_wilderness_lhu_seacrowd_sptext',
-    # 'cmu_wilderness_pag_seacrowd_sptext',
-    # 'cmu_wilderness_xmm_seacrowd_sptext',
-    # 'cmu_wilderness_bhz_seacrowd_sptext',
-    # 'cmu_wilderness_tby_seacrowd_sptext',
-    # 'tha_lotus_seacrowd_sptext',
-
     ##LOADABLE BUT ERROR ON TEST
 
     # 'librivox_indonesia_ind_seacrowd_sptext', #error
@@ -537,25 +393,6 @@ SPEECH_TASK_LIST = {
     # 'librivox_indonesia_bug_seacrowd_sptext', #error
     # 'librivox_indonesia_ban_seacrowd_sptext', #error
     # 'librivox_indonesia_ace_seacrowd_sptext', #error
-
-    ## DATALOADER NAME MISMATCH. THE FOLLOWING LIST IS THE CONFIG NAMES WHICH WERE MODIFIED TO BE LOADABLE          
-    'openslr_SLR80_mya_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-    'openslr_SLR35_jav_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-    'openslr_SLR36_sun_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-    'openslr_SLR44_sun_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-    'openslr_SLR42_khm_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-    'openslr_SLR41_jav_seacrowd_sptext',      #this loads, but please recheck the dataloader. naming error
-
-    ## LOCAL DATASET
-    # 'phost_vie_seacrowd_sptext',              #please recheck the dataloader. naming error. also local dataset
-    # 'phost_eng_seacrowd_sptext',              #please recheck the dataloader. naming error. also local dataset
-    # 'struct_amb_ind_seacrowd_sptext',         #local dataset
-
-    ### NONEXISTENT SCHEMA
-    # 'voxlingua_ind_seacrowd_speech',           #nonexisting seacrowd schema
-    # 'voxlingua_sun_seacrowd_speech',           #nonexisting seacrowd schema
-    # 'voxlingua_jav_seacrowd_speech',           #nonexisting seacrowd schema
-    # 'oil_seacrowd_sptext',                     #nonexisting seacrowd schema
 }
 
 
