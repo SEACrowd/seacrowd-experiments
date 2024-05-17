@@ -58,7 +58,7 @@ def get_api_client(model):
     return client
 
 # They sometimes timeout
-@retry(Exception, tries=5, delay=10)
+@retry(Exception, tries=30, delay=10)
 def get_response(
         client, model, prompt, temperature=0, max_output_tokens=30,
         system_message="Only answer with the label of choice."):
