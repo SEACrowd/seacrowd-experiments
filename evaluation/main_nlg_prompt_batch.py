@@ -161,7 +161,7 @@ if __name__ == '__main__':
     SAVE_EVERY = 10
 
     # Load prompt
-    prompt_templates = get_prompt(prompt_lang)
+    prompt_templates = get_prompt(prompt_lang, return_only_one=True)
 
     # Load Dataset
     print('Load NLG Datasets...')
