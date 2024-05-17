@@ -298,7 +298,10 @@ if __name__ == '__main__':
                         prompt_text = '\n\n'.join(few_shot_text_list + [prompt_text])
                         prompts.append(prompt_text)
 
-                        batch_golds.append(sample['answer'][0] if 'answer' in sample else sample['text_2'])
+                        try:
+                            batch_golds.append(sample['answer'][0] if 'answer' in sample else sample['text_2'])
+                        except:
+                            continue
 
                         # Batch inference
                         if len(prompts) == N_BATCH:
