@@ -276,7 +276,7 @@ NLG_TASK_LIST = [
     # EXTRACTIVE ABSTRACTIVE QA
     "facqa_seacrowd_qa",
     "iapp_squad_seacrowd_qa",
-    "idk_mrc_seacrowd_qa",
+    # "idk_mrc_seacrowd_qa", -- many empty [] answers
     "qasina_seacrowd_qa",
     "mkqa_khm_seacrowd_qa", 
     "mkqa_zsm_seacrowd_qa",
