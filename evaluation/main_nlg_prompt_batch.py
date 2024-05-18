@@ -36,6 +36,7 @@ def generation_metrics_fn(list_hyp, list_label):
         raise ValueError("Input lists must be non-empty and of the same length")
     
     list_hyp = [hyp if hyp is not None else "" for hyp in list_hyp]
+    list_label = [label if label is not None else "" for label in list_label]
     
     # Tokenize the hypotheses and labels for BLEU computation
     list_hyp_bleu = list(map(lambda x: mt.tokenize(x), list_hyp))
