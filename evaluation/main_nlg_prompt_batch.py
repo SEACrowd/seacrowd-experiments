@@ -99,7 +99,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
             src_lang = task_names[-4]
             tgt_lang = task_names[-3]
 
-        print(src_lang, tgt_lang)
+        # print(src_lang, tgt_lang)
 
         # Replace src and tgt lang name
         prompt = prompt.replace('[SOURCE]', get_lang_name(prompt_lang, src_lang))
@@ -286,8 +286,8 @@ if __name__ == '__main__':
                             batch_preds = predict_generation(prompts, MODEL, tokenizer, model)
                             for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                                 inputs.append(prompt_text)
-                                preds.append(pred)
-                                preds_latin.append(anyascii(pred))
+                                preds.append(pred if pred is not None else '')
+                                preds_latin.append(anyascii(pred) if pred is not None else '')
                                 golds.append(gold)
                             prompts, batch_golds = [], []
                             count += 1
@@ -303,8 +303,8 @@ if __name__ == '__main__':
                         batch_preds = predict_generation(prompts, MODEL, tokenizer, model)
                         for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                             inputs.append(prompt_text)
-                            preds.append(pred)
-                            preds_latin.append(anyascii(pred))
+                            preds.append(pred if pred is not None else '')
+                            preds_latin.append(anyascii(pred) if pred is not None else '')
                             golds.append(gold)
                         prompts, batch_golds = [], []
             

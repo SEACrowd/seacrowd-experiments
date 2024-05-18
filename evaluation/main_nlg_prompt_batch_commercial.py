@@ -305,8 +305,8 @@ if __name__ == '__main__':
                             batch_preds = predict_generation(client, MODEL, prompts)
                             for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                                 inputs.append(prompt_text)
-                                preds.append(pred)
-                                preds_latin.append(anyascii(pred))
+                                preds.append(pred if pred is not None else '')
+                                preds_latin.append(anyascii(pred) if pred is not None else '')
                                 golds.append(gold)
                             prompts, batch_golds = [], []
                             count += 1
@@ -322,8 +322,8 @@ if __name__ == '__main__':
                         batch_preds = predict_generation(client, MODEL, prompts)
                         for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                             inputs.append(prompt_text)
-                            preds.append(pred)
-                            preds_latin.append(anyascii(pred))
+                            preds.append(pred if pred is not None else '')
+                            preds_latin.append(anyascii(pred) if pred is not None else '')
                             golds.append(gold)
                         prompts, batch_golds = [], []
             
