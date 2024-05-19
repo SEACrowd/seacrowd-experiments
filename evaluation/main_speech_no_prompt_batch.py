@@ -197,8 +197,8 @@ if __name__ == '__main__':
 
     print("Vocab length (initial):", len(pretrained_vocab))
 
-    if os.path.exists("{}/all_vocab.json".format(out_dir)):
-        with open("{}/all_vocab.json".format(out_dir), "r") as vocab_file:
+    if os.path.exists("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1])):
+        with open("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]), "r") as vocab_file:
             vocab_dict = json.load(vocab_file)
     else:
         new_vocab_list = []
@@ -209,8 +209,8 @@ if __name__ == '__main__':
                 speech_datasets[dset_subset][1]
             )
 
-        if os.path.exists("{}/new_vocab.json".format(out_dir)):
-            with open("{}/new_vocab.json".format(out_dir), "r") as new_vocab_file:
+        if os.path.exists("{}/{}/new_vocab.json".format(out_dir, MODEL.split("/")[-1])):
+            with open("{}/{}/new_vocab.json".format(out_dir, MODEL.split("/")[-1]), "r") as new_vocab_file:
                 new_vocab_list = json.load(new_vocab_file)
 
         vocab_list = []
@@ -232,7 +232,7 @@ if __name__ == '__main__':
         all_vocab = list(set(pretrained_vocab) | set(new_vocab_list) | set(list(dict.fromkeys(vocab_list))))
         vocab_dict = {v: k for k, v in enumerate(all_vocab)}
 
-        with open("{}/all_vocab.json".format(out_dir), "w") as vocab_file:
+        with open("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]), "w") as vocab_file:
             json.dump(vocab_dict, vocab_file)
 
     vocab_dict = _assign_id_to_special_tokens(special_tokens, vocab_dict)
@@ -281,7 +281,6 @@ if __name__ == '__main__':
     def map_to_pred(batch):
         features = processor(batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, padding=True, return_tensors="pt")
         input_values = features.input_values.cuda()
-        print(features)
         if "attention_mask" in features:
             attention_mask = features.attention_mask.cuda()
             with torch.no_grad():
