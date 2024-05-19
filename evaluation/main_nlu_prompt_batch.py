@@ -145,7 +145,7 @@ if __name__ == '__main__':
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
         MODEL = ADAPTER # for file naming
-    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sea-lion" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or "Llama" in MODEL or "llama" in MODEL or "falcon" in MODEL or "Sailor" in MODEL or "PhoGPT" in MODEL or "Mistral" in MODEL or "Qwen" in MODEL:
+    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sea-lion" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or "Llama" in MODEL or "llama" in MODEL or "falcon" in MODEL or "Sailor" in MODEL or "PhoGPT" in MODEL or "Mistral" in MODEL or "Qwen" in MODEL or 'LLaMa' in MODEL:
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         if "sea-lion" in MODEL or "Mistral" in MODEL or "Llama" in MODEL or "falcon" in MODEL:
             tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
