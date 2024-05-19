@@ -76,6 +76,7 @@ if __name__ == '__main__':
     out_dir = './outputs_speech'
     metric_dir = './metrics_speech'
     os.makedirs(out_dir, exist_ok=True)
+    os.makedirs(f'{out_dir}/{MODEL.split("/")[-1]}', exist_ok=True)
     os.makedirs(metric_dir, exist_ok=True)
 
 
@@ -239,7 +240,7 @@ if __name__ == '__main__':
     print("len vocab dict", len(vocab_dict))
 
     tokenizer = Wav2Vec2CTCTokenizer(
-        "{}/all_vocab.json".format(out_dir),
+        "{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]),
         bos_token=special_tokens["bos_token"][0],
         eos_token=special_tokens["eos_token"][0],
         pad_token=special_tokens["pad_token"][0],
