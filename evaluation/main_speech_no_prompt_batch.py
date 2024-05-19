@@ -281,9 +281,14 @@ if __name__ == '__main__':
     def map_to_pred(batch):
         features = processor(batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, padding=True, return_tensors="pt")
         input_values = features.input_values.cuda()
-        attention_mask = features.attention_mask.cuda()
-        with torch.no_grad():
-            logits = model(input_values, attention_mask=attention_mask).logits
+        print(features)
+        if "attention_mask" in features:
+            attention_mask = features.attention_mask.cuda()
+            with torch.no_grad():
+                logits = model(input_values, attention_mask=attention_mask).logits
+        else:
+            with torch.no_grad():
+                logits = model(input_values).logits
         pred_ids = torch.argmax(logits, dim=-1)
         batch["predicted"] = processor.batch_decode(pred_ids)
         batch["target"] = batch["sentence"]
