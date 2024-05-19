@@ -128,23 +128,30 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
 def predict_generation(prompts, model_name, tokenizer, model):
     #model = model.to('cuda')
 
-    inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
-    input_size = inputs["input_ids"].shape[1]
-
-    if "sea-lion" in model_name:
-        inputs.pop("token_type_ids", None)
-    
-    if model.config.is_encoder_decoder:
-        outputs = model.generate(**inputs, do_sample=True, min_length=1, max_length=100)
-        preds = tokenizer.batch_decode(outputs, skip_special_tokens=True) 
+    if "Qwen" in model_name:
+        preds = []
+        for prompt in prompts:
+            pred, _ = model.chat(tokenizer, prompt, history=None)
+            preds.append(pred)
         return preds
     else:
-        outputs = model.generate(**inputs, do_sample=True, min_length=input_size+1, max_length=input_size+100)
-        if "llama" in model_name:
-            preds = [p.strip() for p in tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)]
+        inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
+        input_size = inputs["input_ids"].shape[1]
+
+        if "sea-lion" in model_name:
+            inputs.pop("token_type_ids", None)
+        
+        if model.config.is_encoder_decoder:
+            outputs = model.generate(**inputs, do_sample=True, min_length=1, max_length=100)
+            preds = tokenizer.batch_decode(outputs, skip_special_tokens=True) 
+            return preds
         else:
-            preds = tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)
-        return preds
+            outputs = model.generate(**inputs, do_sample=True, min_length=input_size+1, max_length=input_size+100)
+            if "llama" in model_name:
+                preds = [p.strip() for p in tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)]
+            else:
+                preds = tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)
+            return preds
 
 
 if __name__ == '__main__':
@@ -179,12 +186,15 @@ if __name__ == '__main__':
 
     # Load Model & Tokenizer
     # Tokenizer initialization
-    trust_remote_code = "sea-lion" in MODEL
     use_prompt_template = "sea-lion" in MODEL and "instruct" in MODEL
-    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=trust_remote_code)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=True)
     tokenizer.padding_side = "left"
+
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.bos_token if tokenizer.bos_token is not None else tokenizer.eos_token
+    
+    if "Qwen" in MODEL:
+        tokenizer.add_special_tokens({'pad_token': '<|endoftext|>'})
 
     # Model initialization
     fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
@@ -192,13 +202,13 @@ if __name__ == '__main__':
         model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True, resume_download=True)
     elif "mt0" in MODEL or "mt5" in MODEL:
         extra_args = fp16_args if "xxl" in MODEL else {}
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, resume_download=True, **extra_args)
+        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
         if "xxl" not in MODEL:
             model = model.to('cuda')
     else:
         extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() or "8b" in MODEL.lower() else {}
-        model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=trust_remote_code, **extra_args)
-        if "SeaLLM" in MODEL:
+        model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
+        if "SeaLLM" in MODEL or "Qwen" in MODEL:
             #if "SeaLLM" in MODEL or "llama" in MODEL:
             # quick fix for tensor error
             # https://github.com/facebookresearch/llama/issues/380

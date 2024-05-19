@@ -22,7 +22,7 @@ import cohere
 
 from dotenv import load_dotenv
 import os
-from openai import AzureOpenAI, BadRequestError
+from openai import AzureOpenAI, BadRequestError, APIError
 
 SEED=42
 DEBUG=True
@@ -139,6 +139,8 @@ def get_response(
             )
             response = response.choices[0].message.content
         except BadRequestError as e:
+            response = "<BAD_REQUEST_ERROR>"
+        except APIError as e:
             response = "<BAD_REQUEST_ERROR>"
     else:
         raise ValueError("Only support `cohere` and `openai` models.")
