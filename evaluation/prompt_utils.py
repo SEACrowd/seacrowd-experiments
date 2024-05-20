@@ -94,7 +94,16 @@ TASK_TO_PROMPT = {
             'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:',
             '[CONTEXT]\nBased on the text, [QUESTION]\nAnswer: ',
             '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is: '
-        ]
+        ],
+
+        ####
+        # Speech Tasks
+        ####
+
+        # Tasks.SPEECH_RECOGNITION
+        'ASR': [],
+        # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
+        'SPEECH_LID': [],
     },
     'ind': {
 
@@ -198,7 +207,16 @@ TASK_TO_PROMPT = {
             '',
             '',
             ''
-        ]
+        ],
+
+        ####
+        # Speech Tasks
+        ####
+
+        # Tasks.SPEECH_RECOGNITION
+        'ASR': [],
+        # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
+        'SPEECH_LID': [],
     }
 }
 
