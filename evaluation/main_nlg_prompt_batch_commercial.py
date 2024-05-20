@@ -9,6 +9,7 @@ from data_utils import load_nlg_datasets
 
 import torch
 
+from peft import PeftModel
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, BloomTokenizerFast, set_seed
 from nusacrowd.utils.constants import Tasks
 
@@ -17,7 +18,13 @@ import datasets, evaluate
 from anyascii import anyascii
 from retry import retry
 
+import cohere
 
+from dotenv import load_dotenv
+import os
+from openai import AzureOpenAI, BadRequestError, APIError
+
+SEED=42
 DEBUG=True
 
 """ Generation metrics """
@@ -84,6 +91,60 @@ def generation_metrics_fn(list_hyp, list_label):
 
     return metrics
 
+def get_api_client(model):
+    if "cohere" in model:
+        client = cohere.Client(
+            api_key=os.getenv("COHERE_PROD_API_KEY"),
+        )
+    elif "openai" in model:
+        # Load secrets
+        load_dotenv(dotenv_path=os.getenv("OPENAI_ENV_PATH"))
+        client = AzureOpenAI(
+            azure_endpoint = os.getenv("ENDPOINT"),
+            api_key=os.getenv("API-KEY"),
+            api_version="2024-02-01",
+        )
+    else:
+        raise ValueError("Only support `cohere` and `openai` models.")  
+    return client
+
+# They sometimes timeout
+@retry(Exception, tries=30, delay=10)
+def get_response(
+        client, model, prompt, temperature=0, max_output_tokens=200,
+        system_message="Only respond with the answer."):
+    if "cohere" in model:
+        try:
+            response = client.chat(
+                model=model.split("/")[-1],
+                message=prompt,
+                preamble=system_message,
+                temperature=temperature, # turn off randomness
+                max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
+                seed=SEED,
+            ).text
+        except cohere.core.api_error.ApiError as e:
+            response = "<BAD_REQUEST_ERROR>"
+    elif "openai" in model:
+        try:
+            response = client.chat.completions.create(
+                model=os.getenv("DEPLOYMENT-NAME"), # model = "deployment_name".
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=max_output_tokens,
+                seed=SEED,
+            )
+            response = response.choices[0].message.content
+        except BadRequestError as e:
+            response = "<BAD_REQUEST_ERROR>"
+        except APIError as e:
+            response = "<BAD_REQUEST_ERROR>"
+    else:
+        raise ValueError("Only support `cohere` and `openai` models.")
+    return response
 
 def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False, use_template=False):
     if '[INPUT]' in prompt:
@@ -102,7 +163,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
             src_lang = task_names[-4]
             tgt_lang = task_names[-3]
 
-        # print(src_lang, tgt_lang)
+        print(src_lang, tgt_lang)
 
         # Replace src and tgt lang name
         prompt = prompt.replace('[SOURCE]', get_lang_name(prompt_lang, src_lang))
@@ -124,34 +185,15 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
     
     return prompt
 
-
-def predict_generation(prompts, model_name, tokenizer, model):
-    #model = model.to('cuda')
-
-    if "Qwen" in model_name:
-        preds = []
-        for prompt in prompts:
-            pred, _ = model.chat(tokenizer, prompt, history=None)
-            preds.append(pred)
-        return preds
-    else:
-        inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
-        input_size = inputs["input_ids"].shape[1]
-
-        if "sea-lion" in model_name:
-            inputs.pop("token_type_ids", None)
-        
-        if model.config.is_encoder_decoder:
-            outputs = model.generate(**inputs, do_sample=True, min_length=1, max_length=100)
-            preds = tokenizer.batch_decode(outputs, skip_special_tokens=True) 
-            return preds
+def predict_generation(client, model, prompts):
+    responses = []
+    for prompt in prompts:
+        response = get_response(client, model, prompt)
+        if response is not None:
+            responses.append(response.strip())
         else:
-            outputs = model.generate(**inputs, do_sample=True, min_length=input_size+1, max_length=input_size+100)
-            if "llama" in model_name:
-                preds = [p.strip() for p in tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)]
-            else:
-                preds = tokenizer.batch_decode(outputs[:,inputs["input_ids"].shape[1]:], skip_special_tokens=True)
-            return preds
+            responses.append("")
+    return responses
 
 
 if __name__ == '__main__':
@@ -168,10 +210,10 @@ if __name__ == '__main__':
     MODEL = sys.argv[2]
     N_SHOT = int(sys.argv[3])
     N_BATCH = int(sys.argv[4])
-    SAVE_EVERY = 10
+    SAVE_EVERY = 1
 
     # Load prompt
-    prompt_templates = get_prompt(prompt_lang, return_only_one=True)
+    prompt_templates = get_prompt(prompt_lang, return_only_one=True) # Commercial only needs ONE prompt per task
 
     # Load Dataset
     print('Load NLG Datasets...')
@@ -182,41 +224,10 @@ if __name__ == '__main__':
         print(f'{i} {dset_subset}')
 
     # Set seed
-    set_seed(42)
+    set_seed(SEED)
 
-    # Load Model & Tokenizer
-    # Tokenizer initialization
-    use_prompt_template = "sea-lion" in MODEL and "instruct" in MODEL
-    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=True)
-    tokenizer.padding_side = "left"
-
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.bos_token if tokenizer.bos_token is not None else tokenizer.eos_token
-    
-    if "Qwen" in MODEL:
-        tokenizer.add_special_tokens({'pad_token': '<|endoftext|>'})
-
-    # Model initialization
-    fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
-    if "aya" in MODEL:
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True, resume_download=True)
-    elif "mt0" in MODEL or "mt5" in MODEL:
-        extra_args = fp16_args if "xxl" in MODEL else {}
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
-        if "xxl" not in MODEL:
-            model = model.to('cuda')
-    else:
-        extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() or "8b" in MODEL.lower() else {}
-        model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
-        if "SeaLLM" in MODEL or "Qwen" in MODEL:
-            #if "SeaLLM" in MODEL or "llama" in MODEL:
-            # quick fix for tensor error
-            # https://github.com/facebookresearch/llama/issues/380
-            model = model.bfloat16()
-    
-    if model is not None:
-        #model.cuda()
-        model.eval()
+    # Load Client
+    client = get_api_client(MODEL)
 
     metrics = {'dataset': []}
     for i, dset_subset in enumerate(nlg_datasets.keys()):
@@ -229,14 +240,14 @@ if __name__ == '__main__':
 
         if 'test' in nlg_dset.keys():
             data = nlg_dset['test']
-        elif 'validation' in nlg_dset.keys():
-            data = nlg_dset['validation']
         elif 'devtest' in nlg_dset.keys():
             data = nlg_dset['devtest']
+        elif 'validation' in nlg_dset.keys():
+            data = nlg_dset['validation']
         else:
             data = nlg_dset['train']
 
-        #data = data.shard(10000, 0) # get shard the size of the dataset for efficiency
+        # data = data.shard(1000000, 0) # get shard the size of the dataset for efficiency
 
         if 'train' in nlg_dset.keys():
             few_shot_data = nlg_dset['train']
@@ -251,7 +262,7 @@ if __name__ == '__main__':
             preds_latin = []
             golds = []  
             print(f"PROMPT ID: {prompt_id}")
-            print(f"SAMPLE PROMPT: {to_prompt(data[0], prompt_template, prompt_lang, dset_subset, task_type.value, use_template=use_prompt_template)}")
+            print(f"SAMPLE PROMPT: {to_prompt(data[0], prompt_template, prompt_lang, dset_subset, task_type.value)}")
 
             few_shot_text_list = []
             if N_SHOT > 0:
@@ -260,7 +271,7 @@ if __name__ == '__main__':
                     if task_type != Tasks.QUESTION_ANSWERING and len(sample['text_1']) < 20:
                         continue
                     few_shot_text_list.append(
-                        to_prompt(sample, prompt_template, dset_subset, task_type.value, with_label=True, use_template=use_prompt_template)
+                        to_prompt(sample, prompt_template, dset_subset, task_type.value, with_label=True)
                     )
                     if len(few_shot_text_list) == N_SHOT:
                         break
@@ -288,7 +299,7 @@ if __name__ == '__main__':
                             continue
                         
                         # Buffer
-                        prompt_text = to_prompt(sample, prompt_template, prompt_lang, dset_subset, task_type.value, use_template=use_prompt_template)
+                        prompt_text = to_prompt(sample, prompt_template, prompt_lang, dset_subset, task_type.value)
                         prompt_text = '\n\n'.join(few_shot_text_list + [prompt_text])
                         prompts.append(prompt_text)
 
@@ -296,7 +307,7 @@ if __name__ == '__main__':
 
                         # Batch inference
                         if len(prompts) == N_BATCH:
-                            batch_preds = predict_generation(prompts, MODEL, tokenizer, model)
+                            batch_preds = predict_generation(client, MODEL, prompts)
                             for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                                 inputs.append(prompt_text)
                                 preds.append(pred if pred is not None else '')
@@ -313,7 +324,7 @@ if __name__ == '__main__':
 
                     # Predict the rest inputs
                     if len(prompts) > 0:
-                        batch_preds = predict_generation(prompts, MODEL, tokenizer, model)
+                        batch_preds = predict_generation(client, MODEL, prompts)
                         for (prompt_text, pred, gold) in zip(prompts, batch_preds, batch_golds):
                             inputs.append(prompt_text)
                             preds.append(pred if pred is not None else '')

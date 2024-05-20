@@ -1,5 +1,9 @@
 TASK_TO_PROMPT = {
     'eng': {
+        ####
+        # NLU Tasks
+        ####
+
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
             'Classify the sentiment of the text below.\n[INPUT] => Sentiment ([OPTIONS]): [LABEL_CHOICE]',
@@ -18,23 +22,11 @@ TASK_TO_PROMPT = {
             'Given the following premise and hypothesis:\nHypothesis: [INPUT_A]\nPremise: [INPUT_B]\nDetermine the logical relationship (([OPTIONS])): [LABEL_CHOICE]',
             'Choose the most appropriate relationship ([OPTIONS]) between the premise and hypothesis:\nRelationship between "[INPUT_B]" and "[INPUT_A]": [LABEL_CHOICE]',
         ],
-        # Tasks.MACHINE_TRANSLATION
-        'MT': [
-            'Translate the following text from [SOURCE] to [TARGET].\nText: [INPUT]\nTranslation:',
-            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET].',
-            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]?',
-        ],
         # Tasks.QUESTION_ANSWERING
         'QA': [
             'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nBased on the above text, [QUESTION]\nChoices: [ANSWER_CHOICES]\nAnswer: [LABEL_CHOICE]',
             '[CONTEXT]\nQuestion: [QUESTION]\nChoices:[ANSWER_CHOICES]\nReferring to the passage above, the correct answer to the given question is: [LABEL_CHOICE]',
-        ],
-        # Tasks.SUMMARIZATION
-        'SUM': [
-            'Write a summary from of the following text.\nText: [INPUT]\nSummary:',
-            '[INPUT]\nWrite a summary of the text above.',
-            'Text: [INPUT]\nHow would you summarize this text?',
         ],
         # Tasks.TOPIC_MODELING
         'TL': [
@@ -60,8 +52,56 @@ TASK_TO_PROMPT = {
             'Predict the language of the following text.\nText: [INPUT]\nAnswer: [LABEL_CHOICE]',
             '[INPUT]\nWhat would be the language of the text above? [LABEL_CHOICE]',
         ],
+
+        ####
+        # NLG Tasks
+        ####
+
+        # Tasks.MACHINE_TRANSLATION
+        'MT': [
+            'Translate the following text from [SOURCE] to [TARGET]. Give your translation directly.\nText: [INPUT]\nTranslation:',
+            '[INPUT]\nTranslate the text above from [SOURCE] to [TARGET]. Give your translation directly.',
+            'Text in [SOURCE]: [INPUT]\nHow would you translate that in [TARGET]? Give your answer directly.'
+            #'Translate the following [SOURCE] text to [TARGET].\nText: [INPUT]\nTranslation:',
+            #'Text in [SOURCE]: [INPUT]\nText in [TARGET]:',
+        ],
+        
+        # Tasks.SUMMARIZATION
+        'SUM': [
+            'Write a summary from the following text.\nText: [INPUT]\nSummary:',
+            '[INPUT]\nWrite a summary of the text above.',
+            'Text: [INPUT]\nHow would you summarize this text?'
+            #'Summarize this text: [INPUT]\nSummary:',
+            #'[INPUT]\nGiven the above document, write one sentence to summarize:',
+        ],
+
+        # Tasks.CROSSLINGUAL_SUMMARIZATION
+        'CSUM': [
+            'Write a summary from the following text.\nText: [INPUT]\nSummary:',
+            '[INPUT]\nWrite a summary of the text above.',
+            'Text: [INPUT]\nHow would you summarize this text?'
+        ],
+
+        # Tasks.INSTRUCTION_TUNING
+        'IT': [
+            'Task: [INPUT]\n What is your output upon completing the insturction or question given?',
+            'Address the instruction or question below: [INPUT]',
+            'Produce the best output for the following task: [INPUT]'
+        ],
+
+        # Task.QA_EXTRACTIVE_ABSTRACTIVE
+        'QAE':[
+            'Refer to the passage below and answer the following question:\nPassage: [CONTEXT]\nQuestion: [QUESTION]\nAnswer:',
+            '[CONTEXT]\nBased on the text, [QUESTION]\nAnswer: ',
+            '[CONTEXT]\nQuestion: [QUESTION]\nReferring to the passage above, the correct answer to the given question is: '
+        ]
     },
     'ind': {
+
+        ####
+        # NLU Tasks
+        ####
+
         # Tasks.SENTIMENT_ANALYSIS
         'SA': [
             'Klasifikasikan sentimen dari kalimat berikut.\n[INPUT] => Sentimen ([OPTIONS]): [LABEL_CHOICE]',
@@ -122,6 +162,43 @@ TASK_TO_PROMPT = {
             'Prediksikan bahasa dari kalimat berikut.\nTeks: [INPUT]\nJawaban: [LABEL_CHOICE]',
             '[INPUT]\nApakah bahasa dari kalimat diatas? [LABEL_CHOICE]',
         ],
+
+        ####
+        # NLG Tasks
+        ####
+
+        # Tasks.SUMMARIZATION
+        'SUM': [
+            'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
+            '[INPUT]\nTulis ringkasan dari teks di atas.',
+            'Teks: [INPUT]\nApa ringkasan dari teks tersebut?'
+            #'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
+            #'[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
+        ],
+        # Tasks.MACHINE_TRANSLATION
+        'MT': [
+            'Terjemahkan teks berikut dari bahasa [SOURCE] ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
+            '[INPUT]\nTerjemahkan teks di atas dari bahasa [SOURCE] ke bahasa [TARGET].',
+            'Teks dalam bahasa [SOURCE]: [INPUT]\nApa terjemahannya dalam bahasa [TARGET]?'
+            #'Terjemahkan teks bahasa [SOURCE] berikut ke bahasa [TARGET].\nTeks: [INPUT]\nTerjemahan:',
+            #'Teks dalam bahasa [SOURCE]: [INPUT]\nTeks dalam bahasa [TARGET]:',
+        ],
+
+        # Tasks.CROSSLINGUAL_SUMMARIZATION
+        'CSUM': [
+            'Tuliskan ringkasan dari teks berikut.\nTeks: [INPUT]\nRingkasan:',
+            '[INPUT]\nTulis ringkasan dari teks di atas.',
+            'Teks: [INPUT]\nApa ringkasan dari teks tersebut?'
+            #'Ringkaslah teks berikut: [INPUT]\nRingkasan:',
+            #'[INPUT]\nBerdasarkan dokumen di atas, tulis satu kalimat ringkasan:',
+        ],
+
+        # Tasks.INSTRUCTION_TUNING
+        'IT': [
+            '',
+            '',
+            ''
+        ]
     }
 }
 
