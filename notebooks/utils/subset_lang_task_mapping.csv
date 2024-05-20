@@ -1,4 +1,104 @@
 dataset,lang,task,region
+lr_sum_ind_seacrowd_t2t,ind,Summarization,Indonesia
+lr_sum_vie_seacrowd_t2t,vie,Summarization,Vietnam
+lr_sum_lao_seacrowd_t2t,lao,Summarization,Laos
+lr_sum_tha_seacrowd_t2t,tha,Summarization,Thailand
+lr_sum_khm_seacrowd_t2t,khm,Summarization,Cambodia
+lr_sum_mya_seacrowd_t2t,mya,Summarization,Myanmar
+xl_sum_mya_seacrowd_t2t,mya,Summarization,Myanmar
+xl_sum_ind_seacrowd_t2t,ind,Summarization,Indonesia
+xl_sum_tha_seacrowd_t2t,tha,Summarization,Thailand
+xl_sum_vie_seacrowd_t2t,vie,Summarization,Vietnam
+lio_and_central_flores_eng_ljl_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+lio_and_central_flores_ljl_eng_seacrowd_t2t,ljl,MT XX -> Eng,Indonesia
+flores200_eng_Latn_ace_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_ban_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_bjn_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_bug_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_ceb_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_ilo_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_ind_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_jav_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_kac_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_khm_Khmr_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_lao_Laoo_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_lus_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_min_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_mya_Mymr_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_pag_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_shn_Mymr_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_sun_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_tha_Thai_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_vie_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_war_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_eng_Latn_zsm_Latn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_ind_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_mya_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_fil_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_khm_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_lao_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_zlm_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_tha_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_vie_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+ntrex_128_eng-US_hmv_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_ind_seacrowd_t2t,ind,MT Eng -> XX,Indonesia
+nusax_mt_eng_ace_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_jav_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_sun_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_min_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_bug_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_bbc_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_ban_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_nij_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_mad_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+nusax_mt_eng_bjn_seacrowd_t2t,eng,MT Eng -> XX,Non-indigenous
+flores200_ace_Latn_eng_Latn_seacrowd_t2t,ace,MT XX -> Eng,Indonesia
+flores200_ban_Latn_eng_Latn_seacrowd_t2t,ban,MT XX -> Eng,Indonesia
+flores200_bjn_Latn_eng_Latn_seacrowd_t2t,bjn,MT XX -> Eng,Indonesia
+flores200_bug_Latn_eng_Latn_seacrowd_t2t,bug,MT XX -> Eng,Indonesia
+flores200_ceb_Latn_eng_Latn_seacrowd_t2t,ceb,MT XX -> Eng,Philippines
+flores200_ilo_Latn_eng_Latn_seacrowd_t2t,ilo,MT XX -> Eng,Philippines
+flores200_ind_Latn_eng_Latn_seacrowd_t2t,ind,MT XX -> Eng,Indonesia
+flores200_jav_Latn_eng_Latn_seacrowd_t2t,jav,MT XX -> Eng,Indonesia
+flores200_kac_Latn_eng_Latn_seacrowd_t2t,kac,MT XX -> Eng,Myanmar
+flores200_khm_Khmr_eng_Latn_seacrowd_t2t,khm,MT XX -> Eng,Cambodia
+flores200_lao_Laoo_eng_Latn_seacrowd_t2t,lao,MT XX -> Eng,Laos
+flores200_lus_Latn_eng_Latn_seacrowd_t2t,lus,MT XX -> Eng,Myanmar
+flores200_min_Latn_eng_Latn_seacrowd_t2t,min,MT XX -> Eng,Indonesia
+flores200_mya_Mymr_eng_Latn_seacrowd_t2t,mya,MT XX -> Eng,Myanmar
+flores200_pag_Latn_eng_Latn_seacrowd_t2t,pag,MT XX -> Eng,Philippines
+flores200_shn_Mymr_eng_Latn_seacrowd_t2t,shn,MT XX -> Eng,Myanmar
+flores200_sun_Latn_eng_Latn_seacrowd_t2t,sun,MT XX -> Eng,Indonesia
+flores200_tha_Thai_eng_Latn_seacrowd_t2t,tha,MT XX -> Eng,Thailand
+flores200_vie_Latn_eng_Latn_seacrowd_t2t,vie,MT XX -> Eng,Vietnam
+flores200_war_Latn_eng_Latn_seacrowd_t2t,war,MT XX -> Eng,Philippines
+flores200_zsm_Latn_eng_Latn_seacrowd_t2t,zsm,MT XX -> Eng,Malaysia
+ntrex_128_ind_eng-US_seacrowd_t2t,ind,MT XX -> Eng,Indonesia
+ntrex_128_mya_eng-US_seacrowd_t2t,mya,MT XX -> Eng,Myanmar
+ntrex_128_fil_eng-US_seacrowd_t2t,fil,MT XX -> Eng,Philippines
+ntrex_128_khm_eng-US_seacrowd_t2t,khm,MT XX -> Eng,Cambodia
+ntrex_128_lao_eng-US_seacrowd_t2t,lao,MT XX -> Eng,Laos
+ntrex_128_zlm_eng-US_seacrowd_t2t,zlm,MT XX -> Eng,Malaysia
+ntrex_128_tha_eng-US_seacrowd_t2t,tha,MT XX -> Eng,Thailand
+ntrex_128_vie_eng-US_seacrowd_t2t,vie,MT XX -> Eng,Vietnam
+ntrex_128_hmv_eng-US_seacrowd_t2t,hmv,MT XX -> Eng,Vietnam
+nusax_mt_ace_eng_seacrowd_t2t,ace,MT XX -> Eng,Indonesia
+nusax_mt_jav_eng_seacrowd_t2t,jav,MT XX -> Eng,Indonesia
+nusax_mt_sun_eng_seacrowd_t2t,sun,MT XX -> Eng,Indonesia
+nusax_mt_min_eng_seacrowd_t2t,min,MT XX -> Eng,Indonesia
+nusax_mt_bug_eng_seacrowd_t2t,bug,MT XX -> Eng,Indonesia
+nusax_mt_bbc_eng_seacrowd_t2t,bbc,MT XX -> Eng,Indonesia
+nusax_mt_ban_eng_seacrowd_t2t,ban,MT XX -> Eng,Indonesia
+nusax_mt_nij_eng_seacrowd_t2t,nij,MT XX -> Eng,Indonesia
+nusax_mt_mad_eng_seacrowd_t2t,mad,MT XX -> Eng,Indonesia
+nusax_mt_bjn_eng_seacrowd_t2t,bjn,MT XX -> Eng,Indonesia
+facqa_seacrowd_qa,ind,Question Answering,Indonesia
+iapp_squad_seacrowd_qa,tha,Question Answering,Thailand
+qasina_seacrowd_qa,ind,Question Answering,Indonesia
+mkqa_khm_seacrowd_qa,khm,Question Answering,Cambodia
+mkqa_zsm_seacrowd_qa,zsm,Question Answering,Malaysia
+mkqa_tha_seacrowd_qa,tha,Question Answering,Thailand
+mkqa_vie_seacrowd_qa,vie,Question Answering,Vietnam
 lazada_review_filipino_seacrowd_text,fil,Sentiment Analysis,Philippines
 gklmip_sentiment_seacrowd_text,mya,Sentiment Analysis,Myanmar
 indolem_sentiment_seacrowd_text,ind,Sentiment Analysis,Indonesia

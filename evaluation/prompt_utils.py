@@ -101,9 +101,9 @@ TASK_TO_PROMPT = {
         ####
 
         # Tasks.SPEECH_RECOGNITION
-        'ASR': [],
+        'ASR': [''],
         # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
-        'SPEECH_LID': [],
+        'SPEECH_LID': [''],
     },
     'ind': {
 
@@ -214,9 +214,9 @@ TASK_TO_PROMPT = {
         ####
 
         # Tasks.SPEECH_RECOGNITION
-        'ASR': [],
+        'ASR': [''],
         # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
-        'SPEECH_LID': [],
+        'SPEECH_LID': [''],
     }
 }
 
@@ -788,7 +788,46 @@ LANG_MAP = {
         'sun': 'Sundanese',
         'ace': 'Acehnese',
         'ban': 'Balinese',
-        'min': 'Minangkabau'
+        'min': 'Minangkabau',
+        'eng': 'English',
+        'vie': 'Vietnamese',
+        'mya': 'Burmese',
+        'gor': 'Gorontalo',
+        'ceb': 'Cebuano',
+        'ilo': 'Iloko',
+        'hil': 'Hiligaynon',
+        'khm': 'Khmer',
+        'lao': 'Lao',
+        'zlm': 'Malay',
+        'nia': 'Nias',
+        'tgl': 'Tagalog',
+        'tha': 'Thai',
+        'end': 'Ende',
+        'nxe': 'Nage',
+        'ssq': 'ssq',
+        'ljl': 'Lio',
+        'kac': 'Kachin',
+        'eng-US': 'English',
+        'lus': 'Lushai',
+        'min': 'Minangkabau',
+        'pag': 'Pangasinan',
+        'shn': 'Shan',
+        'war': 'Waray',
+        'zsm': 'Standard Malay',
+        'hmv': 'Hmong Do',
+        'bbc': 'Batak Toba',
+        'nij': 'Ngaju',
+        'fil': 'Filipino',
+        'tl': 'Tagalog',
+        'km': 'Khmer',
+        'vi': 'Vietnamese',
+        'th': 'Thai',
+        'ms': 'Malay',
+        'id': 'Indonesian',
+        'lo': 'Lao',
+        'my': 'Mayan',
+        'en': 'English',
+        'tam': 'Tamil'
     },
     'ind': {
         'ind': 'Indonesia',
