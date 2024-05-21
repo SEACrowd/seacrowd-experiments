@@ -76,6 +76,7 @@ if __name__ == '__main__':
     out_dir = './outputs_speech'
     metric_dir = './metrics_speech'
     os.makedirs(out_dir, exist_ok=True)
+    os.makedirs(f'{out_dir}/{MODEL.split("/")[-1]}', exist_ok=True)
     os.makedirs(metric_dir, exist_ok=True)
 
 
@@ -165,7 +166,7 @@ if __name__ == '__main__':
         else:
             wer = jiwer.wer(pred_strs, label_strs)
             mer = jiwer.mer(pred_strs, label_strs)
-            cer = jiwer.mer(pred_strs, label_strs)
+            cer = jiwer.cer(pred_strs, label_strs)
 
         metrics = {
             "wer": wer, "mer": mer, "cer": cer
@@ -197,45 +198,49 @@ if __name__ == '__main__':
 
     print("Vocab length (initial):", len(pretrained_vocab))
 
-    new_vocab_list = []
-    for i, dset_subset in enumerate(speech_datasets.keys()):
-        print(f'{i} {dset_subset}')
-        speech_datasets[dset_subset] = (
-            speech_datasets[dset_subset][0].map(remove_special_characters),
-            speech_datasets[dset_subset][1]
-        )
+    if os.path.exists("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1])):
+        with open("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]), "r") as vocab_file:
+            vocab_dict = json.load(vocab_file)
+    else:
+        new_vocab_list = []
+        for i, dset_subset in enumerate(speech_datasets.keys()):
+            print(f'{i} {dset_subset}')
+            speech_datasets[dset_subset] = (
+                speech_datasets[dset_subset][0].map(remove_special_characters),
+                speech_datasets[dset_subset][1]
+            )
 
-    if os.path.exists("{}/new_vocab.json".format(out_dir)):
-        with open("{}/new_vocab.json".format(out_dir), "r") as new_vocab_file:
-            new_vocab_list = json.load(new_vocab_file)
+        if os.path.exists("{}/{}/new_vocab.json".format(out_dir, MODEL.split("/")[-1])):
+            with open("{}/{}/new_vocab.json".format(out_dir, MODEL.split("/")[-1]), "r") as new_vocab_file:
+                new_vocab_list = json.load(new_vocab_file)
 
-    vocab_list = []
-    for i, dset_subset in enumerate(speech_datasets.keys()):
-        vocabs = speech_datasets[dset_subset][0].map(
-            extract_all_chars,
-            batched=True,
-            batch_size=-1,
-            keep_in_memory=True,
-            remove_columns=speech_datasets[dset_subset][0].column_names["train"]
-        )
-        if "train" in vocabs:
-            vocab_list = list(set(vocab_list) | set(vocabs["train"]["vocab"][0]))
-        if "validation" in vocabs:
-            vocab_list = list(set(vocab_list) | set(vocabs["validation"]["vocab"][0]))
-        if "test" in vocabs:
-            vocab_list = list(set(vocab_list) | set(vocabs["test"]["vocab"][0]))
+        vocab_list = []
+        for i, dset_subset in enumerate(speech_datasets.keys()):
+            vocabs = speech_datasets[dset_subset][0].map(
+                extract_all_chars,
+                batched=True,
+                batch_size=-1,
+                keep_in_memory=True,
+                remove_columns=speech_datasets[dset_subset][0].column_names["train"]
+            )
+            if "train" in vocabs:
+                vocab_list = list(set(vocab_list) | set(vocabs["train"]["vocab"][0]))
+            if "validation" in vocabs:
+                vocab_list = list(set(vocab_list) | set(vocabs["validation"]["vocab"][0]))
+            if "test" in vocabs:
+                vocab_list = list(set(vocab_list) | set(vocabs["test"]["vocab"][0]))
 
-    all_vocab = list(set(pretrained_vocab) | set(new_vocab_list) | set(list(dict.fromkeys(vocab_list))))
-    vocab_dict = {v: k for k, v in enumerate(all_vocab)}
+        all_vocab = list(set(pretrained_vocab) | set(new_vocab_list) | set(list(dict.fromkeys(vocab_list))))
+        vocab_dict = {v: k for k, v in enumerate(all_vocab)}
+
+        with open("{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]), "w") as vocab_file:
+            json.dump(vocab_dict, vocab_file)
 
     vocab_dict = _assign_id_to_special_tokens(special_tokens, vocab_dict)
     print("len vocab dict", len(vocab_dict))
 
-    with open("{}/all_vocab.json".format(out_dir), "w") as vocab_file:
-        json.dump(vocab_dict, vocab_file)
-
     tokenizer = Wav2Vec2CTCTokenizer(
-        "{}/all_vocab.json".format(out_dir),
+        "{}/{}/all_vocab.json".format(out_dir, MODEL.split("/")[-1]),
         bos_token=special_tokens["bos_token"][0],
         eos_token=special_tokens["eos_token"][0],
         pad_token=special_tokens["pad_token"][0],
@@ -277,9 +282,13 @@ if __name__ == '__main__':
     def map_to_pred(batch):
         features = processor(batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, padding=True, return_tensors="pt")
         input_values = features.input_values.cuda()
-        attention_mask = features.attention_mask.cuda()
-        with torch.no_grad():
-            logits = model(input_values, attention_mask=attention_mask).logits
+        if "attention_mask" in features:
+            attention_mask = features.attention_mask.cuda()
+            with torch.no_grad():
+                logits = model(input_values, attention_mask=attention_mask).logits
+        else:
+            with torch.no_grad():
+                logits = model(input_values).logits
         pred_ids = torch.argmax(logits, dim=-1)
         batch["predicted"] = processor.batch_decode(pred_ids)
         batch["target"] = batch["sentence"]
@@ -289,20 +298,21 @@ if __name__ == '__main__':
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
-        print(dset_subset)
-        # Evaluation Phase (Validation)
-        if "validation" in speech_dataset.keys():
-            print("*** Valid Phase ***")
-            ds = speech_dataset["validation"].map(map_to_array)
-            result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
-            metrics = compute_metrics(result)
-            metrics_all.append({
-                'dataset': dset_subset,
-                'fold': 'validation',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
-            })
+        print(f"=== ({i}/{len(speech_datasets.keys())}) {dset_subset} ===")
+
+        # # Evaluation Phase (Validation)
+        # if "validation" in speech_dataset.keys():
+        #     print("*** Valid Phase ***")
+        #     ds = speech_dataset["validation"].map(map_to_array)
+        #     result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
+        #     metrics = compute_metrics(result)
+        #     metrics_all.append({
+        #         'dataset': dset_subset,
+        #         'fold': 'validation',
+        #         'wer': metrics["wer"],
+        #         'mer': metrics["mer"],
+        #         'cer': metrics["cer"]
+        #     })
 
         # Evaluation Phase (Test)
         if "test" in speech_dataset.keys():
