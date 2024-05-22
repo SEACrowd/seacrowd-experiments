@@ -62,22 +62,21 @@ CHARS_TO_IGNORE = [",", "?", "¿", ".", "!", "¡", ";", "；", ":", '""', "%", '
 
 chars_to_ignore_re = f"[{re.escape(''.join(CHARS_TO_IGNORE))}]"
 
-# TODO: UPDATE LANGUAGE LIST TO ITS NATIONAL COUNTRY'S OR CLOSEST LANGUAGE FAMILY
 language_dict = {
     "ace": "indonesian",
     "ban": "javanese",
     "bjn": "indonesian",
     "brv": "khmer",
-    "btx": "indonesian",
+    "btk": "indonesian",
     "bug": "indonesian",
     "bzi": "thai",
     "ceb": "tagalog",
-    "cnh": "chinese",
+    "cnh": "english",
     "eng": "english",
     "fil": "tagalog",
     "hil": "tagalog",
     "hni": "tagalog",
-    "iba": "malay",
+    "ibsc": "malay",
     "ilo": "tagalog",
     "ind": "indonesian",
     "jav": "javanese",
@@ -100,7 +99,7 @@ DEFAULT_SAMPLING_RATE = 16000
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        raise ValueError('main_speech_no_prompt_batch.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
+        raise ValueError('main_speech_whisper.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
 
     MODEL = sys.argv[1]
     BATCH_SIZE = int(sys.argv[2])
@@ -175,21 +174,8 @@ if __name__ == '__main__':
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
-        print(dset_subset)
+        print(f"=== ({i}/{len(speech_datasets.keys())}) {dset_subset} ===")
         LANGUAGE = language_dict[dset_subset.split('_')[-3]]
-        # Evaluation Phase (Validation)
-        if "validation" in speech_dataset.keys():
-            print("*** Valid Phase ***")
-            ds = speech_dataset["validation"].map(map_to_array)
-            result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
-            metrics = compute_metrics(result)
-            metrics_all.append({
-                'dataset': dset_subset,
-                'fold': 'validation',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
-            })
 
         # Evaluation Phase (Test)
         if "test" in speech_dataset.keys():

@@ -53,36 +53,36 @@ CHARS_TO_IGNORE = [",", "?", "¿", ".", "!", "¡", ";", "；", ":", '""', "%", '
 chars_to_ignore_re = f"[{re.escape(''.join(CHARS_TO_IGNORE))}]"
 
 language_dict = {
-    "ace": "indonesian",
-    "ban": "javanese",
-    "bjn": "indonesian",
-    "brv": "khmer",
-    "btx": "indonesian",
-    "bug": "indonesian",
-    "bzi": "thai",
-    "ceb": "tagalog",
-    "cnh": "chinese",
-    "eng": "english",
-    "fil": "tagalog",
-    "hil": "tagalog",
-    "hni": "tagalog",
-    "iba": "malay",
-    "ilo": "tagalog",
-    "ind": "indonesian",
-    "jav": "javanese",
-    "jra": "vietnamese",
-    "khm": "khmer",
-    "kqr": "malay",
+    "ace": "ind",
+    "ban": "ind",
+    "bjn": "ind",
+    "brv": "khm",
+    "btk": "ind",
+    "bug": "ind",
+    "bzi": "tha",
+    "ceb": "tgl",
+    "cnh": "cmn",
+    "eng": "eng",
+    "fil": "tgl",
+    "hil": "tgl",
+    "hni": "tgl",
+    "ibsc": "zlm",
+    "ilo": "tgl",
+    "ind": "ind",
+    "jav": "jav",
+    "jra": "vie",
+    "khm": "khm",
+    "kqr": "zlm",
     "lao": "lao",
-    "mak": "indonesian",
-    "min": "english",
-    "mya": "myanmar",
-    "pam":"english",
-    "sun": "sundanese",
-    "tgl":"tagalog",
-    "tha":"thai",
-    "vie":"vietnamese",
-    "zlm":"malay",
+    "mak": "ind",
+    "min": "eng",
+    "mya": "mya",
+    "pam":"eng",
+    "sun": "ind",
+    "tgl":"tgl",
+    "tha":"tha",
+    "vie":"vie",
+    "zlm":"zlm",
 }
 
 DEFAULT_SAMPLING_RATE = 16000
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     def map_to_pred(batch):
         model.to(device)
-        features = processor(audios=batch["speech"], return_tensors="pt")
+        features = processor(audios=batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, return_tensors="pt")
         with torch.no_grad():
             pred_ids = model.generate(**features.to(device), tgt_lang=LANGUAGE).cpu().tolist()
         batch["predicted"] = processor.batch_decode(pred_ids)
@@ -158,21 +158,8 @@ if __name__ == '__main__':
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
-        print(dset_subset)
-        LANGUAGE = dset_subset.split('_')[-3]
-        # Evaluation Phase (Validation)
-        if "validation" in speech_dataset.keys():
-            print("*** Valid Phase ***")
-            ds = speech_dataset["validation"].map(map_to_array)
-            result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
-            metrics = compute_metrics(result)
-            metrics_all.append({
-                'dataset': dset_subset,
-                'fold': 'validation',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
-            })
+        print(f"=== ({i}/{len(speech_datasets.keys())}) {dset_subset} ===")
+        LANGUAGE = language_dict[dset_subset.split('_')[-3]]
 
         # Evaluation Phase (Test)
         if "test" in speech_dataset.keys():

@@ -53,43 +53,43 @@ CHARS_TO_IGNORE = [",", "?", "¿", ".", "!", "¡", ";", "；", ":", '""', "%", '
 chars_to_ignore_re = f"[{re.escape(''.join(CHARS_TO_IGNORE))}]"
 
 language_dict = {
-    "ace": "indonesian",
-    "ban": "javanese",
-    "bjn": "indonesian",
-    "brv": "khmer",
-    "btx": "indonesian",
-    "bug": "indonesian",
-    "bzi": "thai",
-    "ceb": "tagalog",
-    "cnh": "chinese",
-    "eng": "english",
-    "fil": "tagalog",
-    "hil": "tagalog",
-    "hni": "tagalog",
-    "iba": "malay",
-    "ilo": "tagalog",
-    "ind": "indonesian",
-    "jav": "javanese",
-    "jra": "vietnamese",
-    "khm": "khmer",
-    "kqr": "malay",
+    "ace": "ace",
+    "ban": "ban",
+    "bjn": "ind",
+    "brv": "bru",
+    "btk": "btx",
+    "bug": "ind",
+    "bzi": "tha",
+    "ceb": "ceb",
+    "cnh": "cnh",
+    "eng": "eng",
+    "fil": "tgl",
+    "hil": "hil",
+    "hni": "tgl",
+    "ibsc": "iba",
+    "ilo": "ilo",
+    "ind": "ind",
+    "jav": "jav",
+    "jra": "vie",
+    "khm": "khm",
+    "kqr": "kqr",
     "lao": "lao",
-    "mak": "indonesian",
-    "min": "english",
-    "mya": "myanmar",
-    "pam":"english",
-    "sun": "sundanese",
-    "tgl":"tagalog",
-    "tha":"thai",
-    "vie":"vietnamese",
-    "zlm":"malay",
+    "mak": "mak",
+    "min": "min",
+    "mya": "mya",
+    "pam":"pam",
+    "sun": "sun",
+    "tgl":"tgl",
+    "tha":"tha",
+    "vie":"vie",
+    "zlm":"zlm",
 }
 
 DEFAULT_SAMPLING_RATE = 16000
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        raise ValueError('main_speech_seamless.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
+        raise ValueError('main_speech_mms.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
 
     MODEL = sys.argv[1]
     BATCH_SIZE = int(sys.argv[2])
@@ -164,21 +164,8 @@ if __name__ == '__main__':
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
-        print(dset_subset)
+        print(f"=== ({i}/{len(speech_datasets.keys())}) {dset_subset} ===")
         LANGUAGE = language_dict[dset_subset.split('_')[-3]]
-        # Evaluation Phase (Validation)
-        if "validation" in speech_dataset.keys():
-            print("*** Valid Phase ***")
-            ds = speech_dataset["validation"].map(map_to_array)
-            result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
-            metrics = compute_metrics(result)
-            metrics_all.append({
-                'dataset': dset_subset,
-                'fold': 'validation',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
-            })
 
         # Evaluation Phase (Test)
         if "test" in speech_dataset.keys():
