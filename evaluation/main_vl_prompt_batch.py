@@ -21,7 +21,8 @@ import torch
 import torch.nn.functional as F
 
 from peft import PeftModel
-from transformers import AutoModelForVision2Seq, PaliGemmaForConditionalGeneration, AutoProcessor, set_seed
+from transformers import AutoModelForVision2Seq, AutoProcessor, set_seed
+from transformers import PaliGemmaForConditionalGeneration, Idefics2ForConditionalGeneration
 from transformers.image_utils import load_image
 
 from prompt_utils import get_prompt, get_label_mapping
@@ -58,22 +59,19 @@ def get_lang(language):
     return language
 
 
-def to_prompt(input, prompt, language, prompt_lang, schema):
+def to_prompt(input, prompt, language, prompt_lang, model, schema):
     if schema == "imtext":
         prompt = prompt.replace('[LANGUAGE]', get_lang(language))
         image = input['image_paths'][0]
-        # prompt = prompt.replace('[IMAGE]', read_image(input['image_paths'][0]))
-        # prompt = prompt.replace('[IMAGE]', input['image_paths'][0])
-        pass
 
     elif schema == "imqa":
-        # prompt = prompt.replace('[IMAGE]', read_image(input['image_paths'][0]))
-        # prompt = prompt.replace('[IMAGE]', input['image_paths'][0])
-        # prompt = prompt.replace('[QUESTION]', input['questions'][0])
-        pass
+        raise NotImplementedError
 
     else:
         raise ValueError("Only support `imtext`, `imqa`.")
+
+    if type(model) == Idefics2ForConditionalGeneration:
+        prompt = prompt + "\n<image>"
 
     return prompt, image
 
@@ -194,7 +192,7 @@ if __name__ == '__main__':
 
                 # sample prompt
                 print("= SAMPLE PROMPT =")
-                print(to_prompt(test_dset[0], prompt_template, language, prompt_lang, schema))
+                print(to_prompt(test_dset[0], prompt_template, language, prompt_lang, model, schema))
                 print("\n")
 
                 # zero-shot inference
@@ -205,7 +203,7 @@ if __name__ == '__main__':
                         if e < len(preds):
                             continue
 
-                        prompt_text, image = to_prompt(sample, prompt_template, language, prompt_lang, schema)
+                        prompt_text, image = to_prompt(sample, prompt_template, language, prompt_lang, model, schema)
                         prompts.append(prompt_text)
                         images.append(image)
                         batch_golds.append(sample['texts'])
