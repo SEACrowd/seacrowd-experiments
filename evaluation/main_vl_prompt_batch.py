@@ -21,7 +21,7 @@ import torch
 import torch.nn.functional as F
 
 from peft import PeftModel
-from transformers import AutoModelForVision2Seq, AutoProcessor, set_seed
+from transformers import AutoModelForVision2Seq, PaliGemmaForConditionalGeneration, AutoProcessor, set_seed
 from transformers.image_utils import load_image
 
 from prompt_utils import get_prompt, get_label_mapping
@@ -30,6 +30,10 @@ from seacrowd.sea_datasets.sea_wiki.lang_config import _LANG_CONFIG
 
 import cv2
 import urllib
+import requests
+import PIL
+from PIL import Image
+from metrics_utils import generation_metrics_fn
 
 #!pip install git+https://github.com/IndoNLP/nusa-crowd.git@release_exp
 #!pip install transformers
@@ -39,14 +43,16 @@ DEBUG=False
 
 csv.field_size_limit(sys.maxsize)
 
-def read_image(impath):
-    req = urllib.request.urlopen(impath)
-    arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
-    img = cv2.imdecode(arr, -1)
-    return img
-
 
 def get_lang(language):
+    lang_dict = _LANG_CONFIG
+    lang_dict['ceb'] = 'Cebuano'
+    lang_dict['fil'] = 'Filipino'
+    lang_dict['ind'] = lang_dict['id'] = 'Indonesian'
+    lang_dict['tha'] = lang_dict['th'] = 'Thai'
+    lang_dict['vie'] = lang_dict['vi'] = 'Vietnamese'
+    lang_dict['war'] = 'Waray'
+
     if language in _LANG_CONFIG:
         return _LANG_CONFIG[language]
     return language
@@ -74,13 +80,40 @@ def to_prompt(input, prompt, language, prompt_lang, schema):
 
 @torch.inference_mode()
 def generate_output(model, processor, prompts, images):
-    # images = [[read_image(i)] for i in images]
-    images = [load_image(i) for i in images]
-    inputs = processor(text=prompts, images=images, return_tensors="pt")
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Connection': 'keep-alive'
+    }
+    if images[0][0] == '/':
+        # Local path
+        images = [Image.open(i) for i in images]
+    else:
+        images = [Image.open(requests.get(i, headers=headers, stream=True).raw) for i in images]
+    if type(model) == PaliGemmaForConditionalGeneration:
+        # Some models only support batch size 1
+        assert len(prompts)==1 and len(images)==1
+        image_0 = np.array(images[0])
+        if len(image_0.shape) == 2:
+            images[0] = cv2.cvtColor(image_0, cv2.COLOR_GRAY2RGB)
+        elif len(image_0.shape) == 3 and image_0.shape[2] == 4:
+            images[0] = Image.fromarray(image_0[:,:,:3])
+        inputs = processor(text=prompts[0], images=images[0], return_tensors="pt").to("cuda")
+    else:
+        inputs = processor(text=prompts, images=images, return_tensors="pt").to("cuda")
 
-    generated_ids = model.generate(**inputs, max_new_tokens=50)
-    generated_texts = processor.batch_decode(generated_ids, skip_special_tokens=True)
+    with torch.inference_mode():
+        generated_ids = model.generate(**inputs, max_new_tokens=50, do_sample=False)
+        generated_texts = processor.batch_decode(generated_ids, skip_special_tokens=True)
 
+    # Remove prefix if present
+    for i in range(len(prompts)):
+        input_len = len(prompts[i].split("<image>")[0].strip())
+        if generated_texts[i][:input_len].strip() == prompts[i][:input_len].strip():
+            generated_texts[i] = generated_texts[i][input_len:]
+
+    generated_texts = [i.strip() for i in generated_texts]
     return generated_texts
     
 
@@ -118,14 +151,14 @@ if __name__ == '__main__':
     # Set seed before initializing model.
     set_seed(42)
 
-    # Load Model
+    # Load Model & Processor
     model = AutoModelForVision2Seq.from_pretrained(MODEL, device_map="auto", trust_remote_code=True)
     processor = AutoProcessor.from_pretrained(MODEL)
         
     model.eval()
     with torch.no_grad():
 
-        metrics = []
+        metrics = {'dataset': []}
         for i, dset_subset in enumerate(vl_datasets.keys()):
 
             print(f'({i}/{len(vl_datasets.keys())}) {dset_subset}')
@@ -144,9 +177,9 @@ if __name__ == '__main__':
                 test_dset = vl_dset['train']
                 split = 'train'
             print(f'Processing {dset_subset}')
-                            
+
             for prompt_id, prompt_template in enumerate(TASK_TYPE_TO_PROMPT[task_type.value]):
-                inputs, preds = [], []
+                inputs, preds, golds = [], [], []
                 
                 # Check saved data
                 if exists(f'{out_dir}/{dset_subset}_{prompt_lang}_{prompt_id}_{MODEL.split("/")[-1]}.csv'):
@@ -156,6 +189,7 @@ if __name__ == '__main__':
                         for row in reader:
                             inputs.append(row["Input"])
                             preds.append(row["Pred"])
+                            golds.append(row["Gold"])
                     print(f"Skipping until {len(preds)}")
 
                 # sample prompt
@@ -164,7 +198,7 @@ if __name__ == '__main__':
                 print("\n")
 
                 # zero-shot inference
-                prompts, images = [], []
+                prompts, images, batch_golds = [], [], []
                 count = 0
                 with torch.inference_mode():
                     for e, sample in tqdm(enumerate(test_dset), total=len(test_dset)):
@@ -174,56 +208,52 @@ if __name__ == '__main__':
                         prompt_text, image = to_prompt(sample, prompt_template, language, prompt_lang, schema)
                         prompts.append(prompt_text)
                         images.append(image)
+                        batch_golds.append(sample['texts'])
 
                         # Batch Inference
                         if len(prompts) == BATCH_SIZE:
-                            outputs = generate_output(model, processor, prompts, images)
-                            for (prompt_text, image, output_text) in zip(prompts, images, outputs):
+                            try:
+                                outputs = generate_output(model, processor, prompts, images)
+                            except PIL.UnidentifiedImageError:
+                                print(f"ERROR! Cannot read image file: {images}. If bsz >1, consider rerunning with bsz=1")
+                                outputs = ""
+                            for (prompt_text, image, output_text, gold) in zip(prompts, images, outputs, batch_golds):
                                 inputs.append(prompt_text)
                                 preds.append(output_text)
-                            prompts, images = [], []
+                                golds.append(gold)
+                            prompts, images, batch_golds = [], [], []
                             count += 1
                             
                         if count == SAVE_EVERY:
                             # partial saving
-                            inference_df = pd.DataFrame(list(zip(inputs, preds)), columns =["Input", 'Pred'])
+                            inference_df = pd.DataFrame(list(zip(inputs, preds, golds)), columns =["Input", 'Pred', 'Gold'])
                             inference_df.to_csv(f'{out_dir}/{dset_subset}_{prompt_lang}_{prompt_id}_{MODEL.split("/")[-1]}.csv', index=False)
                             count = 0
                             
+                    # Predict the rest
                     if len(prompts) > 0:
                         outputs = generate_output(model, processor, prompts, images)
-                        for (prompt_text, output_text) in zip(prompts, outputs):
+                        for (prompt_text, image, output_text, gold) in zip(prompts, images, outputs, batch_golds):
                             inputs.append(prompt_text)
                             preds.append(output_text)
-                        prompts = []
+                            golds.append(gold)
+                        prompts, images, batch_golds = [], [], []
 
                 # partial saving
-                inference_df = pd.DataFrame(list(zip(inputs, preds)), columns =["Input", 'Pred'])
+                inference_df = pd.DataFrame(list(zip(inputs, preds, golds)), columns =["Input", 'Pred', 'Gold'])
                 inference_df.to_csv(f'{out_dir}/{dset_subset}_{prompt_lang}_{prompt_id}_{MODEL.split("/")[-1]}.csv', index=False)
 
-                # cls_report = classification_report(golds, preds, output_dict=True)
-                # micro_f1, micro_prec, micro_rec, _ = precision_recall_fscore_support(golds, preds, average='micro')
-                # print(dset_subset)
-                # print('accuracy', cls_report['accuracy'])
-                # print('f1 micro', micro_f1)
-                # print('f1 macro', cls_report['macro avg']['f1-score'])
-                # print('f1 weighted', cls_report['weighted avg']['f1-score'])
-                # print("===\n\n")       
+                eval_metric = generation_metrics_fn(preds, golds)
 
-                # metrics.append({
-                #     'dataset': dset_subset,
-                #     'prompt_id': prompt_id,
-                #     'prompt_lang': prompt_lang,
-                #     'accuracy': cls_report['accuracy'], 
-                #     'micro_prec': micro_prec,
-                #     'micro_rec': micro_rec,
-                #     'micro_f1_score': micro_f1,
-                #     'macro_prec': cls_report['macro avg']['precision'],
-                #     'macro_rec': cls_report['macro avg']['recall'],
-                #     'macro_f1_score': cls_report['macro avg']['f1-score'],
-                #     'weighted_prec': cls_report['weighted avg']['precision'],
-                #     'weighted_rec': cls_report['weighted avg']['recall'],
-                #     'weighted_f1_score': cls_report['weighted avg']['f1-score'],
-                # })
+                print(f'== {dset_subset} == ')
+                for k, v in eval_metric.items():
+                    print(k, v)            
+                print("===\n\n")
+                eval_metric['prompt_id'] = prompt_id
 
-    # pd.DataFrame(metrics).reset_index().to_csv(f'{metric_dir}/vl_results_{prompt_lang}_{MODEL.split("/")[-1]}.csv', index=False)
+                metrics['dataset'].append(dset_subset)
+                for k in eval_metric:
+                    if k not in metrics:
+                        metrics[k] = []
+                    metrics[k].append(eval_metric[k])
+            pd.DataFrame(metrics).reset_index().to_csv(f'{metric_dir}/vl_results_{prompt_lang}_{MODEL.split("/")[-1]}.csv', index=False)
