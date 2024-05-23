@@ -112,9 +112,9 @@ if __name__ == '__main__':
         if len(label_strs) == 0:
             return 0, 0
         else:
-            wer = jiwer.wer(pred_strs, label_strs)
-            mer = jiwer.mer(pred_strs, label_strs)
-            cer = jiwer.mer(pred_strs, label_strs)
+            wer = jiwer.wer(label_strs, pred_strs)
+            mer = jiwer.mer(label_strs, pred_strs)
+            cer = jiwer.mer(label_strs, pred_strs)
 
         metrics = {
             "wer": wer, "mer": mer, "cer": cer
