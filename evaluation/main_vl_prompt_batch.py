@@ -59,6 +59,18 @@ def get_lang(language):
     return language
 
 
+def get_lang_short(language):
+    lang_dict = {
+        'id': 'ind',
+        'th': 'tha',
+        'vi': 'vie',
+    }
+    if language in lang_dict:
+        return lang_dict[language]
+    else:
+        return language
+
+
 def to_prompt(input, prompt, language, prompt_lang, model, schema):
     if schema == "imtext":
         prompt = prompt.replace('[LANGUAGE]', get_lang(language))
@@ -176,7 +188,12 @@ if __name__ == '__main__':
                 split = 'train'
             print(f'Processing {dset_subset}')
 
-            for prompt_id, prompt_template in enumerate(TASK_TYPE_TO_PROMPT[task_type.value]):
+            if prompt_lang == "local":
+                prompt_list = TASK_TYPE_TO_PROMPT[task_type.value][get_lang_short(language)]
+            else:
+                prompt_list = TASK_TYPE_TO_PROMPT[task_type.value]
+
+            for prompt_id, prompt_template in enumerate(prompt_list):
                 inputs, preds, golds = [], [], []
                 
                 # Check saved data

@@ -82,8 +82,7 @@ TASK_TO_PROMPT = {
         ],
         # Tasks.IMAGE_CAPTIONING
         'IC': [
-            'Caption the following image in [LANGUAGE].',
-            'Using [LANGUAGE], caption the following image.',
+            'Caption the following image in [LANGUAGE].'
         ],
         # Tasks.VISUAL_QUESTION_ANSWERING
         'VQA': [
@@ -116,6 +115,14 @@ TASK_TO_PROMPT = {
         'V2TR': [
             ''
         ],
+    },
+    'local': {
+        'IC': {
+            'fil': ["Ilarawan ang sumusunod na larawan."],
+            'ind': ["Deskripsikan gambar berikut."],
+            'tha': ["เขียนคำอธิบายสำหรับรูปนี้."],
+            "vie": ["Viết mô tả cho hình ảnh này."],
+        }
     },
     'ind': {
         # Tasks.SENTIMENT_ANALYSIS
