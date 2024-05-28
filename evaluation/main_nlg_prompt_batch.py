@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
     # Model initialization
     fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
-    if "aya" in MODEL:
+    if "aya-101" in MODEL:
         model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True, resume_download=True)
     elif "mt0" in MODEL or "mt5" in MODEL:
         extra_args = fp16_args if "xxl" in MODEL else {}
