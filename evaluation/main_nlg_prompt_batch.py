@@ -208,7 +208,7 @@ if __name__ == '__main__':
     else:
         extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() or "8b" in MODEL.lower() else {}
         model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
-        if "SeaLLM" in MODEL or "Qwen" in MODEL:
+        if "SeaLLM" in MODEL or "Qwen" in MODEL or 'falcon' in MODEL:
             #if "SeaLLM" in MODEL or "llama" in MODEL:
             # quick fix for tensor error
             # https://github.com/facebookresearch/llama/issues/380
