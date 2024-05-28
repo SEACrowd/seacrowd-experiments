@@ -4,11 +4,11 @@
 # Zero-Shot 3B Eng
 ####
 
-# mT0 --> Holy
-CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py bigscience/mt0-xl 4 &
+# # mT0 --> Holy
+# CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py bigscience/mt0-xl 4 &
 
-# Cendol-Instruct mT5 --> Holy
-CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py indonlp/cendol-mt5-xl 4 &
+# # Cendol-Instruct mT5 --> Holy
+# CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py indonlp/cendol-mt5-xl 4 &
 
 # # ####
 # # # Zero-Shot 7B Eng
@@ -32,17 +32,17 @@ CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py indonlp/cendol-mt5-xl 4 &
 # # English - Falcon --> Ruochen
 # CUDA_VISIBLE_DEVICES=3 python main_nlg_prompt_batch.py tiiuae/falcon-7b-instruct 4 &
 
-# # Bilingual Eng/Chinese - Qwen --> Holy
-# CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py Qwen/Qwen-7B-Chat 2 &
+# Bilingual Eng/Chinese - Qwen --> Holy
+CUDA_VISIBLE_DEVICES=0 python main_nlg_prompt_batch.py Qwen/Qwen-7B-Chat 2 &
 
 # # SEA - SEA-LION --> Holy
-# CUDA_VISIBLE_DEVICES=0 python main_nlg_prompt_batch.py aisingapore/sea-lion-7b-instruct-research 32 &
+# CUDA_VISIBLE_DEVICES=7 python main_nlg_prompt_batch.py aisingapore/sea-lion-7b-instruct-research 8 &
 
 # # SEA - SeaLLMs 2.5 --> Holy/Fajri
 # CUDA_VISIBLE_DEVICES=3 python main_nlg_prompt_batch.py SeaLLMs/SeaLLM-7B-v2.5 4 &
 
-# # SEA - SAILOR --> Holy
-# CUDA_VISIBLE_DEVICES=3 python main_nlg_prompt_batch.py sail/Sailor-7B-Chat 16 &
+# SEA - SAILOR --> Holy
+CUDA_VISIBLE_DEVICES=1 python main_nlg_prompt_batch.py sail/Sailor-7B-Chat 8 &
 
 # # Indo - Cendol-Instruct LLaMA2 --> Holy/Fajri
 # CUDA_VISIBLE_DEVICES=2 python main_nlg_prompt_batch.py indonlp/cendol-llama2-7b 8 &
