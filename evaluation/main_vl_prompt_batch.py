@@ -22,7 +22,7 @@ import torch.nn.functional as F
 
 from peft import PeftModel
 from transformers import AutoModelForVision2Seq, AutoProcessor, set_seed
-from transformers import PaliGemmaForConditionalGeneration, Idefics2ForConditionalGeneration
+from transformers import PaliGemmaForConditionalGeneration, Idefics2ForConditionalGeneration, LlavaNextForConditionalGeneration, LlavaForConditionalGeneration
 from transformers.image_utils import load_image
 
 from prompt_utils import get_prompt, get_label_mapping
@@ -82,7 +82,7 @@ def to_prompt(input, prompt, language, prompt_lang, model, schema):
     else:
         raise ValueError("Only support `imtext`, `imqa`.")
 
-    if type(model) == Idefics2ForConditionalGeneration:
+    if type(model) in [Idefics2ForConditionalGeneration, LlavaNextForConditionalGeneration, LlavaForConditionalGeneration]:
         prompt = prompt + "\n<image>"
 
     return prompt, image
