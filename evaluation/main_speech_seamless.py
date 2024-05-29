@@ -114,7 +114,7 @@ if __name__ == '__main__':
         else:
             wer = jiwer.wer(label_strs, pred_strs)
             mer = jiwer.mer(label_strs, pred_strs)
-            cer = jiwer.mer(label_strs, pred_strs)
+            cer = jiwer.cer(label_strs, pred_strs)
 
         metrics = {
             "wer": wer, "mer": mer, "cer": cer
