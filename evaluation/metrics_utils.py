@@ -1,5 +1,6 @@
 from sacremoses import MosesTokenizer
 import datasets, evaluate
+from pycocoevalcap.cider.cider import Cider
 
 """ Generation metrics """
 bleu = datasets.load_metric('bleu')
@@ -9,6 +10,7 @@ sacrebleu = datasets.load_metric('sacrebleu')
 meteor = evaluate.load('meteor')
 # squad_v2_metric = datasets.load_metric('squad_v2')
 mt = MosesTokenizer(lang='id')
+cider_scorer = Cider()
 
 
 def generation_metrics_fn(list_hyp, list_label):
@@ -64,4 +66,11 @@ def generation_metrics_fn(list_hyp, list_label):
         metrics["ROUGEL"] = 0.0
         metrics["ROUGELsum"] = 0.0
 
+    dict_hyp, dict_label = {}, {}
+    for idx, (h, l) in enumerate(zip(list_hyp, list_label)):
+        curr = f"img{idx}"
+        dict_hyp[curr] = [h]
+        dict_label[curr] = [l]
+    metrics["CIDEr"] = cider_scorer.compute_score(dict_label, dict_hyp)[0]
+    
     return metrics
