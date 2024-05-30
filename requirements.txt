@@ -13,3 +13,6 @@ retry
 seacrowd
 bitsandbytes
 torchaudio
+opencv-python
+transformers
+pillow

@@ -104,6 +104,54 @@ TASK_TO_PROMPT = {
         'ASR': [''],
         # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
         'SPEECH_LID': [''],
+
+        ####
+        # VL Tasks
+        ####
+
+        # Tasks.IMAGE_CAPTIONING
+        'IC': [
+            'Caption the following image in [LANGUAGE].'
+        ],
+        # Tasks.VISUAL_QUESTION_ANSWERING
+        'VQA': [
+            '[IMAGE] Based on the image, [QUESTION]'
+        ],
+        # Tasks.SIGN_LANGUAGE_RECOGNITION
+        'SLR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.OPTICAL_CHARACTER_RECOGNITION
+        'OCR': [
+            ''
+        ],
+        # Tasks.STYLIZED_IMAGE_CAPTIONING
+        'SIC': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VISUALLY_GROUNDED_REASONING
+        'VGR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VIDEO_CAPTIONING
+        'VC': [
+            ''
+        ],
+        # Tasks.VIDEO_TO_TEXT_RETRIEVAL
+        'V2TR': [
+            ''
+        ],
+    },
+    'local': {
+        'IC': {
+            'fil': ["Ilarawan ang sumusunod na larawan."],
+            'ind': ["Deskripsikan gambar berikut."],
+            'tha': ["เขียนคำอธิบายสำหรับรูปนี้."],
+            "vie": ["Viết mô tả cho hình ảnh này."],
+        }
     },
     'ind': {
 
@@ -217,6 +265,46 @@ TASK_TO_PROMPT = {
         'ASR': [''],
         # Tasks.SPEECH_LANGUAGE_IDENTIFICATION
         'SPEECH_LID': [''],
+
+        ####
+        # VL Tasks
+        ####
+
+        # Tasks.IMAGE_CAPTIONING
+        'IC': [
+            ''
+        ],
+        # Tasks.VISUAL_QUESTION_ANSWERING
+        'VQA': [
+            ''
+        ],
+        # Tasks.SIGN_LANGUAGE_RECOGNITION
+        'SLR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.OPTICAL_CHARACTER_RECOGNITION
+        'OCR': [
+            ''
+        ],
+        # Tasks.STYLIZED_IMAGE_CAPTIONING
+        'SIC': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VISUALLY_GROUNDED_REASONING
+        'VGR': [
+            # No tasks so far. Leaving this blank for now.
+            ''
+        ],
+        # Tasks.VIDEO_CAPTIONING
+        'VC': [
+            ''
+        ],
+        # Tasks.VIDEO_TO_TEXT_RETRIEVAL
+        'V2TR': [
+            ''
+        ],
     }
 }
 

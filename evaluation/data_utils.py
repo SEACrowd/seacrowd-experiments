@@ -283,6 +283,28 @@ SPEECH_TASK_LIST = {
 
 FLORES200_TASK_LIST = []
 
+VL_TASK_LIST = [
+    "xm3600_fil_seacrowd_imtext",
+    "xm3600_id_seacrowd_imtext",
+    "xm3600_th_seacrowd_imtext",
+    "xm3600_vi_seacrowd_imtext",
+]
+
+
+def load_vl_datasets():
+    nc_conhelp = SEACrowdConfigHelper()
+    cfg_name_to_dset_map = {}
+
+    for config_name in VL_TASK_LIST:
+        print(config_name)
+        schema = config_name.split('_')[-1]
+        language = config_name.split('_')[-3]
+        con = nc_conhelp.for_config_name(config_name)
+        cfg_name_to_dset_map[config_name] = (con.load_dataset(), language, list(con.tasks)[0])
+    
+    return cfg_name_to_dset_map
+
+
 def load_nlu_datasets():
     nc_conhelp = SEACrowdConfigHelper()
     cfg_name_to_dset_map = {}
