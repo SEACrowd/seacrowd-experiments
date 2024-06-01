@@ -13,3 +13,6 @@ retry
 seacrowd
 bitsandbytes
 torchaudio
+
+jiwer
+evaluate
