@@ -350,7 +350,7 @@ FLORES200_TASK_LIST = [
     # 'flores200-ind_Latn-ban_Latn',
     # 'flores200-ind_Latn-min_Latn',
 ]
-SPEECH_TASK_LIST = {
+SPEECH_TASK_LIST = list(dict.fromkeys([
     'asr_ibsc_seacrowd_sptext',
     'commonvoice_120_tha_seacrowd_sptext',
     'commonvoice_120_vie_seacrowd_sptext',
@@ -370,7 +370,7 @@ SPEECH_TASK_LIST = {
     'indspeech_newstra_ethnicsr_nooverlap_jav_seacrowd_sptext',
     'indspeech_newstra_ethnicsr_nooverlap_ban_seacrowd_sptext',
     'indspeech_newstra_ethnicsr_nooverlap_btk_seacrowd_sptext',
-}
+]))
 
 
 def load_nlu_datasets():

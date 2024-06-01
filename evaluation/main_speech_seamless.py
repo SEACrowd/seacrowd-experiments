@@ -138,6 +138,7 @@ if __name__ == '__main__':
 
     processor = AutoProcessor.from_pretrained(MODEL)
     model = SeamlessM4Tv2ForSpeechToText.from_pretrained(MODEL)
+    model.to(device)
 
     def map_to_array(batch):
         speech, sr = torchaudio.load(batch["path"])
@@ -147,10 +148,13 @@ if __name__ == '__main__':
 
 
     def map_to_pred(batch):
-        model.to(device)
+        torch.cuda.empty_cache()
         features = processor(audios=batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, return_tensors="pt")
+        features.to(device)
         with torch.no_grad():
-            pred_ids = model.generate(**features.to(device), tgt_lang=LANGUAGE).cpu().tolist()
+            pred_ids = model.generate(**features, tgt_lang=LANGUAGE).cpu().tolist()
+        del features
+        torch.cuda.empty_cache()
         batch["predicted"] = processor.batch_decode(pred_ids)
         batch["target"] = batch["sentence"]
         return batch
@@ -167,6 +171,7 @@ if __name__ == '__main__':
             ds = speech_dataset["test"].map(map_to_array)
             result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
             metrics = compute_metrics(result)
+            print(dset_subset, *metrics.values(), sep=',')
             metrics_all.append({
                 'dataset': dset_subset,
                 'fold': 'test',
