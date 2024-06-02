@@ -249,3 +249,7 @@ fleurs_jav_seacrowd_sptext,jav,ASR,Indonesia
 fleurs_tha_seacrowd_sptext,tha,ASR,Thailand
 indspeech_newstra_ethnicsr_nooverlap_ban_seacrowd_sptext,ban,ASR,Indonesia
 commonvoice_120_cnh_seacrowd_sptext,cnh,ASR,Myanmar
+xm3600_fil_seacrowd_imtext,fil,Image Captioning,Philippines
+xm3600_id_seacrowd_imtext,ind,Image Captioning,Indonesia
+xm3600_th_seacrowd_imtext,tha,Image Captioning,Thailand
+xm3600_vi_seacrowd_imtext,vie,Image Captioning,Vietnam
