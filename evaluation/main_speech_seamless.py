@@ -92,6 +92,7 @@ if __name__ == '__main__':
         raise ValueError('main_speech_seamless.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
 
     MODEL = sys.argv[1]
+    MODEL_NAME = MODEL.rsplit('/', 1)[-1]
     BATCH_SIZE = int(sys.argv[2])
     ADAPTER = ''
     LANGUAGE = ''
@@ -159,6 +160,7 @@ if __name__ == '__main__':
         batch["target"] = batch["sentence"]
         return batch
 
+    fold = "test"
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
@@ -172,12 +174,12 @@ if __name__ == '__main__':
             result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
             metrics = compute_metrics(result)
             print(dset_subset, *metrics.values(), sep=',')
+            with open(f"{out_dir}/{MODEL_NAME}.{dset_subset}.{fold}.json", 'w') as f:
+                json.dump(metrics, f)
             metrics_all.append({
                 'dataset': dset_subset,
-                'fold': 'test',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
+                'fold': fold,
+                **metrics,
             })
 
     pd.DataFrame(metrics_all).reset_index().to_csv(
