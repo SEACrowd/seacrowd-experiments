@@ -92,6 +92,7 @@ if __name__ == '__main__':
         raise ValueError('main_speech_seamless.py <model_path_or_name> <batch_size> <save_every (OPTIONAL)>')
 
     MODEL = sys.argv[1]
+    MODEL_NAME = MODEL.rsplit('/', 1)[-1]
     BATCH_SIZE = int(sys.argv[2])
     ADAPTER = ''
     LANGUAGE = ''
@@ -114,7 +115,7 @@ if __name__ == '__main__':
         else:
             wer = jiwer.wer(label_strs, pred_strs)
             mer = jiwer.mer(label_strs, pred_strs)
-            cer = jiwer.mer(label_strs, pred_strs)
+            cer = jiwer.cer(label_strs, pred_strs)
 
         metrics = {
             "wer": wer, "mer": mer, "cer": cer
@@ -138,6 +139,7 @@ if __name__ == '__main__':
 
     processor = AutoProcessor.from_pretrained(MODEL)
     model = SeamlessM4Tv2ForSpeechToText.from_pretrained(MODEL)
+    model.to(device)
 
     def map_to_array(batch):
         speech, sr = torchaudio.load(batch["path"])
@@ -147,14 +149,18 @@ if __name__ == '__main__':
 
 
     def map_to_pred(batch):
-        model.to(device)
+        torch.cuda.empty_cache()
         features = processor(audios=batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, return_tensors="pt")
+        features.to(device)
         with torch.no_grad():
-            pred_ids = model.generate(**features.to(device), tgt_lang=LANGUAGE).cpu().tolist()
+            pred_ids = model.generate(**features, tgt_lang=LANGUAGE).cpu().tolist()
+        del features
+        torch.cuda.empty_cache()
         batch["predicted"] = processor.batch_decode(pred_ids)
         batch["target"] = batch["sentence"]
         return batch
 
+    fold = "test"
     metrics_all = []
     for i, dset_subset in enumerate(speech_datasets.keys()):
         speech_dataset, task = speech_datasets[dset_subset]
@@ -167,12 +173,13 @@ if __name__ == '__main__':
             ds = speech_dataset["test"].map(map_to_array)
             result = ds.map(map_to_pred, batched=True, batch_size=BATCH_SIZE, remove_columns=list(ds.features.keys()))
             metrics = compute_metrics(result)
+            print(dset_subset, *metrics.values(), sep=',')
+            with open(f"{out_dir}/{MODEL_NAME}.{dset_subset}.{fold}.json", 'w') as f:
+                json.dump(metrics, f)
             metrics_all.append({
                 'dataset': dset_subset,
-                'fold': 'test',
-                'wer': metrics["wer"],
-                'mer': metrics["mer"],
-                'cer': metrics["cer"]
+                'fold': fold,
+                **metrics,
             })
 
     pd.DataFrame(metrics_all).reset_index().to_csv(

@@ -16,3 +16,5 @@ torchaudio
 opencv-python
 transformers
 pillow
+jiwer
+evaluate

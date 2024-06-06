@@ -27,6 +27,8 @@ from transformers import (
     AutoProcessor,
     AutoTokenizer,
     AutoModel,
+    AutoConfig,
+    WhisperForConditionalGeneration,
     AutoModelForSpeechSeq2Seq,
     Wav2Vec2FeatureExtractor,
     Wav2Vec2ForCTC,
@@ -37,6 +39,7 @@ from transformers import (
     EarlyStoppingCallback,
     pipeline
 )
+from evaluate import load
 from typing import Any, Dict, List, Optional, Union
 
 from data_utils import load_speech_datasets
@@ -64,7 +67,7 @@ chars_to_ignore_re = f"[{re.escape(''.join(CHARS_TO_IGNORE))}]"
 
 language_dict = {
     "ace": "indonesian",
-    "ban": "javanese",
+    "ban": "indonesian",
     "bjn": "indonesian",
     "brv": "khmer",
     "btk": "indonesian",
@@ -124,7 +127,7 @@ if __name__ == '__main__':
         else:
             wer = jiwer.wer(label_strs, pred_strs)
             mer = jiwer.mer(label_strs, pred_strs)
-            cer = jiwer.mer(label_strs, pred_strs)
+            cer = jiwer.cer(label_strs, pred_strs)
 
         metrics = {
             "wer": wer, "mer": mer, "cer": cer
@@ -147,7 +150,8 @@ if __name__ == '__main__':
     print('Load Whisper model and processor...')
 
     processor = AutoProcessor.from_pretrained(MODEL)
-    model = AutoModelForSpeechSeq2Seq.from_pretrained(MODEL, torch_dtype=torch.float16, low_cpu_mem_usage=True, use_safetensors=True)
+    config = AutoConfig.from_pretrained(MODEL)
+    model = AutoModelForSpeechSeq2Seq.from_pretrained(MODEL, config=config, torch_dtype=torch.float16, low_cpu_mem_usage=True)
     model.to(device)
 
     def map_to_array(batch):
@@ -167,7 +171,7 @@ if __name__ == '__main__':
         features = processor(batch["speech"], sampling_rate=DEFAULT_SAMPLING_RATE, return_tensors="pt").input_features
         with torch.no_grad():
             pred_ids = model.generate(features.to(torch.float16).to(device), forced_decoder_ids=forced_decoder_ids, max_new_tokens=128)
-        batch["predicted"] = processor.batch_decode(pred_ids)
+        batch["predicted"] = processor.batch_decode(pred_ids, skip_special_tokens=True)
         batch["target"] = batch["sentence"]
         return batch
 
@@ -190,6 +194,7 @@ if __name__ == '__main__':
                 'mer': metrics["mer"],
                 'cer': metrics["cer"]
             })
+            print(metrics)
 
     pd.DataFrame(metrics_all).reset_index().to_csv(
         f'{metric_dir}/speech_results_{MODEL.split("/")[-1]}.csv',
