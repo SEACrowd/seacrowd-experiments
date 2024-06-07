@@ -230,7 +230,7 @@ snli_indo_seacrowd_pairs,ind,NLI,Indonesia
 myxnli_seacrowd_pairs,mya,NLI,Myanmar
 xnli.tha_seacrowd_pairs,tha,NLI,Thailand
 xnli.vie_seacrowd_pairs,vie,NLI,Vietnam
-asr_ibsc_seacrowd_sptext,iba,ASR,Brunei
+asr_ibsc_seacrowd_sptext,iba,ASR,Malaysia
 fleurs_vie_seacrowd_sptext,vie,ASR,Vietnam
 indspeech_newstra_ethnicsr_nooverlap_btk_seacrowd_sptext,btx,ASR,Indonesia
 fleurs_ind_seacrowd_sptext,ind,ASR,Indonesia
