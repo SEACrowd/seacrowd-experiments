@@ -1,0 +1,3 @@
+[submodule "globalutility"]
+	path = globalutility
+	url = https://github.com/SEACrowd/globalutility
