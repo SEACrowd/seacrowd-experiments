@@ -34,13 +34,13 @@ The evaluation run will create a log in `evaluation/outputs_*/` directory to rec
 ### Evaluation Results
 
 #### LLMs
-<img width="940" alt="NLP Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-nlp.png?raw=true">
+<img width="900" alt="NLP Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-nlp.png?raw=true">
 
 #### Speech Models
-<img width="940" alt="Speech Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-speech.png?raw=true">
+<img width="500" alt="Speech Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-speech.png?raw=true">
 
 #### VLMs
-<img width="940" alt="VL Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-vl.png?raw=true">
+<img width="500" alt="VL Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-vl.png?raw=true">
 
 ## Generation Quality in SEA Languages: Translationese vs. Natural
 
@@ -61,7 +61,7 @@ To classify the model generations, check out [`translationese/analyze_translatio
 
 ## Additional Analysis: Language Equity, Resource Gaps, and Language Prioritization
 
-The [`notebooks/viz_metrics.ipynb`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/notebooks/viz_metrics.ipynb) consists of the visualization of all benchmark results in [`figures/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/figures) and [`notebooks/analysis/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/notebooks/analysis), as well as language equity results in terms of Gini coefficient in [`notebooks/analysis/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/notebooks/analysis).
+The [`notebooks/viz_metrics.ipynb`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/notebooks/viz_metrics.ipynb) consists of the visualization of all benchmark results in [`figures/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/figures) and [`notebooks/analysis/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/notebooks/analysis), as well as language equity results in terms of Gini coefficient in [`notebooks/analysis/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/notebooks/analysis).g
 
 The [`notebooks/viz_resources.ipynb`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/notebooks/viz_resources.ipynb) consists of the visualization of resource gaps analysis in [`figures/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/figures) and [`notebooks/analysis/`](https://github.com/SEACrowd/seacrowd-experiments/tree/main/notebooks/analysis).
 
