@@ -37,10 +37,10 @@ The evaluation run will create a log in `evaluation/outputs_*/` directory to rec
 <img width="940" alt="NLP Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-nlp.png?raw=true">
 
 #### Speech Models
-<img width="940" alt="Speech Performance" src="https://github.com/SEACrowd/seacrowd-experiments/assets/eval-speech.png?raw=true">
+<img width="940" alt="Speech Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-speech.png?raw=true">
 
 #### VLMs
-<img width="940" alt="VL Performance" src="https://github.com/SEACrowd/seacrowd-experiments/assets/eval-vl.png?raw=true">
+<img width="940" alt="VL Performance" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/eval-vl.png?raw=true">
 
 ## Generation Quality in SEA Languages: Translationese vs. Natural
 
@@ -57,7 +57,7 @@ To classify the model generations, check out [`translationese/analyze_translatio
 
 ### Naturalness Result
 
-<img width="500" alt="Naturalness Result" src="https://github.com/SEACrowd/seacrowd-experiments/assets/naturalness-result.png?raw=true">
+<img width="500" alt="Naturalness Result" src="https://github.com/SEACrowd/seacrowd-experiments/blob/main/assets/naturalness-result.png?raw=true">
 
 ## Additional Analysis: Language Equity, Resource Gaps, and Language Prioritization
 
