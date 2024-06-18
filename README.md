@@ -1,3 +1,5 @@
+<img width="100%" alt="SEACrowd Logo" src="https://github.com/SEACrowd/.github/blob/main/profile/assets/seacrowd-email-banner-without-logo.png?raw=true">
+
 # SEACrowd Experiments
 
 Experiment repository for the ["SEACrowd: A Multilingual Multimodal Data Hub and Benchmark Suite for Southeast Asian Languages"](https://arxiv.org/pdf/2406.10118) paper.
