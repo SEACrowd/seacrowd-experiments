@@ -1,6 +1,6 @@
 # SEACrowd Experiments
 
-Experiment repository for the "SEACrowd: A Multilingual Multimodal Data Hub and Benchmark Suite for Southeast Asian Languages" paper.
+Experiment repository for the ["SEACrowd: A Multilingual Multimodal Data Hub and Benchmark Suite for Southeast Asian Languages"](https://arxiv.org/pdf/2406.10118) paper.
 
 SEACrowd is a [collaborative initiative](https://github.com/SEACrowd) that consolidates a [comprehensive resource hub](https://seacrowd.github.io/seacrowd-catalogue/) that fills the resource gap by [providing standardized corpora](https://github.com/SEACrowd/seacrowd-datahub) in nearly 1,000 Southeast Asian (SEA) languages across three modalities.
 
