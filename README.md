@@ -48,6 +48,8 @@ Placed under [`translationese/`](https://github.com/SEACrowd/seacrowd-experiment
 
 To analyze the generation quality of LLMs in SEA languages, we build a text classifier to discriminate between translationese and natural texts. We construct a translationese classification training and testing dataset using 49 and 62 data subsets, respectively, covering approximately 39.9k and 51.5k sentences across 9 SEA languages: English (eng), Indonesian (ind), Khmer (khm), Lao (lao), Burmese (mya), Filipino (fil), Thai (tha), Vietnamese (vie), and Malay (zlm).
 
+> Our translationese vs. natural train/test data is available on [HuggingFace](https://huggingface.co/datasets/SEACrowd/sea_translationese_resampled)!
+
 To fine-tune the translationese classifier, execute [`translationese/run.sh`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/translationese/run.sh). We use a binary label (translationese, i.e., machine-translated or human-translated, or natural, i.e., human-generated) instead of 3 labels (machine-translated, human-translated, human-generated).
 
 > Our fine-tuned mDEBERTA SEA translationese classifier is available on [HuggingFace](https://huggingface.co/SEACrowd/mdeberta-v3_sea_translationese)!
