@@ -50,6 +50,8 @@ To analyze the generation quality of LLMs in SEA languages, we build a text clas
 
 To fine-tune the translationese classifier, execute [`translationese/run.sh`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/translationese/run.sh). We use a binary label (translationese, i.e., machine-translated or human-translated, or natural, i.e., human-generated) instead of 3 labels (machine-translated, human-translated, human-generated).
 
+> Our fine-tuned mDEBERTA SEA translationese classifier is available on [HuggingFace](https://huggingface.co/SEACrowd/mdeberta-v3_sea_translationese)!
+
 To obtain the model generations for the naturalness analysis, execute [`translationese/run_nlg_prompt.sh`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/translationese/run_nlg_prompt.sh) for open-source models and [`translationese/run_nlg_prompt_commercial.sh`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/translationese/run_nlg_prompt_commercial.sh) for commercial models.
 
 To classify the model generations, check out [`translationese/analyze_translationese.ipynb`](https://github.com/SEACrowd/seacrowd-experiments/blob/main/translationese/analyze_translationese.ipynb).
