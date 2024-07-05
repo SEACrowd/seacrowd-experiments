@@ -238,5 +238,6 @@ $RECYCLE.BIN/
 
 # Local files
 data
+evaluation/batch_files_nlg
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,windows,macos,linux
