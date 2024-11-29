@@ -77,7 +77,7 @@ def get_logprobs(model, tokenizer, inputs, label_ids=None, label_attn=None):
         logprobs = torch.gather(F.log_softmax(logits, dim=-1), 2, label_ids.unsqueeze(2)).squeeze(dim=-1) * label_attn
         return logprobs.sum(dim=-1).cpu()
     else:
-        if "sea-lion" in MODEL:
+        if "token_type_ids" in MODEL:
             del inputs["token_type_ids"]
         logits = model(**inputs).logits
         output_ids = inputs["input_ids"][:, 1:]

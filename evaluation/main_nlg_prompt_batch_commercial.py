@@ -28,12 +28,12 @@ SEED=42
 DEBUG=True
 
 """ Generation metrics """
-bleu = datasets.load_metric('bleu')
-rouge = datasets.load_metric('rouge')
-sacrebleu = datasets.load_metric('sacrebleu')
-chrf = datasets.load_metric('chrf')
+bleu = evaluate.load('bleu')
+rouge = evaluate.load('rouge')
+sacrebleu = evaluate.load('sacrebleu')
+chrf = evaluate.load('chrf')
 meteor = evaluate.load('meteor')
-squad_v2_metric = datasets.load_metric('squad_v2')
+squad_v2_metric = evaluate.load('squad_v2')
 mt = MosesTokenizer(lang='id')
 
 def generation_metrics_fn(list_hyp, list_label):
@@ -93,7 +93,7 @@ def generation_metrics_fn(list_hyp, list_label):
 
 def get_api_client(model):
     if "cohere" in model:
-        client = cohere.Client(
+        client = cohere.ClientV2(
             api_key=os.getenv("COHERE_PROD_API_KEY"),
         )
     elif "openai" in model:
@@ -117,12 +117,14 @@ def get_response(
         try:
             response = client.chat(
                 model=model.split("/")[-1],
-                message=prompt,
-                preamble=system_message,
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
                 temperature=temperature, # turn off randomness
                 max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
                 seed=SEED,
-            ).text
+            ).message.content[0].text.removeprefix("<|START_RESPONSE|>").removesuffix("<|END_RESPONSE|>")
         except cohere.core.api_error.ApiError as e:
             response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:

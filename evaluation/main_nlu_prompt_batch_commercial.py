@@ -42,7 +42,7 @@ csv.field_size_limit(sys.maxsize)
 
 def get_api_client(model):
     if "cohere" in model:
-        client = cohere.Client(
+        client = cohere.ClientV2(
             api_key=os.getenv("COHERE_PROD_API_KEY"),
         )
     elif "openai" in model:
@@ -66,12 +66,14 @@ def get_response(
         try:
             response = client.chat(
                 model=model.split("/")[-1],
-                message=prompt,
-                preamble=system_message,
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt}
+                ],
                 temperature=temperature, # turn off randomness
                 max_tokens=max_output_tokens, # keep it low because we only need the label choice for NLU
                 seed=SEED,
-            ).text
+            ).message.content[0].text.removeprefix("<|START_RESPONSE|>").removesuffix("<|END_RESPONSE|>")
         except cohere.core.api_error.ApiError as e:
             response = "<BAD_REQUEST_ERROR>"
     elif "openai" in model:
@@ -136,7 +138,7 @@ def predict_classification(client, model, prompts, label_names):
         is_found = False
         for i, label_name in enumerate(label_names):
             if not is_found:
-                if response == label_name or response.startswith(label_name):
+                if response.lower() == label_name.lower() or response.lower().startswith(label_name.lower()):
                     hyps.append(i)
                     is_found = True
         if not is_found:

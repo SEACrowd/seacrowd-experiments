@@ -4,27 +4,27 @@ huggingface-cli login --token $HF_TOKEN
 # Zero-Shot 3B Eng
 ####
 
-# mT0
-CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng bigscience/mt0-xl 4 &
+# # mT0
+# CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng bigscience/mt0-xl 4 &
 
-# Cendol-Instruct mT5
-CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng indonlp/cendol-mt5-xl 4 &
+# # Cendol-Instruct mT5
+# CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng indonlp/cendol-mt5-xl 4 &
 
-# # ####
-# # # Zero-Shot 7B Eng
-# # ####
+####
+# Zero-Shot 7B Eng
+####
 
-# Multilingual - BLOOMZ
-CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng bigscience/bloomz-7b1 4 &
+# # Multilingual - BLOOMZ
+# CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng bigscience/bloomz-7b1 4 &
 
-# Multilingual - Bactrian-X
-CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng MBZUAI/bactrian-x-llama-7b-merged 4 &
+# # Multilingual - Bactrian-X
+# CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng MBZUAI/bactrian-x-llama-7b-merged 4 &
 
-# Multilingual - Mistral
-CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng mistralai/Mistral-7B-Instruct-v0.2 4 &
+# # Multilingual - Mistral
+# CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng mistralai/Mistral-7B-Instruct-v0.2 4 &
 
-# Llama 3
-CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng meta-llama/Meta-Llama-3-8B-Instruct 4 &
+# # Llama 3
+# CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng meta-llama/Meta-Llama-3-8B-Instruct 4 &
 
 # # English - Falcon
 # CUDA_VISIBLE_DEVICES=3 python main_nlu_prompt_batch.py eng tiiuae/falcon-7b-instruct 4 &
@@ -49,6 +49,12 @@ CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng meta-llama/Meta-Llama
 
 # # Vietnamese - PhoGPT
 # CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng vinai/PhoGPT-7B5-Instruct 4 &
+
+# AI SG SEA-LION v3
+CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng aisingapore/gemma2-9b-cpt-sea-lionv3-instruct 16&
+
+# Gemma Instruct
+CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng google/gemma-2-9b-it 16 &
 
 # ####
 # # Zero-Shot 13B Eng
