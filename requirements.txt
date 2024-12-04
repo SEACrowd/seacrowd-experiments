@@ -18,3 +18,4 @@ transformers
 pillow
 jiwer
 evaluate
+gdown

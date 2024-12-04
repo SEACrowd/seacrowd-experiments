@@ -1,4 +1,4 @@
-huggingface-cli login --token $HF_TOKEN
+# huggingface-cli login --token $HF_TOKEN
 
 ####
 # Zero-Shot 3B Eng
@@ -51,10 +51,13 @@ huggingface-cli login --token $HF_TOKEN
 # CUDA_VISIBLE_DEVICES=2 python main_nlu_prompt_batch.py eng vinai/PhoGPT-7B5-Instruct 4 &
 
 # AI SG SEA-LION v3
-CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng aisingapore/gemma2-9b-cpt-sea-lionv3-instruct 16&
+CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng aisingapore/gemma2-9b-cpt-sea-lionv3-instruct 8 &
 
 # Gemma Instruct
-CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng google/gemma-2-9b-it 16 &
+CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng google/gemma-2-9b-it 16 &
+
+# Sailor 20B Chat
+CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng sail/Sailor2-20B-Chat 8
 
 # ####
 # # Zero-Shot 13B Eng
