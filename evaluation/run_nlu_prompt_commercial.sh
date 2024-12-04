@@ -1,4 +1,4 @@
-# huggingface-cli login --token $HF_TOKEN
+huggingface-cli login --token $HF_TOKEN
 
 # ####
 # # Commercial LLMs

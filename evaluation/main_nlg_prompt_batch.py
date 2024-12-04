@@ -138,7 +138,7 @@ def predict_generation(prompts, model_name, tokenizer, model):
         inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
         input_size = inputs["input_ids"].shape[1]
 
-        if "sea-lion" in model_name:
+        if "token_type_ids" in inputs:
             inputs.pop("token_type_ids", None)
         
         if model.config.is_encoder_decoder:
