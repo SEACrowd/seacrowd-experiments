@@ -135,8 +135,13 @@ def predict_generation(prompts, model_name, tokenizer, model):
             preds.append(pred)
         return preds
     else:
-        inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
-        input_size = inputs["input_ids"].shape[1]
+        try:
+            inputs = {'input_ids': []}
+            for prompt in prompts:
+                inputs['input_ids'].append(tokenizer.apply_chat_template({'user': prompt}))
+        except:
+            inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=1024).to('cuda')
+            input_size = inputs["input_ids"].shape[1]
 
         if "token_type_ids" in inputs:
             inputs.pop("token_type_ids", None)
@@ -186,33 +191,31 @@ if __name__ == '__main__':
 
     # Load Model & Tokenizer
     # Tokenizer initialization
-    use_prompt_template = "sea-lion" in MODEL and "instruct" in MODEL
+    use_prompt_template = "sea-lion-7b" in MODEL and "instruct" in MODEL
     tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', trust_remote_code=True)
     tokenizer.padding_side = "left"
 
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.bos_token if tokenizer.bos_token is not None else tokenizer.eos_token
-    
-    if "Qwen" in MODEL:
-        tokenizer.add_special_tokens({'pad_token': '<|endoftext|>'})
-
-    # Model initialization
-    fp16_args = {'device_map': "auto", 'torch_dtype': torch.float16, 'load_in_8bit': True}  # needed for larger model
-    if "aya-101" in MODEL:
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True, resume_download=True)
-    elif "mt0" in MODEL or "mt5" in MODEL:
-        extra_args = fp16_args if "xxl" in MODEL else {}
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
-        if "xxl" not in MODEL:
-            model = model.to('cuda')
+    # Load Model
+    tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', padding_side='right', trust_remote_code=True)
+    if ADAPTER != "":
+        model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
+        model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
+        MODEL = ADAPTER # for file naming
+    elif "bloom" in MODEL or "xglm" in MODEL or "gpt2" in MODEL or "sea-lion" in MODEL or "Merak" in MODEL or "SeaLLM" in MODEL or "Llama" in MODEL or "llama" in MODEL or "falcon" in MODEL or "Sailor" in MODEL or "PhoGPT" in MODEL or "Mistral" in MODEL or "Qwen" in MODEL or 'LLaMa' in MODEL or 'gemma' in MODEL:
+        model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
+        if "sea-lion" in MODEL or "Mistral" in MODEL or "Llama" in MODEL or "falcon" in MODEL:
+            tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+        elif "Qwen" in MODEL:
+            tokenizer.add_special_tokens({'pad_token': '<|endoftext|>'})
     else:
-        extra_args = fp16_args if "7b" in MODEL.lower() or "13b" in MODEL.lower() or "8b" in MODEL.lower() else {}
-        model = AutoModelForCausalLM.from_pretrained(MODEL, resume_download=True, trust_remote_code=True, **extra_args)
-        if "SeaLLM" in MODEL or "Qwen" in MODEL or 'falcon' in MODEL:
-            #if "SeaLLM" in MODEL or "llama" in MODEL:
-            # quick fix for tensor error
-            # https://github.com/facebookresearch/llama/issues/380
-            model = model.bfloat16()
+        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
+        tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+    
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
+
+    model.eval()
+    with torch.no_grad():
     
     if model is not None:
         #model.cuda()
