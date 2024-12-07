@@ -56,11 +56,14 @@
 # # Malay - Malaysian Llama3 --> Peerat
 # CUDA_VISIBLE_DEVICES=5 python main_nlg_prompt_batch.py eng mesolitica/malaysian-llama-3-8b-instruct-16k 0 4 &
 
-# AI SG SEA-LION v3
-CUDA_VISIBLE_DEVICES=0 python main_nlg_prompt_batch.py eng aisingapore/gemma2-9b-cpt-sea-lionv3-instruct 0 16 &
-
 # Gemma Instruct
-CUDA_VISIBLE_DEVICES=0 python main_nlg_prompt_batch.py eng google/gemma-2-9b-it 0 16 &
+CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng google/gemma-2-9b-it 16
+
+# AI SG SEA-LION v3
+CUDA_VISIBLE_DEVICES=0 python main_nlu_prompt_batch.py eng aisingapore/gemma2-9b-cpt-sea-lionv3-instruct 8 &
+
+# Sailor 20B Chat
+CUDA_VISIBLE_DEVICES=1 python main_nlu_prompt_batch.py eng sail/Sailor2-20B-Chat 8
 
 # ####
 # # Zero-Shot 13B Eng
