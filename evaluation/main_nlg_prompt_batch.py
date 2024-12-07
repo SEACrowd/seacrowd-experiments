@@ -197,6 +197,11 @@ if __name__ == '__main__':
 
     # Load Model
     tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', padding_side='right', trust_remote_code=True)
+    
+    ADAPTER = ''
+    # if 'bactrian' in MODEL:
+    #     MODEL, ADAPTER = MODEL.split('---')
+    
     if ADAPTER != "":
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
