@@ -46,8 +46,8 @@ def generation_metrics_fn(list_hyp, list_label):
     list_label = [label if label is not None else "" for label in list_label]
     
     # Tokenize the hypotheses and labels for BLEU computation
-    list_hyp_bleu = list(map(lambda x: mt.tokenize(x), list_hyp))
-    list_label_bleu = list(map(lambda x: [mt.tokenize(x)], list_label))    
+    list_hyp_bleu = list(map(lambda x: x, list_hyp))
+    list_label_bleu = list(map(lambda x: [x], list_label))
     list_label_sacrebleu = list(map(lambda x: [x], list_label))
 
     metrics = {}
@@ -79,10 +79,10 @@ def generation_metrics_fn(list_hyp, list_label):
     # Compute ROUGE scores
     try:
         rouge_score = rouge._compute(list_hyp, list_label)
-        metrics["ROUGE1"] = rouge_score['rouge1'].mid.fmeasure * 100
-        metrics["ROUGE2"] = rouge_score['rouge2'].mid.fmeasure * 100
-        metrics["ROUGEL"] = rouge_score['rougeL'].mid.fmeasure * 100
-        metrics["ROUGELsum"] = rouge_score['rougeLsum'].mid.fmeasure * 100
+        metrics["ROUGE1"] = rouge_score['rouge1'] * 100
+        metrics["ROUGE2"] = rouge_score['rouge2'] * 100
+        metrics["ROUGEL"] = rouge_score['rougeL'] * 100
+        metrics["ROUGELsum"] = rouge_score['rougeLsum'] * 100
     except ZeroDivisionError:
         metrics["ROUGE1"] = 0.0
         metrics["ROUGE2"] = 0.0
