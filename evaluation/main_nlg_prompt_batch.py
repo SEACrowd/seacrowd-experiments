@@ -10,7 +10,7 @@ from data_utils import load_nlg_datasets
 import torch
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, BloomTokenizerFast, set_seed
-from nusacrowd.utils.constants import Tasks
+from seacrowd.utils.constants import Tasks
 
 from sacremoses import MosesTokenizer
 import datasets, evaluate
