@@ -124,7 +124,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
     
     return prompt
 
-
+@torch.inference_mode()
 def predict_generation(prompts, model_name, tokenizer, model):
     #model = model.to('cuda')
 
@@ -214,9 +214,7 @@ if __name__ == '__main__':
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
 
-    model.eval()
-    with torch.no_grad():
-    
+    model.eval()    
     if model is not None:
         #model.cuda()
         model.eval()
