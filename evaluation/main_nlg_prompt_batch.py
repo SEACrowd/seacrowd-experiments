@@ -10,7 +10,7 @@ from data_utils import load_nlg_datasets
 import torch
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, BloomTokenizerFast, set_seed
-from nusacrowd.utils.constants import Tasks
+from seacrowd.utils.constants import Tasks
 
 from sacremoses import MosesTokenizer
 import datasets, evaluate
@@ -124,7 +124,7 @@ def to_prompt(input, prompt, prompt_lang, task_name, task_type, with_label=False
     
     return prompt
 
-
+@torch.inference_mode()
 def predict_generation(prompts, model_name, tokenizer, model):
     #model = model.to('cuda')
 
@@ -197,6 +197,11 @@ if __name__ == '__main__':
 
     # Load Model
     tokenizer = AutoTokenizer.from_pretrained(MODEL, truncation_side='left', padding_side='right', trust_remote_code=True)
+    
+    ADAPTER = ''
+    # if 'bactrian' in MODEL:
+    #     MODEL, ADAPTER = MODEL.split('---')
+    
     if ADAPTER != "":
         model = AutoModelForCausalLM.from_pretrained(MODEL, device_map="auto", load_in_8bit=True, trust_remote_code=True)
         model = PeftModel.from_pretrained(model, ADAPTER, torch_dtype=torch.float16)
@@ -214,9 +219,7 @@ if __name__ == '__main__':
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token # Use EOS to pad label
 
-    model.eval()
-    with torch.no_grad():
-    
+    model.eval()    
     if model is not None:
         #model.cuda()
         model.eval()
