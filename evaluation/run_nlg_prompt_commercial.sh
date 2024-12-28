@@ -15,7 +15,11 @@
 # python main_nlg_prompt_batch_commercial.py eng cohere/command-r 0 8 &
 
 # Cohere Command-R 08-2024
-python main_nlg_prompt_batch_commercial.py eng cohere/command-r-08-2024 0 8
+# python main_nlg_prompt_batch_commercial.py eng cohere/command-r-08-2024 0 8
 
 # Cohere Command-R+ 08-2024
-python main_nlg_prompt_batch_commercial.py eng cohere/command-r-plus-08-2024 0 8
+# python main_nlg_prompt_batch_commercial.py eng cohere/command-r-plus-08-2024 0 8
+
+# Cohere Command-R7B
+python main_nlg_prompt_batch_commercial.py eng cohere/command-r7b-12-2024 0 8
+

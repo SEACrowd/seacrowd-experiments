@@ -1,4 +1,4 @@
-huggingface-cli login --token $HF_TOKEN
+# huggingface-cli login --token $HF_TOKEN
 
 # ####
 # # Commercial LLMs
@@ -15,3 +15,7 @@ python main_nlu_prompt_batch_commercial.py eng cohere/command-r-08-2024 8
 
 # Cohere Command-R+ 08-2024
 python main_nlu_prompt_batch_commercial.py eng cohere/command-r-plus-08-2024 8
+
+
+# Cohere Command-R7B
+python main_nlu_prompt_batch_commercial.py eng cohere/command-r7b-12-2024 0 8
